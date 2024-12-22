@@ -1,0 +1,6 @@
+@FitTakip.API_HostAddress = http://localhost:5105
+
+GET {{FitTakip.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

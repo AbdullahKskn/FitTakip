@@ -1,0 +1,52 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{ED3CA378-64A4-48BD-B042-D2592B5C208C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FitTakip.Domain", "Core\FitTakip.Domain\FitTakip.Domain.csproj", "{6CB38903-6E62-4F9A-874E-CAC101026434}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FitTakip.Application", "Core\FitTakip.Application\FitTakip.Application.csproj", "{AB366631-D9C2-49CC-91FE-AA52D4B824D5}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastructure", "{DBF8FB19-5999-45C0-BA24-C6042DE236C0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FitTakip.Persistence", "Infrastructure\FitTakip.Persistence\FitTakip.Persistence.csproj", "{8FC61A92-178C-4D9B-80E2-E3A2F693B04B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Presentation", "Presentation", "{67B18363-156B-47F1-ADA4-5199EB44C8A8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FitTakip.API", "Presentation\FitTakip.API\FitTakip.API.csproj", "{29BE6926-410A-42C2-80E0-E544F3283DA4}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{6CB38903-6E62-4F9A-874E-CAC101026434}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6CB38903-6E62-4F9A-874E-CAC101026434}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6CB38903-6E62-4F9A-874E-CAC101026434}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6CB38903-6E62-4F9A-874E-CAC101026434}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AB366631-D9C2-49CC-91FE-AA52D4B824D5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AB366631-D9C2-49CC-91FE-AA52D4B824D5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AB366631-D9C2-49CC-91FE-AA52D4B824D5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AB366631-D9C2-49CC-91FE-AA52D4B824D5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8FC61A92-178C-4D9B-80E2-E3A2F693B04B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8FC61A92-178C-4D9B-80E2-E3A2F693B04B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8FC61A92-178C-4D9B-80E2-E3A2F693B04B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8FC61A92-178C-4D9B-80E2-E3A2F693B04B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{29BE6926-410A-42C2-80E0-E544F3283DA4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{29BE6926-410A-42C2-80E0-E544F3283DA4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{29BE6926-410A-42C2-80E0-E544F3283DA4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{29BE6926-410A-42C2-80E0-E544F3283DA4}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{6CB38903-6E62-4F9A-874E-CAC101026434} = {ED3CA378-64A4-48BD-B042-D2592B5C208C}
+		{AB366631-D9C2-49CC-91FE-AA52D4B824D5} = {ED3CA378-64A4-48BD-B042-D2592B5C208C}
+		{8FC61A92-178C-4D9B-80E2-E3A2F693B04B} = {DBF8FB19-5999-45C0-BA24-C6042DE236C0}
+		{29BE6926-410A-42C2-80E0-E544F3283DA4} = {67B18363-156B-47F1-ADA4-5199EB44C8A8}
+	EndGlobalSection
+EndGlobal
