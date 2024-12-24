@@ -15,3 +15,6 @@
 /Users/abdullah/Desktop/FitTakip/Infrastructure/FitTakip.Persistence/obj/Debug/net8.0/refint/FitTakip.Persistence.dll
 /Users/abdullah/Desktop/FitTakip/Infrastructure/FitTakip.Persistence/obj/Debug/net8.0/FitTakip.Persistence.pdb
 /Users/abdullah/Desktop/FitTakip/Infrastructure/FitTakip.Persistence/obj/Debug/net8.0/ref/FitTakip.Persistence.dll
+/Users/abdullah/Desktop/FitTakip/Infrastructure/FitTakip.Persistence/obj/Debug/net8.0/FitTakip.Persistence.sourcelink.json
+/Users/abdullah/Desktop/FitTakip/Infrastructure/FitTakip.Persistence/bin/Debug/net8.0/FitTakip.Persistence.runtimeconfig.json
+/Users/abdullah/Desktop/FitTakip/Infrastructure/FitTakip.Persistence/obj/Debug/net8.0/FitTakip.Persistence.genruntimeconfig.cache

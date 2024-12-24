@@ -9,3 +9,4 @@
 /Users/abdullah/Desktop/FitTakip/Core/FitTakip.Domain/obj/Debug/net8.0/refint/FitTakip.Domain.dll
 /Users/abdullah/Desktop/FitTakip/Core/FitTakip.Domain/obj/Debug/net8.0/FitTakip.Domain.pdb
 /Users/abdullah/Desktop/FitTakip/Core/FitTakip.Domain/obj/Debug/net8.0/ref/FitTakip.Domain.dll
+/Users/abdullah/Desktop/FitTakip/Core/FitTakip.Domain/obj/Debug/net8.0/FitTakip.Domain.sourcelink.json

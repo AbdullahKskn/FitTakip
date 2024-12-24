@@ -13,3 +13,4 @@
 /Users/abdullah/Desktop/FitTakip/Core/FitTakip.Application/obj/Debug/net8.0/refint/FitTakip.Application.dll
 /Users/abdullah/Desktop/FitTakip/Core/FitTakip.Application/obj/Debug/net8.0/FitTakip.Application.pdb
 /Users/abdullah/Desktop/FitTakip/Core/FitTakip.Application/obj/Debug/net8.0/ref/FitTakip.Application.dll
+/Users/abdullah/Desktop/FitTakip/Core/FitTakip.Application/obj/Debug/net8.0/FitTakip.Application.sourcelink.json

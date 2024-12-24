@@ -1,13 +1,12 @@
-// using FitPlan.Application;
-// using FitPlan.Application.Common;
-// using FitPlan.Persistence;
+using FitTakip.Application;
 using FitTakip.Application.Common;
+using FitTakip.Persistence;
 using Microsoft.AspNetCore.Mvc;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// builder.Services.AddApplicationServices();
-// builder.Services.AddPersistenceServices();
+builder.Services.AddApplicationServices();
+builder.Services.AddPersistenceServices();
 
 builder.Services.AddCors(options =>
 {
