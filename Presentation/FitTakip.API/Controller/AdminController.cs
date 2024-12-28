@@ -22,5 +22,40 @@ namespace FitTakip.API.Controller
             var values = await _adminService.AdminOlustur(parameter);
             return Ok(values);
         }
+
+        [HttpPut("[Action]")]
+        public async Task<IActionResult> AdminGuncelle(AdminGuncelleParametre parameter)
+        {
+            var values = await _adminService.AdminGuncelle(parameter);
+            return Ok(values);
+        }
+
+        [HttpDelete("[Action]")]
+        public async Task<IActionResult> AdminSil(int AdminId)
+        {
+            var values = await _adminService.AdminSil(AdminId);
+            return Ok(values);
+        }
+
+        [HttpPost("[Action]")]
+        public async Task<IActionResult> IsletmeOlustur(IsletmeOlusturParametre parameter)
+        {
+            var values = await _adminService.IsletmeOlustur(parameter);
+            return Ok(values);
+        }
+
+        [HttpPut("[Action]")]
+        public async Task<IActionResult> IsletmeGuncelle(IsletmeGuncelleParametre parametre)
+        {
+            var values = await _adminService.IsletmeGuncelle(parametre);
+            return Ok(values);
+        }
+
+        [HttpDelete("[Action]")]
+        public async Task<IActionResult> IsletmeSil(int IsletmeId)
+        {
+            var values = await _adminService.IsletmeSil(IsletmeId);
+            return Ok(values);
+        }
     }
 }

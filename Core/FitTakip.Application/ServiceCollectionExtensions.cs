@@ -1,5 +1,4 @@
-using System;
-using FitTakip.Application.Parametre;
+using FitTakip.Application.FluentValidation;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -14,7 +13,10 @@ public static class ServiceCollectionExtensions
         services.AddFluentValidationAutoValidation().AddFluentValidationClientsideAdapters();
 
         // Register validators
-        services.AddValidatorsFromAssemblyContaining<AdminOlusturParametre>();
+        services.AddValidatorsFromAssemblyContaining<AdminOlusturParametreValidator>();
+        services.AddValidatorsFromAssemblyContaining<AdminGuncelleParametreValidator>();
+        services.AddValidatorsFromAssemblyContaining<IsletmeOlusturParametreValidator>();
+        services.AddValidatorsFromAssemblyContaining<IsletmeGuncelleParametreValidator>();
 
     }
 }
