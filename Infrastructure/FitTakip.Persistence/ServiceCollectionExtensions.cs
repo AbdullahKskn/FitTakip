@@ -19,8 +19,10 @@ public static class ServiceCollectionExtensions
         services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
         services.AddScoped<AuthService, AuthService>();
         services.AddScoped<IKullaniciRepository, KullaniciRepository>();
+        services.AddScoped<ILoginRepository, LoginRepository>();
 
         // Register Services
         services.AddScoped<IAdminService, AdminService>();
+        services.AddScoped<ILoginService, LoginService>();
     }
 }

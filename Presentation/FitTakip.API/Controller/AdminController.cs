@@ -57,5 +57,12 @@ namespace FitTakip.API.Controller
             var values = await _adminService.IsletmeSil(IsletmeId);
             return Ok(values);
         }
+
+        [HttpGet("[Action]")]
+        public async Task<IActionResult> IsletmeleriGetirPaginationAsync(int Baslangic, int Adet)
+        {
+            var values = await _adminService.IsletmeleriGetirPaginationAsync(Baslangic, Adet);
+            return Ok(values);
+        }
     }
 }

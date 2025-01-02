@@ -13,10 +13,10 @@ public static class ServiceCollectionExtensions
         services.AddFluentValidationAutoValidation().AddFluentValidationClientsideAdapters();
 
         // Register validators
+        services.AddValidatorsFromAssemblyContaining<GirisYapParametreValidator>();
         services.AddValidatorsFromAssemblyContaining<AdminOlusturParametreValidator>();
         services.AddValidatorsFromAssemblyContaining<AdminGuncelleParametreValidator>();
         services.AddValidatorsFromAssemblyContaining<IsletmeOlusturParametreValidator>();
         services.AddValidatorsFromAssemblyContaining<IsletmeGuncelleParametreValidator>();
-
     }
 }

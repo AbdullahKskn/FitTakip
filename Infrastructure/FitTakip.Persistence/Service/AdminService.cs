@@ -1,5 +1,6 @@
 using System;
 using FitTakip.Application.Common;
+using FitTakip.Application.DTOs;
 using FitTakip.Application.Interfaces.Repositories;
 using FitTakip.Application.Interfaces.Services;
 using FitTakip.Application.Parametre;
@@ -183,6 +184,32 @@ public class AdminService : IAdminService
 
             return new Result(true, "İşletme Başarıyla Silindi.");
 
+        }
+        catch (Exception ex)
+        {
+            return new Result(false, ex.Message);
+        }
+    }
+
+    public async Task<Result> IsletmeleriGetirPaginationAsync(int Baslangic, int Adet)
+    {
+        try
+        {
+            var isletmeler = await _kullaniciRepository.IsletmeleriGetirPaginationAsync(Baslangic, Adet);
+
+            if (!isletmeler.Any())
+                return new Result(false, "Sisteme Kayıtlı İşletme Bulunamadı");
+
+            var isletmeDto = isletmeler.Select(s => new IsletmeDto
+            {
+                KullaniciId = s.KullaniciId,
+                Ad = s.Ad,
+                TelefonNo = s.TelefonNo,
+                AbonelikSonlanmaTarihi = s.AbonelikSonlanmaTarihi,
+                AktifMi = s.AktifMi
+            }).OrderBy(o => o.Ad).ToList();
+
+            return new Result(true, "İşletmeleri Getirme Başarılı", isletmeDto);
         }
         catch (Exception ex)
         {

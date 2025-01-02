@@ -12,4 +12,5 @@ public interface IAdminService
     Task<Result> IsletmeOlustur(IsletmeOlusturParametre parametre);
     Task<Result> IsletmeGuncelle(IsletmeGuncelleParametre parametre);
     Task<Result> IsletmeSil(int IsletmeId);
+    Task<Result> IsletmeleriGetirPaginationAsync(int Baslangic, int Adet);
 }

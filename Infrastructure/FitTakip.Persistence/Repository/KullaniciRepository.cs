@@ -1,6 +1,7 @@
 using System;
 using FitTakip.Application.Interfaces.Repositories;
 using FitTakip.Domain.Entities;
+using FitTakip.Domain.Enum;
 using FitTakip.Persistence.Context;
 using Microsoft.EntityFrameworkCore;
 
@@ -18,6 +19,11 @@ public class KullaniciRepository : IKullaniciRepository
     public async Task<Kullanici?> KullaniciAdiVarMiAsync(string KullaniciAdi)
     {
         return await _context.Kullanicilar.FirstOrDefaultAsync(k => k.KullaniciAdi == KullaniciAdi);
+    }
+
+    public async Task<List<Kullanici?>> IsletmeleriGetirPaginationAsync(int Baslangic, int Adet)
+    {
+        return await _context.Kullanicilar.Where(w => w.Statu == Statu.Isletme).Skip(Baslangic).Take(Adet).ToListAsync();
     }
 
 }
