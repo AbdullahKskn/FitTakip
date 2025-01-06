@@ -24,5 +24,6 @@ public static class ServiceCollectionExtensions
         // Register Services
         services.AddScoped<IAdminService, AdminService>();
         services.AddScoped<ILoginService, LoginService>();
+        services.AddScoped<IIsletmeService, IsletmeService>();
     }
 }

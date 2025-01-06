@@ -7,4 +7,5 @@ public interface IKullaniciRepository
 {
     Task<Kullanici?> KullaniciAdiVarMiAsync(string KullaniciAdi);
     Task<List<Kullanici?>> IsletmeleriGetirPaginationAsync(int Baslangic, int Adet);
+    Task<List<Kullanici?>> AdminleriGetirPaginationAsync(int Baslangic, int Adet);
 }

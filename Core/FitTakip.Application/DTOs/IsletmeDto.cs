@@ -9,4 +9,5 @@ public class IsletmeDto
     public string? TelefonNo { get; set; } // Ortak
     public DateTime? AbonelikSonlanmaTarihi { get; set; } // Isletme için geçerli
     public bool AktifMi { get; set; } // Ortak
+    public string Rol { get; set; } = null!;
 }

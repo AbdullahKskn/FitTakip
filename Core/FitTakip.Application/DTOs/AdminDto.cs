@@ -9,4 +9,5 @@ public class AdminDto
     public string? Soyad { get; set; } // Egitmen ve Uye için geçerli
     public string? TelefonNo { get; set; } // Ortak
     public DateTime? DogumTarihi { get; set; } // Uye için geçerli
+    public string Rol { get; set; } = null!;
 }

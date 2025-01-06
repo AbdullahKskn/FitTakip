@@ -37,6 +37,13 @@ namespace FitTakip.API.Controller
             return Ok(values);
         }
 
+        [HttpGet("[Action]")]
+        public async Task<IActionResult> AdminleriGetirPagination(int Baslangic, int Adet)
+        {
+            var values = await _adminService.AdminleriGetirPagination(Baslangic, Adet);
+            return Ok(values);
+        }
+
         [HttpPost("[Action]")]
         public async Task<IActionResult> IsletmeOlustur(IsletmeOlusturParametre parameter)
         {
@@ -61,7 +68,7 @@ namespace FitTakip.API.Controller
         [HttpGet("[Action]")]
         public async Task<IActionResult> IsletmeleriGetirPaginationAsync(int Baslangic, int Adet)
         {
-            var values = await _adminService.IsletmeleriGetirPaginationAsync(Baslangic, Adet);
+            var values = await _adminService.IsletmeleriGetirPagination(Baslangic, Adet);
             return Ok(values);
         }
     }

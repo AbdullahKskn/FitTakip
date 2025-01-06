@@ -13,4 +13,5 @@ public class UyeDto
     public int? IsletmeId { get; set; } // Egitmen ve Uye için geçerli
     public int? EgitmenId { get; set; } // Uye için geçerli
     public bool AktifMi { get; set; } // Ortak
+    public string Rol { get; set; } = null!;
 }

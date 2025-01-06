@@ -11,4 +11,5 @@ public class EgitmenDto
     public DateTime? DogumTarihi { get; set; } // Uye için geçerli
     public int? IsletmeId { get; set; } // Egitmen ve Uye için geçerli
     public bool AktifMi { get; set; } // Ortak
+    public string Rol { get; set; } = null!;
 }

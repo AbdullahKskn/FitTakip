@@ -29,7 +29,7 @@ public class AdminService : IAdminService
             var kullaniciAdiVarMi = await _kullaniciRepository.KullaniciAdiVarMiAsync(parametre.KullaniciAdi);
 
             if (kullaniciAdiVarMi != null)
-                return new Result(false, "Sistemde Kullanıcı Kaydı Mevcuttur.");
+                return new Result(false, "Sisteme Kayıtlı Bu Kullanıcı Adı Bulunmaktadır.");
 
             var sifreKarmasi = _authService.HashPassword(parametre.Sifre);
 
@@ -64,6 +64,13 @@ public class AdminService : IAdminService
             if (admin == null || admin.Statu != Statu.Admin)
                 return new Result(false, "Sisteme Kayıtlı Admin Bulunamadı.");
 
+            if (!string.IsNullOrWhiteSpace(parametre.KullaniciAdi) && parametre.KullaniciAdi != admin.KullaniciAdi)
+            {
+                var kullaniciAdiVarMi = await _kullaniciRepository.KullaniciAdiVarMiAsync(parametre.KullaniciAdi);
+
+                if (kullaniciAdiVarMi != null)
+                    return new Result(false, "Sisteme Kayıtlı Bu Kullanıcı Adı Bulunmaktadır.");
+            }
             if (!string.IsNullOrWhiteSpace(parametre.Sifre))
             {
                 var sifreKarmasi = _authService.HashPassword(parametre.Sifre);
@@ -107,6 +114,32 @@ public class AdminService : IAdminService
         }
     }
 
+    public async Task<Result> AdminleriGetirPagination(int Baslangic, int Adet)
+    {
+        try
+        {
+            var adminler = await _kullaniciRepository.AdminleriGetirPaginationAsync(Baslangic, Adet);
+
+            if (!adminler.Any())
+                return new Result(false, "Sisteme Kayıtlı Admin Bulunamadı");
+
+            var adminDto = adminler.Select(s => new AdminDto
+            {
+                KullaniciId = s.KullaniciId,
+                Ad = s.Ad,
+                Soyad = s.Soyad,
+                TelefonNo = s.TelefonNo,
+                DogumTarihi = s.DogumTarihi,
+            }).OrderBy(o => o.Ad).ToList();
+
+            return new Result(true, "İşletmeleri Getirme Başarılı", adminDto);
+        }
+        catch (Exception ex)
+        {
+            return new Result(false, ex.Message);
+        }
+    }
+
     public async Task<Result> IsletmeOlustur(IsletmeOlusturParametre parametre)
     {
         try
@@ -114,7 +147,7 @@ public class AdminService : IAdminService
             var kullaniciAdiVarMi = await _kullaniciRepository.KullaniciAdiVarMiAsync(parametre.KullaniciAdi);
 
             if (kullaniciAdiVarMi != null)
-                return new Result(false, "Sisteme Kayıtlı Kullanıcı Adı Bulunmaktadır.");
+                return new Result(false, "Sisteme Kayıtlı Bu Kullanıcı Adı Bulunmaktadır.");
 
             var sifreKarmasi = _authService.HashPassword(parametre.Sifre);
 
@@ -147,6 +180,14 @@ public class AdminService : IAdminService
 
             if (isletme == null || isletme.Statu != Statu.Isletme)
                 return new Result(false, "Sisteme Kayıtlı İşletme Bulunamadı.");
+
+            if (!string.IsNullOrWhiteSpace(parametre.KullaniciAdi) && parametre.KullaniciAdi != isletme.KullaniciAdi)
+        {
+            var kullaniciAdiVarMi = await _kullaniciRepository.KullaniciAdiVarMiAsync(parametre.KullaniciAdi);
+
+            if (kullaniciAdiVarMi != null)
+                return new Result(false, "Sisteme Kayıtlı Bu Kullanıcı Adı Bulunmaktadır.");
+        }
 
             if (!string.IsNullOrWhiteSpace(parametre.Sifre))
             {
@@ -191,7 +232,7 @@ public class AdminService : IAdminService
         }
     }
 
-    public async Task<Result> IsletmeleriGetirPaginationAsync(int Baslangic, int Adet)
+    public async Task<Result> IsletmeleriGetirPagination(int Baslangic, int Adet)
     {
         try
         {

@@ -39,6 +39,9 @@ public class LoginService : ILoginService
             if (kullanici.Statu == Statu.Isletme && kullanici.AbonelikSonlanmaTarihi < DateTime.Now)
                 return new Result(false, "İşletmeye Ait Abonelik Süresi Bitmiştir.");
 
+            if (kullanici.Statu == Statu.Isletme && kullanici.AktifMi == false)
+                return new Result(false, "İşletmeye Ait Profil Aktif Değildir.");
+
             if (kullanici.Statu == Statu.Egitmen || kullanici.Statu == Statu.Uye)
             {
                 if (kullanici.IsletmeId == null)
@@ -51,6 +54,9 @@ public class LoginService : ILoginService
 
                 if (isletme.AbonelikSonlanmaTarihi < DateTime.Now)
                     return new Result(false, "Bağlı Olunan İşletmenin Abonelik Süresi Bitmiştir.");
+
+                if (isletme.AktifMi == false)
+                    return new Result(false, "Bağlı Olunan İşletme Profili Aktif Değildir.");
             }
 
             switch (kullanici.Statu)
@@ -62,7 +68,8 @@ public class LoginService : ILoginService
                         Ad = kullanici.Ad,
                         Soyad = kullanici.Soyad,
                         TelefonNo = kullanici.TelefonNo,
-                        DogumTarihi = kullanici.DogumTarihi
+                        DogumTarihi = kullanici.DogumTarihi,
+                        Rol = "Admin"
                     };
                     return new Result(true, "Giriş Başarılı", adminDto);
 
@@ -73,7 +80,8 @@ public class LoginService : ILoginService
                         Ad = kullanici.Ad,
                         TelefonNo = kullanici.TelefonNo,
                         AbonelikSonlanmaTarihi = kullanici.AbonelikSonlanmaTarihi,
-                        AktifMi = kullanici.AktifMi
+                        AktifMi = kullanici.AktifMi,
+                        Rol = "İşletme"
                     };
                     return new Result(true, "Giriş Başarılı", isletmeDto);
 
@@ -86,7 +94,8 @@ public class LoginService : ILoginService
                         TelefonNo = kullanici.TelefonNo,
                         DogumTarihi = kullanici.DogumTarihi,
                         IsletmeId = kullanici.IsletmeId,
-                        AktifMi = kullanici.AktifMi
+                        AktifMi = kullanici.AktifMi,
+                        Rol = "Eğitmen"
                     };
                     return new Result(true, "Giriş Başarılı", egitmenDto);
 
@@ -101,7 +110,8 @@ public class LoginService : ILoginService
                         DogumTarihi = kullanici.DogumTarihi,
                         IsletmeId = kullanici.IsletmeId,
                         EgitmenId = kullanici.EgitmenId,
-                        AktifMi = kullanici.AktifMi
+                        AktifMi = kullanici.AktifMi,
+                        Rol = "Üye"
                     };
                     return new Result(true, "Giriş Başarılı", uyeDto);
 

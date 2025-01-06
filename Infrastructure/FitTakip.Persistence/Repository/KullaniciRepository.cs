@@ -26,4 +26,9 @@ public class KullaniciRepository : IKullaniciRepository
         return await _context.Kullanicilar.Where(w => w.Statu == Statu.Isletme).Skip(Baslangic).Take(Adet).ToListAsync();
     }
 
+    public async Task<List<Kullanici?>> AdminleriGetirPaginationAsync(int Baslangic, int Adet)
+    {
+        return await _context.Kullanicilar.Where(w => w.Statu == Statu.Admin).Skip(Baslangic).Take(Adet).ToListAsync();
+    }
+
 }

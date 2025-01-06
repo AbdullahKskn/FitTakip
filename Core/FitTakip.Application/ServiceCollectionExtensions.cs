@@ -18,5 +18,7 @@ public static class ServiceCollectionExtensions
         services.AddValidatorsFromAssemblyContaining<AdminGuncelleParametreValidator>();
         services.AddValidatorsFromAssemblyContaining<IsletmeOlusturParametreValidator>();
         services.AddValidatorsFromAssemblyContaining<IsletmeGuncelleParametreValidator>();
+        services.AddValidatorsFromAssemblyContaining<EgitmenOlusturParametreValidator>();
+        services.AddValidatorsFromAssemblyContaining<EgitmenGuncelleParametreValidator>();
     }
 }
