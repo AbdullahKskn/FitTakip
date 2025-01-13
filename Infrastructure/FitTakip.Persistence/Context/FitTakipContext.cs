@@ -21,6 +21,12 @@ public class FitTakipContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.Entity<Kullanici>()
+            .HasOne(r => r.Egitmen)
+            .WithMany(e => e.Uyeler)
+            .HasForeignKey(k => k.EgitmenId)
+            .OnDelete(DeleteBehavior.NoAction);
+
         modelBuilder.Entity<Randevu>()
             .HasOne(r => r.Uye)
             .WithMany(k => k.UyeRandevulari)

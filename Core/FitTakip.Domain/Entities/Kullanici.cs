@@ -19,7 +19,10 @@ public class Kullanici
     public Statu Statu { get; set; }
     public bool AktifMi { get; set; } // Ortak
 
-    public ICollection<Randevu> UyeRandevulari { get; set; } = new List<Randevu>(); 
+    public ICollection<Randevu> UyeRandevulari { get; set; } = new List<Randevu>();
     public ICollection<Randevu> EgitmenRandevulari { get; set; } = new List<Randevu>();
     public ICollection<Olcum> UyeOlcumleri { get; set; } = new List<Olcum>();
+
+    public Kullanici? Egitmen { get; set; }
+    public ICollection<Kullanici> Uyeler { get; set; } = new List<Kullanici>();
 }

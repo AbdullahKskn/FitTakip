@@ -10,9 +10,7 @@ public class FitTakipContextFactory : IDesignTimeDbContextFactory<FitTakipContex
     public FitTakipContext CreateDbContext(string[] args)
     {
         var optionsBuilder = new DbContextOptionsBuilder<FitTakipContext>();
-        // optionsBuilder.UseSqlServer("Server=localhost;Database=FitPlanDb;User Id=SA;Password=reallyStrongPwd123;Integrated Security=False;TrustServerCertificate=True;");
         optionsBuilder.UseSqlServer("Server=104.247.167.130\\MSSQLSERVER2019;Database=ptrainer_FitPlanDb;User Id=ptrainer_admin;Password=Ti587fd6*;Integrated Security=False;TrustServerCertificate=True;");
-
 
         return new FitTakipContext(optionsBuilder.Options);
     }

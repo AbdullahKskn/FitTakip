@@ -1,5 +1,6 @@
 using System;
 using FitTakip.Application.Common;
+using FitTakip.Application.DTOs;
 using FitTakip.Application.Interfaces.Repositories;
 using FitTakip.Application.Interfaces.Services;
 using FitTakip.Application.Parametre;
@@ -106,6 +107,93 @@ public class IsletmeService : IIsletmeService
             await _repository.UpdateAsync(egitmen);
 
             return new Result(true, "Eğitmen Başarıyla Silindi");
+        }
+        catch (Exception ex)
+        {
+            return new Result(false, ex.Message);
+        }
+    }
+
+    public async Task<Result> TumEgitmenleriGetir(int IsletmeId)
+    {
+        try
+        {
+            var egitmenler = await _kullaniciRepository.TumEgitmenleriGetirAsync(IsletmeId);
+
+            if (!egitmenler.Any())
+                return new Result(false, "İşletmeye Kayıtlı Eğitmen Bulunamadı");
+
+            var egitmenDto = egitmenler.Select(s => new EgitmenDto
+            {
+                KullaniciId = s.KullaniciId,
+                Ad = s.Ad,
+                Soyad = s.Soyad,
+                TelefonNo = s.TelefonNo,
+                DogumTarihi = s.DogumTarihi,
+                IsletmeId = s.IsletmeId,
+                AktifMi = s.AktifMi,
+            }).OrderBy(o => o.Ad).ToList();
+
+            return new Result(true, "İşletmeye Kayıtlı Eğitmenleri Getirme Başarılı.", egitmenDto);
+        }
+        catch (Exception ex)
+        {
+            return new Result(false, ex.Message);
+        }
+    }
+
+    public async Task<Result> EgitmenleriGetirPagination(int IsletmeId, int Baslangic, int Adet)
+    {
+        try
+        {
+            var egitmenler = await _kullaniciRepository.EgitmenleriGetirPaginationAsync(IsletmeId, Baslangic, Adet);
+
+            if (!egitmenler.Any())
+                return new Result(false, "İşletmeye Kayıtlı Eğitmen Bulunmamaktadır.");
+
+            var egitmenDto = egitmenler.Select(s => new EgitmenDto
+            {
+                KullaniciId = s.KullaniciId,
+                Ad = s.Ad,
+                Soyad = s.Soyad,
+                TelefonNo = s.TelefonNo,
+                DogumTarihi = s.DogumTarihi,
+                IsletmeId = s.IsletmeId,
+                AktifMi = s.AktifMi,
+            }).OrderBy(o => o.Ad).ToList();
+
+            return new Result(true, "İşletmeye Kayıtlı Eğitmen Getirme Başarılı.", egitmenDto);
+        }
+        catch (Exception ex)
+        {
+            return new Result(false, ex.Message);
+        }
+    }
+
+    public async Task<Result> UyeleriGetirPagination(int IsletmeId, int Baslangic, int Adet)
+    {
+        try
+        {
+            var uyeler = await _kullaniciRepository.UyeleriGetirPaginationAsync(IsletmeId, Baslangic, Adet);
+
+            if (!uyeler.Any())
+                return new Result(false, "İşletmeye Kayıtlı Üye Bulunmamaktadır.");
+
+            var uyeDto = uyeler.Select(s => new UyeDto
+            {
+                KullaniciId = s.KullaniciId,
+                Ad = s.Ad,
+                Soyad = s.Soyad,
+                TelefonNo = s.TelefonNo,
+                KalanDersSayisi = s.KalanDersSayisi,
+                DogumTarihi = s.DogumTarihi,
+                IsletmeId = s.IsletmeId,
+                EgitmenId = s.EgitmenId,
+                EgitmenAdı = s.Egitmen.Ad + " " + s.Egitmen.Soyad,
+                AktifMi = s.AktifMi,
+            }).OrderBy(o => o.Ad).ToList();
+
+            return new Result(true, "İşletmeye Kayıtlı Üye Getirme Başarılı.", uyeDto);
         }
         catch (Exception ex)
         {
