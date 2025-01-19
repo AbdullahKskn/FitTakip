@@ -12,4 +12,5 @@ public class EgitmenDto
     public int? IsletmeId { get; set; } // Egitmen ve Uye için geçerli
     public bool AktifMi { get; set; } // Ortak
     public string Rol { get; set; } = null!;
+    public string Token { get; set; } = null!;
 }

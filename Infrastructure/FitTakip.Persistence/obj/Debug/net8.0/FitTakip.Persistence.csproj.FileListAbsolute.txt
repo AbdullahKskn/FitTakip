@@ -1,4 +1,5 @@
 /Users/abdullah/Desktop/FitTakip/Infrastructure/FitTakip.Persistence/bin/Debug/net8.0/FitTakip.Persistence.deps.json
+/Users/abdullah/Desktop/FitTakip/Infrastructure/FitTakip.Persistence/bin/Debug/net8.0/FitTakip.Persistence.runtimeconfig.json
 /Users/abdullah/Desktop/FitTakip/Infrastructure/FitTakip.Persistence/bin/Debug/net8.0/FitTakip.Persistence.dll
 /Users/abdullah/Desktop/FitTakip/Infrastructure/FitTakip.Persistence/bin/Debug/net8.0/FitTakip.Persistence.pdb
 /Users/abdullah/Desktop/FitTakip/Infrastructure/FitTakip.Persistence/bin/Debug/net8.0/FitTakip.Application.dll
@@ -10,11 +11,10 @@
 /Users/abdullah/Desktop/FitTakip/Infrastructure/FitTakip.Persistence/obj/Debug/net8.0/FitTakip.Persistence.AssemblyInfoInputs.cache
 /Users/abdullah/Desktop/FitTakip/Infrastructure/FitTakip.Persistence/obj/Debug/net8.0/FitTakip.Persistence.AssemblyInfo.cs
 /Users/abdullah/Desktop/FitTakip/Infrastructure/FitTakip.Persistence/obj/Debug/net8.0/FitTakip.Persistence.csproj.CoreCompileInputs.cache
+/Users/abdullah/Desktop/FitTakip/Infrastructure/FitTakip.Persistence/obj/Debug/net8.0/FitTakip.Persistence.sourcelink.json
 /Users/abdullah/Desktop/FitTakip/Infrastructure/FitTakip.Persistence/obj/Debug/net8.0/FitTakip.73AF4D40.Up2Date
 /Users/abdullah/Desktop/FitTakip/Infrastructure/FitTakip.Persistence/obj/Debug/net8.0/FitTakip.Persistence.dll
 /Users/abdullah/Desktop/FitTakip/Infrastructure/FitTakip.Persistence/obj/Debug/net8.0/refint/FitTakip.Persistence.dll
 /Users/abdullah/Desktop/FitTakip/Infrastructure/FitTakip.Persistence/obj/Debug/net8.0/FitTakip.Persistence.pdb
-/Users/abdullah/Desktop/FitTakip/Infrastructure/FitTakip.Persistence/obj/Debug/net8.0/ref/FitTakip.Persistence.dll
-/Users/abdullah/Desktop/FitTakip/Infrastructure/FitTakip.Persistence/obj/Debug/net8.0/FitTakip.Persistence.sourcelink.json
-/Users/abdullah/Desktop/FitTakip/Infrastructure/FitTakip.Persistence/bin/Debug/net8.0/FitTakip.Persistence.runtimeconfig.json
 /Users/abdullah/Desktop/FitTakip/Infrastructure/FitTakip.Persistence/obj/Debug/net8.0/FitTakip.Persistence.genruntimeconfig.cache
+/Users/abdullah/Desktop/FitTakip/Infrastructure/FitTakip.Persistence/obj/Debug/net8.0/ref/FitTakip.Persistence.dll

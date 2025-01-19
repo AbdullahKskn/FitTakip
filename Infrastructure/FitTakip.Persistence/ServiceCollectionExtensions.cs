@@ -25,5 +25,6 @@ public static class ServiceCollectionExtensions
         services.AddScoped<IAdminService, AdminService>();
         services.AddScoped<ILoginService, LoginService>();
         services.AddScoped<IIsletmeService, IsletmeService>();
+        services.AddScoped<ITokenService, TokenService>();
     }
 }

@@ -14,12 +14,14 @@ public class LoginService : ILoginService
     private readonly ILoginRepository _loginRepository;
     private readonly AuthService _authService;
     private readonly IRepository<Kullanici> _repository;
+    private readonly ITokenService _tokenService;
 
-    public LoginService(ILoginRepository loginRepository, AuthService authService, IRepository<Kullanici> repository)
+    public LoginService(ILoginRepository loginRepository, AuthService authService, IRepository<Kullanici> repository, ITokenService tokenService)
     {
         _loginRepository = loginRepository;
         _authService = authService;
         _repository = repository;
+        _tokenService = tokenService;
     }
 
     public async Task<Result> GirisYap(GirisYapParametre parametre)
@@ -59,6 +61,8 @@ public class LoginService : ILoginService
                     return new Result(false, "Bağlı Olunan İşletme Profili Aktif Değildir.");
             }
 
+            Token token = _tokenService.CreateAccessToken();
+
             switch (kullanici.Statu)
             {
                 case Statu.Admin:
@@ -69,7 +73,8 @@ public class LoginService : ILoginService
                         Soyad = kullanici.Soyad,
                         TelefonNo = kullanici.TelefonNo,
                         DogumTarihi = kullanici.DogumTarihi,
-                        Rol = "Admin"
+                        Rol = "Admin",
+                        Token = token.AccessToken
                     };
                     return new Result(true, "Giriş Başarılı", adminDto);
 
@@ -81,7 +86,8 @@ public class LoginService : ILoginService
                         TelefonNo = kullanici.TelefonNo,
                         AbonelikSonlanmaTarihi = kullanici.AbonelikSonlanmaTarihi,
                         AktifMi = kullanici.AktifMi,
-                        Rol = "İşletme"
+                        Rol = "İşletme",
+                        Token = token.AccessToken
                     };
                     return new Result(true, "Giriş Başarılı", isletmeDto);
 
@@ -95,7 +101,8 @@ public class LoginService : ILoginService
                         DogumTarihi = kullanici.DogumTarihi,
                         IsletmeId = kullanici.IsletmeId,
                         AktifMi = kullanici.AktifMi,
-                        Rol = "Eğitmen"
+                        Rol = "Eğitmen",
+                        Token = token.AccessToken
                     };
                     return new Result(true, "Giriş Başarılı", egitmenDto);
 
@@ -111,7 +118,8 @@ public class LoginService : ILoginService
                         IsletmeId = kullanici.IsletmeId,
                         EgitmenId = kullanici.EgitmenId,
                         AktifMi = kullanici.AktifMi,
-                        Rol = "Üye"
+                        Rol = "Üye",
+                        Token = token.AccessToken
                     };
                     return new Result(true, "Giriş Başarılı", uyeDto);
 

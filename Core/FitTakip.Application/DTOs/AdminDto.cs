@@ -10,4 +10,5 @@ public class AdminDto
     public string? TelefonNo { get; set; } // Ortak
     public DateTime? DogumTarihi { get; set; } // Uye için geçerli
     public string Rol { get; set; } = null!;
+    public string Token { get; set; } = null!;
 }
