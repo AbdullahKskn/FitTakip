@@ -8,10 +8,10 @@ public class IsletmeOlusturParametreValidator : AbstractValidator<IsletmeOlustur
 {
     public IsletmeOlusturParametreValidator()
     {
-        RuleFor(r => r.Ad).NotEmpty().WithMessage("İşletme Adı Boş Olamaz.");
-        RuleFor(r => r.TelefonNo).NotEmpty().WithMessage("İşletmeye Ait İletişim Bilgisi Boş Olamaz.");
-        RuleFor(r => r.KullaniciAdi).NotEmpty().WithMessage("Kullanıcı Adı Boş Olamaz.");
-        RuleFor(r => r.Sifre).NotEmpty().WithMessage("Şifre Boş Olamaz.");
-        RuleFor(r => r.AbonelikSonlanmaTarihi).NotEmpty().WithMessage("Abonelik Sonlanma Tarihi Boş Olamaz.");
+        RuleFor(r => r.Ad).NotNull().NotEmpty().WithMessage("İşletme Adı Boş Olamaz.");
+        RuleFor(r => r.TelefonNo).NotNull().NotEmpty().WithMessage("İşletmeye Ait İletişim Bilgisi Boş Olamaz.");
+        RuleFor(r => r.KullaniciAdi).NotNull().NotEmpty().WithMessage("Kullanıcı Adı Boş Olamaz.");
+        RuleFor(r => r.Sifre).NotNull().NotEmpty().WithMessage("Şifre Boş Olamaz.");
+        RuleFor(r => r.AbonelikSonlanmaTarihi).NotNull().NotEmpty().WithMessage("Abonelik Sonlanma Tarihi Boş Olamaz.");
     }
 }

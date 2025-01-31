@@ -25,7 +25,7 @@ public class TokenService : ITokenService
 
         SigningCredentials signingCredentials = new(securityKey, SecurityAlgorithms.HmacSha256);
 
-        token.Expiration = DateTime.UtcNow.AddMinutes(180);
+        token.Expiration = DateTime.UtcNow.AddMinutes(60);
         JwtSecurityToken securityToken = new(
             audience: _configuration["Token:Audience"],
             issuer: _configuration["Token:Issuer"],

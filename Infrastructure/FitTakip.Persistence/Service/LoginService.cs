@@ -59,6 +59,9 @@ public class LoginService : ILoginService
 
                 if (isletme.AktifMi == false)
                     return new Result(false, "Bağlı Olunan İşletme Profili Aktif Değildir.");
+
+                if (kullanici.AktifMi == false)
+                    return new Result(false, "Aktif Üyeliğiniz Bulunmamaktadır.");
             }
 
             Token token = _tokenService.CreateAccessToken();

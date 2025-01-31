@@ -71,6 +71,8 @@ namespace FitTakip.Persistence.Migrations
 
                     b.HasKey("KullaniciId");
 
+                    b.HasIndex("EgitmenId");
+
                     b.ToTable("Kullanicilar");
                 });
 
@@ -134,7 +136,7 @@ namespace FitTakip.Persistence.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("RandevuId"));
 
-                    b.Property<string>("Açiklama")
+                    b.Property<string>("Aciklama")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("EgitmenId")
@@ -153,6 +155,16 @@ namespace FitTakip.Persistence.Migrations
                     b.HasIndex("UyeId");
 
                     b.ToTable("Randevular");
+                });
+
+            modelBuilder.Entity("FitTakip.Domain.Entities.Kullanici", b =>
+                {
+                    b.HasOne("FitTakip.Domain.Entities.Kullanici", "Egitmen")
+                        .WithMany("Uyeler")
+                        .HasForeignKey("EgitmenId")
+                        .OnDelete(DeleteBehavior.NoAction);
+
+                    b.Navigation("Egitmen");
                 });
 
             modelBuilder.Entity("FitTakip.Domain.Entities.Olcum", b =>
@@ -192,6 +204,8 @@ namespace FitTakip.Persistence.Migrations
                     b.Navigation("UyeOlcumleri");
 
                     b.Navigation("UyeRandevulari");
+
+                    b.Navigation("Uyeler");
                 });
 #pragma warning restore 612, 618
         }

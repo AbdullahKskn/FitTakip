@@ -8,6 +8,6 @@ public class AdminGuncelleParametreValidator : AbstractValidator<AdminGuncellePa
 {
     public AdminGuncelleParametreValidator()
     {
-        RuleFor(r => r.AdminId).NotEmpty().WithMessage("Admin ID Boş Olamaz.");
+        RuleFor(r => r.AdminId).NotNull().NotEmpty().WithMessage("Admin ID Boş Olamaz.");
     }
 }

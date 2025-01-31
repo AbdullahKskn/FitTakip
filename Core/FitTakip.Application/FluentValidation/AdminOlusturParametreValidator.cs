@@ -8,9 +8,9 @@ public class AdminOlusturParametreValidator : AbstractValidator<AdminOlusturPara
 {
     public AdminOlusturParametreValidator()
     {
-        RuleFor(r => r.Ad).NotEmpty().WithMessage("Ad Bilgisi Boş Olamaz.");
-        RuleFor(r => r.Soyad).NotEmpty().WithMessage("Soyad Bilgisi Boş Olamaz.");
-        RuleFor(r => r.KullaniciAdi).NotEmpty().WithMessage("Kullanıcı Adı Boş Olamaz.");
-        RuleFor(r => r.Sifre).NotEmpty().WithMessage("Şifre Boş Olamaz.");
+        RuleFor(r => r.Ad).NotNull().NotEmpty().WithMessage("Ad Bilgisi Boş Olamaz.");
+        RuleFor(r => r.Soyad).NotNull().NotEmpty().WithMessage("Soyad Bilgisi Boş Olamaz.");
+        RuleFor(r => r.KullaniciAdi).NotNull().NotEmpty().WithMessage("Kullanıcı Adı Boş Olamaz.");
+        RuleFor(r => r.Sifre).NotNull().NotEmpty().WithMessage("Şifre Boş Olamaz.");
     }
 }

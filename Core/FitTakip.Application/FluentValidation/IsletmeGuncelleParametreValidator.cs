@@ -8,6 +8,6 @@ public class IsletmeGuncelleParametreValidator : AbstractValidator<IsletmeGuncel
 {
     public IsletmeGuncelleParametreValidator()
     {
-        RuleFor(r => r.IsletmeId).NotEmpty().WithMessage("İşletme ID Boş Olamaz.");
+        RuleFor(r => r.IsletmeId).NotNull().NotEmpty().WithMessage("İşletme ID Boş Olamaz.");
     }
 }

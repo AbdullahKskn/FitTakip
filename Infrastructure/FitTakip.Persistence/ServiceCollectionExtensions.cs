@@ -17,14 +17,17 @@ public static class ServiceCollectionExtensions
 
         // Register repositories
         services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
-        services.AddScoped<AuthService, AuthService>();
         services.AddScoped<IKullaniciRepository, KullaniciRepository>();
         services.AddScoped<ILoginRepository, LoginRepository>();
+        services.AddScoped<IRandevuRepository, RandevuRepository>();
+        services.AddScoped<IOlcumRepository, OlcumRepository>();
 
         // Register Services
+        services.AddScoped<AuthService, AuthService>();
         services.AddScoped<IAdminService, AdminService>();
         services.AddScoped<ILoginService, LoginService>();
         services.AddScoped<IIsletmeService, IsletmeService>();
         services.AddScoped<ITokenService, TokenService>();
+        services.AddScoped<IEgitmenService, EgitmenService>();
     }
 }

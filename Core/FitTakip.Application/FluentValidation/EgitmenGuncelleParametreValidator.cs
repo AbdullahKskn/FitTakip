@@ -8,6 +8,6 @@ public class EgitmenGuncelleParametreValidator : AbstractValidator<EgitmenGuncel
 {
     public EgitmenGuncelleParametreValidator()
     {
-        RuleFor(r => r.EgitmenId).NotEmpty().WithMessage("Eğitmen ID Boş Olamaz.");
+        RuleFor(r => r.EgitmenId).NotNull().NotEmpty().WithMessage("Eğitmen ID Boş Olamaz.");
     }
 }

@@ -8,7 +8,7 @@ public class Randevu
     public int UyeId { get; set; }
     public int EgitmenId { get; set; }
     public DateTime Tarih { get; set; }
-    public string? Açiklama { get; set; }
+    public string? Aciklama { get; set; }
 
     public Kullanici Uye { get; set; } = null!;
     public Kullanici Egitmen { get; set; } = null!;

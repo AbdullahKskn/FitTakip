@@ -20,5 +20,9 @@ public static class ServiceCollectionExtensions
         services.AddValidatorsFromAssemblyContaining<IsletmeGuncelleParametreValidator>();
         services.AddValidatorsFromAssemblyContaining<EgitmenOlusturParametreValidator>();
         services.AddValidatorsFromAssemblyContaining<EgitmenGuncelleParametreValidator>();
+        services.AddValidatorsFromAssemblyContaining<UyeOlusturParametreValidator>();
+        services.AddValidatorsFromAssemblyContaining<UyeGuncelleParametreValidator>();
+        services.AddValidatorsFromAssemblyContaining<RandevuOlusturParametreValidator>();
+        services.AddValidatorsFromAssemblyContaining<OlcumOlusturParametreValidator>();
     }
 }

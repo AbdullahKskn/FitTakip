@@ -43,7 +43,7 @@ public class KullaniciRepository : IKullaniciRepository
 
     public async Task<List<Kullanici?>> UyeleriGetirPaginationAsync(int IsletmeId, int Baslangic, int Adet)
     {
-        return await _context.Kullanicilar.Where(w => w.Statu == Statu.Uye && w.IsletmeId == IsletmeId && w.AktifMi == true).Skip(Baslangic).Take(Adet).ToListAsync();
+        return await _context.Kullanicilar.Where(w => w.Statu == Statu.Uye && w.IsletmeId == IsletmeId && w.AktifMi == true).Include(i => i.Egitmen).Skip(Baslangic).Take(Adet).ToListAsync();
     }
 
 }

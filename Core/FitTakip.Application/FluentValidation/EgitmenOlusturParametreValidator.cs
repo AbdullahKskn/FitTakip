@@ -8,10 +8,10 @@ public class EgitmenOlusturParametreValidator : AbstractValidator<EgitmenOlustur
 {
     public EgitmenOlusturParametreValidator()
     {
-        RuleFor(r => r.Ad).NotEmpty().WithMessage("Eğitmen Adı Boş Olamaz.");
-        RuleFor(r => r.Soyad).NotEmpty().WithMessage("Eğitmen Soyadı Boş Olamaz.");
-        RuleFor(r => r.KullaniciAdi).NotEmpty().WithMessage("Kullanıcı Adı Boş Olamaz.");
-        RuleFor(r => r.Sifre).NotEmpty().WithMessage("Şifre Boş Olamaz.");
-        RuleFor(r => r.IsletmeId).NotEmpty().WithMessage("İşletme ID Boş Olamaz.");
+        RuleFor(r => r.Ad).NotNull().NotEmpty().WithMessage("Eğitmen Adı Boş Olamaz.");
+        RuleFor(r => r.Soyad).NotNull().NotEmpty().WithMessage("Eğitmen Soyadı Boş Olamaz.");
+        RuleFor(r => r.KullaniciAdi).NotNull().NotEmpty().WithMessage("Kullanıcı Adı Boş Olamaz.");
+        RuleFor(r => r.Sifre).NotNull().NotEmpty().WithMessage("Şifre Boş Olamaz.");
+        RuleFor(r => r.IsletmeId).NotNull().NotEmpty().WithMessage("İşletme ID Boş Olamaz.");
     }
 }

@@ -132,7 +132,7 @@ public class AdminService : IAdminService
                 DogumTarihi = s.DogumTarihi,
             }).OrderBy(o => o.Ad).ToList();
 
-            return new Result(true, "İşletmeleri Getirme Başarılı", adminDto);
+            return new Result(true, "Adminleri Getirme Başarılı", adminDto);
         }
         catch (Exception ex)
         {
