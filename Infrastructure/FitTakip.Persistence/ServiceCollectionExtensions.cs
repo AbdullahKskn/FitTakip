@@ -29,5 +29,6 @@ public static class ServiceCollectionExtensions
         services.AddScoped<IIsletmeService, IsletmeService>();
         services.AddScoped<ITokenService, TokenService>();
         services.AddScoped<IEgitmenService, EgitmenService>();
+        services.AddScoped<IUyeService, UyeService>();
     }
 }

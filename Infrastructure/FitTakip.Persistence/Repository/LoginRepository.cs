@@ -17,6 +17,6 @@ public class LoginRepository : ILoginRepository
 
     public async Task<Kullanici?> KullaniciAdınaGöreGetir(string KullaniciAdi)
     {
-        return await _context.Kullanicilar.FirstOrDefaultAsync(f => f.KullaniciAdi == KullaniciAdi);
+        return await _context.Kullanicilar.AsNoTracking().FirstOrDefaultAsync(f => f.KullaniciAdi == KullaniciAdi);
     }
 }
