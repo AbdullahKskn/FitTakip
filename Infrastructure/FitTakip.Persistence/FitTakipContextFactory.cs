@@ -2,16 +2,26 @@ using System;
 using FitTakip.Persistence.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
+using Microsoft.Extensions.Configuration;
+using System.IO;
 
-namespace FitTakip.Persistence;
-
-public class FitTakipContextFactory : IDesignTimeDbContextFactory<FitTakipContext>
+namespace FitTakip.Persistence
 {
-    public FitTakipContext CreateDbContext(string[] args)
+    public class FitTakipContextFactory : IDesignTimeDbContextFactory<FitTakipContext>
     {
-        var optionsBuilder = new DbContextOptionsBuilder<FitTakipContext>();
-        optionsBuilder.UseSqlServer("Server=104.247.167.130\\MSSQLSERVER2019;Database=ptrainer_FitPlanDb;User Id=ptrainer_admin;Password=Ti587fd6*;Integrated Security=False;TrustServerCertificate=True;");
+        public FitTakipContext CreateDbContext(string[] args)
+        {
+            var configuration = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+                .Build();
 
-        return new FitTakipContext(optionsBuilder.Options);
+            var connectionString = configuration.GetConnectionString("DefaultConnection");
+
+            var optionsBuilder = new DbContextOptionsBuilder<FitTakipContext>();
+            optionsBuilder.UseSqlServer(connectionString);
+
+            return new FitTakipContext(optionsBuilder.Options, configuration);
+        }
     }
 }

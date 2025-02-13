@@ -2,12 +2,17 @@ using System.Text;
 using FitTakip.Application;
 using FitTakip.Application.Common;
 using FitTakip.Persistence;
+using FitTakip.Persistence.Context;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddDbContext<FitTakipContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 builder.Services.AddApplicationServices();
 builder.Services.AddPersistenceServices();
