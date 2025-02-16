@@ -7,27 +7,21 @@ namespace FitTakip.Persistence.Context;
 
 public class FitTakipContext : DbContext
 {
-
-    private readonly IConfiguration _configuration;
-
-    public FitTakipContext(DbContextOptions<FitTakipContext> options, IConfiguration configuration)
+    public FitTakipContext(DbContextOptions<FitTakipContext> options)
         : base(options)
     {
-        _configuration = configuration;
     }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        if (!optionsBuilder.IsConfigured)
-        {
-            var connectionString = _configuration.GetConnectionString("DefaultConnection");
-            optionsBuilder.UseSqlServer(connectionString);
-        }
+        optionsBuilder.UseSqlServer("Server=104.247.167.130\\MSSQLSERVER2019;Database=ptrainer_FitPlanDemo;User Id=ptrainer_demoAdmin;Password=Cr57kl43?;Integrated Security=False;TrustServerCertificate=True;");
     }
 
     public DbSet<Kullanici> Kullanicilar { get; set; } = null!;
     public DbSet<Randevu> Randevular { get; set; } = null!;
     public DbSet<Olcum> Olcumler { get; set; } = null!;
+    public DbSet<Gelir> Gelirler { get; set; } = null!;
+    public DbSet<Gider> Giderler { get; set; } = null!;
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

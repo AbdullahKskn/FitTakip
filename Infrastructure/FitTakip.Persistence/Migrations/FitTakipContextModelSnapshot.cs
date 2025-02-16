@@ -22,6 +22,58 @@ namespace FitTakip.Persistence.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("FitTakip.Domain.Entities.Gelir", b =>
+                {
+                    b.Property<int>("GelirId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("GelirId"));
+
+                    b.Property<string>("Aciklama")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("IsletmeId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("Tarih")
+                        .HasColumnType("datetime2");
+
+                    b.Property<decimal>("Tutar")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasKey("GelirId");
+
+                    b.ToTable("Gelirler");
+                });
+
+            modelBuilder.Entity("FitTakip.Domain.Entities.Gider", b =>
+                {
+                    b.Property<int>("GiderId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("GiderId"));
+
+                    b.Property<string>("Aciklama")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("IsletmeId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("Tarih")
+                        .HasColumnType("datetime2");
+
+                    b.Property<decimal>("Tutar")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasKey("GiderId");
+
+                    b.ToTable("Giderler");
+                });
+
             modelBuilder.Entity("FitTakip.Domain.Entities.Kullanici", b =>
                 {
                     b.Property<int>("KullaniciId")

@@ -47,6 +47,13 @@ namespace FitTakip.API.Controller
         }
 
         [HttpGet("[Action]")]
+        public async Task<IActionResult> TumUyeleriGetir(int IsletmeId)
+        {
+            var values = await _ısletmeService.TumUyeleriGetir(IsletmeId);
+            return Ok(values);
+        }
+
+        [HttpGet("[Action]")]
         public async Task<IActionResult> EgitmenleriGetirPagination(int IsletmeId, int Baslangic, int Adet)
         {
             var values = await _ısletmeService.EgitmenleriGetirPagination(IsletmeId, Baslangic, Adet);
@@ -57,6 +64,69 @@ namespace FitTakip.API.Controller
         public async Task<IActionResult> UyeleriGetirPagination(int IsletmeId, int Baslangic, int Adet)
         {
             var values = await _ısletmeService.UyeleriGetirPagination(IsletmeId, Baslangic, Adet);
+            return Ok(values);
+        }
+
+        [HttpPost("[Action]")]
+        public async Task<IActionResult> GelirOlustur(GelirOlusturParametre parametre)
+        {
+            var values = await _ısletmeService.GelirOlustur(parametre);
+            return Ok(values);
+        }
+
+        [HttpGet("[Action]")]
+        public async Task<IActionResult> TumGelirlerToplami(int IsletmeId)
+        {
+            var values = await _ısletmeService.TumGelirlerToplami(IsletmeId);
+            return Ok(values);
+        }
+
+        [HttpGet("[Action]")]
+        public async Task<IActionResult> GelirleriTariheGöreGetirPagination(int IsletmeId, DateTime BaslangicTarihi, DateTime BitisTarihi, int Baslangic, int Adet)
+        {
+            var values = await _ısletmeService.GelirleriTariheGöreGetirPagination(IsletmeId, BaslangicTarihi, BitisTarihi, Baslangic, Adet);
+            return Ok(values);
+        }
+
+        [HttpGet("[Action]")]
+        public async Task<IActionResult> GelirleriTariheGöreTopla(int IsletmeId, DateTime BaslangicTarihi, DateTime BitisTarihi)
+        {
+            var values = await _ısletmeService.GelirleriTariheGöreTopla(IsletmeId, BaslangicTarihi, BitisTarihi);
+            return Ok(values);
+        }
+
+        [HttpPost("[Action]")]
+        public async Task<IActionResult> GiderOlustur(GiderOlusturParametre parametre)
+        {
+            var values = await _ısletmeService.GiderOlustur(parametre);
+            return Ok(values);
+        }
+
+        [HttpGet("[Action]")]
+        public async Task<IActionResult> TumGiderlerToplami(int IsletmeId)
+        {
+            var values = await _ısletmeService.TumGiderlerToplami(IsletmeId);
+            return Ok(values);
+        }
+
+        [HttpGet("[Action]")]
+        public async Task<IActionResult> GiderleriTariheGöreGetirPagination(int IsletmeId, DateTime BaslangicTarihi, DateTime BitisTarihi, int Baslangic, int Adet)
+        {
+            var values = await _ısletmeService.GiderleriTariheGöreGetirPagination(IsletmeId, BaslangicTarihi, BitisTarihi, Baslangic, Adet);
+            return Ok(values);
+        }
+
+        [HttpGet("[Action]")]
+        public async Task<IActionResult> GiderleriTariheGöreTopla(int IsletmeId, DateTime BaslangicTarihi, DateTime BitisTarihi)
+        {
+            var values = await _ısletmeService.GiderleriTariheGöreTopla(IsletmeId, BaslangicTarihi, BitisTarihi);
+            return Ok(values);
+        }
+
+        [HttpGet("[Action]")]
+        public async Task<IActionResult> TumGelirGiderToplami(int IsletmeId)
+        {
+            var values = await _ısletmeService.TumGelirGiderToplami(IsletmeId);
             return Ok(values);
         }
     }

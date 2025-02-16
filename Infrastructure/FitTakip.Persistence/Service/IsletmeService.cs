@@ -12,14 +12,22 @@ namespace FitTakip.Persistence.Service;
 public class IsletmeService : IIsletmeService
 {
     private readonly IRepository<Kullanici> _repository;
+    private readonly IRepository<Gelir> _repositoryGelir;
+    private readonly IRepository<Gider> _repositoryGider;
     private readonly IKullaniciRepository _kullaniciRepository;
+    private readonly IGelirRepository _gelirRepository;
+    private readonly IGiderRepository _giderRepository;
     private readonly AuthService _authService;
 
-    public IsletmeService(IRepository<Kullanici> repository, IKullaniciRepository kullaniciRepository, AuthService authService)
+    public IsletmeService(IRepository<Kullanici> repository, IKullaniciRepository kullaniciRepository, AuthService authService, IRepository<Gelir> repositoryGelir, IGelirRepository gelirRepository, IRepository<Gider> repositoryGider, IGiderRepository giderRepository)
     {
         _repository = repository;
         _kullaniciRepository = kullaniciRepository;
         _authService = authService;
+        _repositoryGelir = repositoryGelir;
+        _gelirRepository = gelirRepository;
+        _repositoryGider = repositoryGider;
+        _giderRepository = giderRepository;
     }
 
     public async Task<Result> EgitmenOlustur(EgitmenOlusturParametre parametre)
@@ -127,14 +135,34 @@ public class IsletmeService : IIsletmeService
             {
                 KullaniciId = s.KullaniciId,
                 Ad = s.Ad,
-                Soyad = s.Soyad,
-                TelefonNo = s.TelefonNo,
-                DogumTarihi = s.DogumTarihi,
-                IsletmeId = s.IsletmeId,
-                AktifMi = s.AktifMi,
+                Soyad = s.Soyad
             }).OrderBy(o => o.Ad).ToList();
 
             return new Result(true, "İşletmeye Kayıtlı Eğitmenleri Getirme Başarılı.", egitmenDto);
+        }
+        catch (Exception ex)
+        {
+            return new Result(false, ex.Message);
+        }
+    }
+
+    public async Task<Result> TumUyeleriGetir(int IsletmeId)
+    {
+        try
+        {
+            var uyeler = await _kullaniciRepository.TumUyeleriGetirAsync(IsletmeId);
+
+            if (!uyeler.Any())
+                return new Result(false, "İşletmeye Kayıtlı Üye Bulunamadı.");
+
+            var uyeDto = uyeler.Select(s => new UyeDto
+            {
+                KullaniciId = s.KullaniciId,
+                Ad = s.Ad,
+                Soyad = s.Soyad
+            }).ToList();
+
+            return new Result(true, "İşletmeye Kayıtlı Eğitmenleri Getirme Başarılı.", uyeDto);
         }
         catch (Exception ex)
         {
@@ -194,6 +222,176 @@ public class IsletmeService : IIsletmeService
             }).OrderBy(o => o.Ad).ToList();
 
             return new Result(true, "İşletmeye Kayıtlı Üye Getirme Başarılı.", uyeDto);
+        }
+        catch (Exception ex)
+        {
+            return new Result(false, ex.Message);
+        }
+    }
+
+    public async Task<Result> GelirOlustur(GelirOlusturParametre parametre)
+    {
+        try
+        {
+            var gelir = new Gelir
+            {
+                IsletmeId = parametre.IsletmeId,
+                Aciklama = parametre.Aciklama,
+                Tarih = parametre.Tarih,
+                Tutar = parametre.Tutar
+            };
+
+            await _repositoryGelir.CreateAsync(gelir);
+
+            return new Result(true, "Gelir Başarıyla Kaydedildi");
+        }
+        catch (Exception ex)
+        {
+            return new Result(false, ex.Message);
+        }
+    }
+
+    public async Task<Result> TumGelirlerToplami(int IsletmeId)
+    {
+        try
+        {
+            var gelirToplami = await _gelirRepository.TumGelirlerToplamiAsync(IsletmeId);
+
+            return new Result(true, "Tüm Gelirlerin Toplamını Getirme Başarılı", gelirToplami);
+        }
+        catch (Exception ex)
+        {
+            return new Result(false, ex.Message);
+        }
+    }
+
+    public async Task<Result> GelirleriTariheGöreGetirPagination(int IsletmeId, DateTime BaslangicTarihi, DateTime BitisTarihi, int Baslangic, int Adet)
+    {
+        try
+        {
+            var gelirler = await _gelirRepository.GelirleriTariheGöreGetirPaginationAsync(IsletmeId, BaslangicTarihi, BitisTarihi, Baslangic, Adet);
+
+            if (!gelirler.Any())
+                return new Result(false, "Belirtilen Tarihler Arasında Gelir Kaydı Bulunamadı");
+
+            var gelirDto = gelirler.Select(s => new GelirDto
+            {
+                GelirId = s.GelirId,
+                IsletmeId = s.IsletmeId,
+                Aciklama = s.Aciklama,
+                Tarih = s.Tarih,
+                Tutar = s.Tutar,
+            }).ToList();
+
+            return new Result(true, "Belirtilen Tarihler Arasındaki Gelirleri Getirme Başarılı", gelirDto);
+        }
+        catch (Exception ex)
+        {
+            return new Result(false, ex.Message);
+        }
+    }
+
+    public async Task<Result> GelirleriTariheGöreTopla(int IsletmeId, DateTime BaslangicTarihi, DateTime BitisTarihi)
+    {
+        try
+        {
+            var gelirlerToplamı = await _gelirRepository.GelirleriTariheGöreToplaAsync(IsletmeId, BaslangicTarihi, BitisTarihi);
+
+            return new Result(true, "Belirtilen Tarihler Arasındaki Gelirlerin Toplamını Getirme Başarılı", gelirlerToplamı);
+
+        }
+        catch (Exception ex)
+        {
+            return new Result(false, ex.Message);
+        }
+    }
+
+    public async Task<Result> GiderOlustur(GiderOlusturParametre parametre)
+    {
+        try
+        {
+            var gider = new Gider
+            {
+                IsletmeId = parametre.IsletmeId,
+                Aciklama = parametre.Aciklama,
+                Tarih = parametre.Tarih,
+                Tutar = parametre.Tutar
+            };
+
+            await _repositoryGider.CreateAsync(gider);
+
+            return new Result(true, "Gider Oluşturuldu");
+        }
+        catch (Exception ex)
+        {
+            return new Result(false, ex.Message);
+        }
+    }
+
+    public async Task<Result> TumGiderlerToplami(int IsletmeId)
+    {
+        try
+        {
+            var giderToplami = await _giderRepository.TumGiderlerToplamiAsync(IsletmeId);
+
+            return new Result(true, "Tüm Giderlerin Toplamını Getirme Başarılı", giderToplami);
+        }
+        catch (Exception ex)
+        {
+            return new Result(false, ex.Message);
+        }
+    }
+
+    public async Task<Result> GiderleriTariheGöreGetirPagination(int IsletmeId, DateTime BaslangicTarihi, DateTime BitisTarihi, int Baslangic, int Adet)
+    {
+        try
+        {
+            var giderler = await _giderRepository.GiderleriTariheGöreGetirPaginationAsync(IsletmeId, BaslangicTarihi, BitisTarihi, Baslangic, Adet);
+
+            if (!giderler.Any())
+                return new Result(false, "Belirtilen Tarihler Arasında Gider Kaydı Bulunamadı");
+
+            var giderDto = giderler.Select(s => new GiderDto
+            {
+                GiderId = s.GiderId,
+                IsletmeId = s.IsletmeId,
+                Aciklama = s.Aciklama,
+                Tarih = s.Tarih,
+                Tutar = s.Tutar,
+            }).ToList();
+
+            return new Result(true, "Belirtilen Tarihler Arasındaki Giderleri Getirme Başarılı", giderDto);
+        }
+        catch (Exception ex)
+        {
+            return new Result(false, ex.Message);
+        }
+    }
+
+    public async Task<Result> GiderleriTariheGöreTopla(int IsletmeId, DateTime BaslangicTarihi, DateTime BitisTarihi)
+    {
+        try
+        {
+            var giderlerToplamı = await _giderRepository.GiderleriTariheGöreToplaAsync(IsletmeId, BaslangicTarihi, BitisTarihi);
+
+            return new Result(true, "Belirtilen Tarihler Arasındaki Giderlerin Toplamını Getirme Başarılı", giderlerToplamı);
+
+        }
+        catch (Exception ex)
+        {
+            return new Result(false, ex.Message);
+        }
+    }
+
+    public async Task<Result> TumGelirGiderToplami(int IsletmeId)
+    {
+        try
+        {
+            var gelir = await _gelirRepository.TumGelirlerToplamiAsync(IsletmeId);
+            var gider = await _giderRepository.TumGiderlerToplamiAsync(IsletmeId);
+
+            var sonuc = gelir - gider;
+            return new Result(true, "Toplam Gelir Gider Sonucu Getirme Başarılı", sonuc);
         }
         catch (Exception ex)
         {

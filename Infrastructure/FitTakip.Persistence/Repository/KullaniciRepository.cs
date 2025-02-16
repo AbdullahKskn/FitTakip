@@ -36,6 +36,11 @@ public class KullaniciRepository : IKullaniciRepository
         return await _context.Kullanicilar.AsNoTracking().Where(w => w.IsletmeId == IsletmeId && w.Statu == Statu.Egitmen && w.AktifMi == true).ToListAsync();
     }
 
+    public async Task<List<Kullanici>> TumUyeleriGetirAsync(int IsletmeId)
+    {
+        return await _context.Kullanicilar.AsNoTracking().Where(w => w.IsletmeId == IsletmeId && w.Statu == Statu.Uye && w.AktifMi == true).ToListAsync();
+    }
+
     public async Task<List<Kullanici>> EgitmenleriGetirPaginationAsync(int IsletmeId, int Baslangic, int Adet)
     {
         return await _context.Kullanicilar.AsNoTracking().Where(w => w.IsletmeId == IsletmeId && w.Statu == Statu.Egitmen && w.AktifMi == true).Skip(Baslangic).Take(Adet).ToListAsync();

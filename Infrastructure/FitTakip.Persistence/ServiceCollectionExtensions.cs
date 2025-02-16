@@ -21,6 +21,8 @@ public static class ServiceCollectionExtensions
         services.AddScoped<ILoginRepository, LoginRepository>();
         services.AddScoped<IRandevuRepository, RandevuRepository>();
         services.AddScoped<IOlcumRepository, OlcumRepository>();
+        services.AddScoped<IGelirRepository, GelirRepository>();
+        services.AddScoped<IGiderRepository, GiderRepository>();
 
         // Register Services
         services.AddScoped<AuthService, AuthService>();

@@ -150,6 +150,7 @@ public class AdminService : IAdminService
                 return new Result(false, "Sisteme Kayıtlı Bu Kullanıcı Adı Bulunmaktadır.");
 
             var sifreKarmasi = _authService.HashPassword(parametre.Sifre);
+            var abonelikSonlanmaTarihi = DateTime.Now.AddYears(parametre.AbonelikYilEkle);
 
             var isletme = new Kullanici
             {
@@ -157,7 +158,7 @@ public class AdminService : IAdminService
                 TelefonNo = parametre.TelefonNo,
                 KullaniciAdi = parametre.KullaniciAdi,
                 SifreKarmasi = sifreKarmasi,
-                AbonelikSonlanmaTarihi = parametre.AbonelikSonlanmaTarihi,
+                AbonelikSonlanmaTarihi = abonelikSonlanmaTarihi,
                 Statu = Statu.Isletme,
                 AktifMi = true
             };
@@ -182,12 +183,12 @@ public class AdminService : IAdminService
                 return new Result(false, "Sisteme Kayıtlı İşletme Bulunamadı.");
 
             if (!string.IsNullOrWhiteSpace(parametre.KullaniciAdi) && parametre.KullaniciAdi != isletme.KullaniciAdi)
-        {
-            var kullaniciAdiVarMi = await _kullaniciRepository.KullaniciAdiVarMiAsync(parametre.KullaniciAdi);
+            {
+                var kullaniciAdiVarMi = await _kullaniciRepository.KullaniciAdiVarMiAsync(parametre.KullaniciAdi);
 
-            if (kullaniciAdiVarMi != null)
-                return new Result(false, "Sisteme Kayıtlı Bu Kullanıcı Adı Bulunmaktadır.");
-        }
+                if (kullaniciAdiVarMi != null)
+                    return new Result(false, "Sisteme Kayıtlı Bu Kullanıcı Adı Bulunmaktadır.");
+            }
 
             if (!string.IsNullOrWhiteSpace(parametre.Sifre))
             {
@@ -198,7 +199,6 @@ public class AdminService : IAdminService
             isletme.Ad = parametre.Ad ?? isletme.Ad;
             isletme.TelefonNo = parametre.TelefonNo ?? isletme.TelefonNo;
             isletme.KullaniciAdi = parametre.KullaniciAdi ?? isletme.KullaniciAdi;
-            isletme.AbonelikSonlanmaTarihi = parametre.AbonelikSonlanmaTarihi ?? isletme.AbonelikSonlanmaTarihi;
 
             await _repository.UpdateAsync(isletme);
 
@@ -225,6 +225,31 @@ public class AdminService : IAdminService
 
             return new Result(true, "İşletme Başarıyla Silindi.");
 
+        }
+        catch (Exception ex)
+        {
+            return new Result(false, ex.Message);
+        }
+    }
+
+    public async Task<Result> IsletmeyeKullanımSuresiEkle(IsletmeyeKullanımSuresiEkleParametre parametre)
+    {
+        try
+        {
+            var isletme = await _repository.GetByIdAsync(parametre.IsletmeId);
+
+            if (isletme == null)
+                return new Result(false, "İşletme Bulunamadı.");
+
+            if (isletme.AbonelikSonlanmaTarihi > DateTime.Now)
+                isletme.AbonelikSonlanmaTarihi = isletme.AbonelikSonlanmaTarihi.Value.AddYears(parametre.EklenecekYil);
+
+            if (isletme.AbonelikSonlanmaTarihi < DateTime.Now)
+                isletme.AbonelikSonlanmaTarihi = DateTime.Now.AddYears(parametre.EklenecekYil);
+
+            await _repository.UpdateAsync(isletme);
+
+            return new Result(true, "İşletmenin abonelik süresi başarıyla uzatıldı.");
         }
         catch (Exception ex)
         {

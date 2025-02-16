@@ -9,5 +9,4 @@ public class IsletmeGuncelleParametre
     public string? TelefonNo { get; set; }
     public string? KullaniciAdi { get; set; }
     public string? Sifre { get; set; }
-    public DateTime? AbonelikSonlanmaTarihi { get; set; }
 }

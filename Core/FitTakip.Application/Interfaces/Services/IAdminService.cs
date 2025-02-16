@@ -13,5 +13,6 @@ public interface IAdminService
     Task<Result> IsletmeOlustur(IsletmeOlusturParametre parametre);
     Task<Result> IsletmeGuncelle(IsletmeGuncelleParametre parametre);
     Task<Result> IsletmeSil(int IsletmeId);
+    Task<Result> IsletmeyeKullanımSuresiEkle(IsletmeyeKullanımSuresiEkleParametre parametre);
     Task<Result> IsletmeleriGetirPagination(int Baslangic, int Adet);
 }

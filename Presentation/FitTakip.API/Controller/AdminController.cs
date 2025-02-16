@@ -67,6 +67,13 @@ namespace FitTakip.API.Controller
             return Ok(values);
         }
 
+        [HttpPut("[Action]")]
+        public async Task<IActionResult> IsletmeyeKullanımSuresiEkle(IsletmeyeKullanımSuresiEkleParametre parametre)
+        {
+            var values = await _adminService.IsletmeyeKullanımSuresiEkle(parametre);
+            return Ok(values);
+        }
+
         [HttpGet("[Action]")]
         public async Task<IActionResult> IsletmeleriGetirPaginationAsync(int Baslangic, int Adet)
         {

@@ -12,6 +12,6 @@ public class IsletmeOlusturParametreValidator : AbstractValidator<IsletmeOlustur
         RuleFor(r => r.TelefonNo).NotNull().NotEmpty().WithMessage("İşletmeye Ait İletişim Bilgisi Boş Olamaz.");
         RuleFor(r => r.KullaniciAdi).NotNull().NotEmpty().WithMessage("Kullanıcı Adı Boş Olamaz.");
         RuleFor(r => r.Sifre).NotNull().NotEmpty().WithMessage("Şifre Boş Olamaz.");
-        RuleFor(r => r.AbonelikSonlanmaTarihi).NotNull().NotEmpty().WithMessage("Abonelik Sonlanma Tarihi Boş Olamaz.");
+        RuleFor(r => r.AbonelikYilEkle).NotNull().NotEmpty().WithMessage("Abonelik Sonlanma Tarihi Boş Olamaz.");
     }
 }
