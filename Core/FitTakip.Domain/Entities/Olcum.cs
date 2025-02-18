@@ -18,5 +18,5 @@ public class Olcum
     public int SagBacak { get; set; }
     public int SolBacak { get; set; }
 
-    public Kullanici Uye { get; set; } = null!;
+    public Uye Uye { get; set; } = null!;
 }

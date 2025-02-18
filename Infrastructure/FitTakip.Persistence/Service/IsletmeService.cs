@@ -5,13 +5,13 @@ using FitTakip.Application.Interfaces.Repositories;
 using FitTakip.Application.Interfaces.Services;
 using FitTakip.Application.Parametre;
 using FitTakip.Domain.Entities;
-using FitTakip.Domain.Enum;
 
 namespace FitTakip.Persistence.Service;
 
 public class IsletmeService : IIsletmeService
 {
-    private readonly IRepository<Kullanici> _repository;
+    private readonly IRepository<Isletme> _repositoryIsletme;
+    private readonly IRepository<Egitmen> _repositoryEgitmen;
     private readonly IRepository<Gelir> _repositoryGelir;
     private readonly IRepository<Gider> _repositoryGider;
     private readonly IKullaniciRepository _kullaniciRepository;
@@ -19,15 +19,16 @@ public class IsletmeService : IIsletmeService
     private readonly IGiderRepository _giderRepository;
     private readonly AuthService _authService;
 
-    public IsletmeService(IRepository<Kullanici> repository, IKullaniciRepository kullaniciRepository, AuthService authService, IRepository<Gelir> repositoryGelir, IGelirRepository gelirRepository, IRepository<Gider> repositoryGider, IGiderRepository giderRepository)
+    public IsletmeService(IRepository<Isletme> repositoryIsletme, IKullaniciRepository kullaniciRepository, AuthService authService, IRepository<Gelir> repositoryGelir, IGelirRepository gelirRepository, IRepository<Gider> repositoryGider, IGiderRepository giderRepository, IRepository<Egitmen> repositoryEgitmen)
     {
-        _repository = repository;
+        _repositoryIsletme = repositoryIsletme;
         _kullaniciRepository = kullaniciRepository;
         _authService = authService;
         _repositoryGelir = repositoryGelir;
         _gelirRepository = gelirRepository;
         _repositoryGider = repositoryGider;
         _giderRepository = giderRepository;
+        _repositoryEgitmen = repositoryEgitmen;
     }
 
     public async Task<Result> EgitmenOlustur(EgitmenOlusturParametre parametre)
@@ -36,12 +37,12 @@ public class IsletmeService : IIsletmeService
         {
             var kullaniciAdiVarMi = await _kullaniciRepository.KullaniciAdiVarMiAsync(parametre.KullaniciAdi);
 
-            if (kullaniciAdiVarMi != null)
+            if (kullaniciAdiVarMi == true)
                 return new Result(false, "Sisteme Kayıtlı Bu Kullanıcı Adı Bulunmaktadır.");
 
             var sifreKarmasi = _authService.HashPassword(parametre.Sifre);
 
-            var egitmen = new Kullanici
+            var egitmen = new Egitmen
             {
                 Ad = parametre.Ad,
                 Soyad = parametre.Soyad,
@@ -49,11 +50,10 @@ public class IsletmeService : IIsletmeService
                 KullaniciAdi = parametre.KullaniciAdi,
                 SifreKarmasi = sifreKarmasi,
                 IsletmeId = parametre.IsletmeId,
-                Statu = Statu.Egitmen,
                 AktifMi = true
             };
 
-            await _repository.CreateAsync(egitmen);
+            await _repositoryEgitmen.CreateAsync(egitmen);
 
             return new Result(true, "Eğitmen Başarıyla Oluşturuldu.");
         }
@@ -67,7 +67,7 @@ public class IsletmeService : IIsletmeService
     {
         try
         {
-            var egitmen = await _repository.GetByIdAsync(parametre.EgitmenId);
+            var egitmen = await _repositoryEgitmen.GetByIdAsync(parametre.EgitmenId);
 
             if (egitmen == null)
                 return new Result(false, "Eğitmen Bulunamadı.");
@@ -91,7 +91,7 @@ public class IsletmeService : IIsletmeService
             egitmen.TelefonNo = parametre.TelefonNo ?? egitmen.TelefonNo;
             egitmen.KullaniciAdi = parametre.KullaniciAdi ?? egitmen.KullaniciAdi;
 
-            await _repository.UpdateAsync(egitmen);
+            await _repositoryEgitmen.UpdateAsync(egitmen);
 
             return new Result(true, "Eğitmen Başarıyla Güncellendi.");
         }
@@ -105,14 +105,14 @@ public class IsletmeService : IIsletmeService
     {
         try
         {
-            var egitmen = await _repository.GetByIdAsync(EgitmenId);
+            var egitmen = await _repositoryEgitmen.GetByIdAsync(EgitmenId);
 
             if (egitmen == null)
                 return new Result(false, "Eğitmen Bulunamadı");
 
             egitmen.AktifMi = false;
 
-            await _repository.UpdateAsync(egitmen);
+            await _repositoryEgitmen.UpdateAsync(egitmen);
 
             return new Result(true, "Eğitmen Başarıyla Silindi");
         }
@@ -133,7 +133,7 @@ public class IsletmeService : IIsletmeService
 
             var egitmenDto = egitmenler.Select(s => new EgitmenDto
             {
-                KullaniciId = s.KullaniciId,
+                EgitmenId = s.EgitmenId,
                 Ad = s.Ad,
                 Soyad = s.Soyad
             }).OrderBy(o => o.Ad).ToList();
@@ -157,7 +157,7 @@ public class IsletmeService : IIsletmeService
 
             var uyeDto = uyeler.Select(s => new UyeDto
             {
-                KullaniciId = s.KullaniciId,
+                UyeId = s.UyeId,
                 Ad = s.Ad,
                 Soyad = s.Soyad
             }).ToList();
@@ -181,11 +181,10 @@ public class IsletmeService : IIsletmeService
 
             var egitmenDto = egitmenler.Select(s => new EgitmenDto
             {
-                KullaniciId = s.KullaniciId,
+                EgitmenId = s.EgitmenId,
                 Ad = s.Ad,
                 Soyad = s.Soyad,
                 TelefonNo = s.TelefonNo,
-                DogumTarihi = s.DogumTarihi,
                 IsletmeId = s.IsletmeId,
                 AktifMi = s.AktifMi,
             }).OrderBy(o => o.Ad).ToList();
@@ -209,12 +208,11 @@ public class IsletmeService : IIsletmeService
 
             var uyeDto = uyeler.Select(s => new UyeDto
             {
-                KullaniciId = s.KullaniciId,
+                UyeId = s.UyeId,
                 Ad = s.Ad,
                 Soyad = s.Soyad,
                 TelefonNo = s.TelefonNo,
                 KalanDersSayisi = s.KalanDersSayisi,
-                DogumTarihi = s.DogumTarihi,
                 IsletmeId = s.IsletmeId,
                 EgitmenId = s.EgitmenId,
                 EgitmenAdı = s.Egitmen.Ad + " " + s.Egitmen.Soyad,

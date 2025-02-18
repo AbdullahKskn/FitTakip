@@ -15,8 +15,16 @@ public class LoginRepository : ILoginRepository
         _context = context;
     }
 
-    public async Task<Kullanici?> KullaniciAdınaGöreGetir(string KullaniciAdi)
+    public async Task<Admin> AdminKullaniciAdınaGöreGetir(string KullaniciAdi)
     {
-        return await _context.Kullanicilar.AsNoTracking().FirstOrDefaultAsync(f => f.KullaniciAdi == KullaniciAdi);
+        return await _context.Adminler.AsNoTracking().FirstOrDefaultAsync(f => f.KullaniciAdi == KullaniciAdi);
+    }
+    public async Task<Isletme> IsletmeKullaniciAdınaGöreGetir(string KullaniciAdi)
+    {
+        return await _context.Isletmeler.AsNoTracking().FirstOrDefaultAsync(f => f.KullaniciAdi == KullaniciAdi);
+    }
+    public async Task<Egitmen> EgitmenKullaniciAdınaGöreGetir(string KullaniciAdi)
+    {
+        return await _context.Egitmenler.AsNoTracking().FirstOrDefaultAsync(f => f.KullaniciAdi == KullaniciAdi);
     }
 }

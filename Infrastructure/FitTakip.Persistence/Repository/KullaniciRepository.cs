@@ -1,7 +1,6 @@
 using System;
 using FitTakip.Application.Interfaces.Repositories;
 using FitTakip.Domain.Entities;
-using FitTakip.Domain.Enum;
 using FitTakip.Persistence.Context;
 using Microsoft.EntityFrameworkCore;
 
@@ -16,39 +15,42 @@ public class KullaniciRepository : IKullaniciRepository
         _context = context;
     }
 
-    public async Task<Kullanici?> KullaniciAdiVarMiAsync(string KullaniciAdi)
+    public async Task<bool> KullaniciAdiVarMiAsync(string KullaniciAdi)
     {
-        return await _context.Kullanicilar.AsNoTracking().FirstOrDefaultAsync(k => k.KullaniciAdi == KullaniciAdi);
+        var admin = await _context.Adminler.AsNoTracking().AnyAsync(k => k.KullaniciAdi == KullaniciAdi);
+        var isletme = await _context.Isletmeler.AsNoTracking().AnyAsync(k => k.KullaniciAdi == KullaniciAdi);
+        var egitmen = await _context.Egitmenler.AsNoTracking().AnyAsync(k => k.KullaniciAdi == KullaniciAdi);
+
+        return admin || isletme || egitmen;
     }
 
-    public async Task<List<Kullanici>> IsletmeleriGetirPaginationAsync(int Baslangic, int Adet)
+    public async Task<List<Admin>> AdminleriGetirPaginationAsync(int Baslangic, int Adet)
     {
-        return await _context.Kullanicilar.AsNoTracking().Where(w => w.Statu == Statu.Isletme).Skip(Baslangic).Take(Adet).ToListAsync();
+        return await _context.Adminler.AsNoTracking().Where(w => w.AktifMi == true).OrderBy(o => o.Ad).Skip(Baslangic).Take(Adet).ToListAsync();
+    }
+    public async Task<List<Isletme>> IsletmeleriGetirPaginationAsync(int Baslangic, int Adet)
+    {
+        return await _context.Isletmeler.AsNoTracking().Skip(Baslangic).Take(Adet).ToListAsync();
     }
 
-    public async Task<List<Kullanici>> AdminleriGetirPaginationAsync(int Baslangic, int Adet)
+    public async Task<List<Egitmen>> TumEgitmenleriGetirAsync(int IsletmeId)
     {
-        return await _context.Kullanicilar.AsNoTracking().Where(w => w.Statu == Statu.Admin && w.AktifMi == true).Skip(Baslangic).Take(Adet).ToListAsync();
+        return await _context.Egitmenler.AsNoTracking().Where(w => w.IsletmeId == IsletmeId && w.AktifMi == true).ToListAsync();
     }
 
-    public async Task<List<Kullanici>> TumEgitmenleriGetirAsync(int IsletmeId)
+    public async Task<List<Uye>> TumUyeleriGetirAsync(int IsletmeId)
     {
-        return await _context.Kullanicilar.AsNoTracking().Where(w => w.IsletmeId == IsletmeId && w.Statu == Statu.Egitmen && w.AktifMi == true).ToListAsync();
+        return await _context.Uyeler.AsNoTracking().Where(w => w.IsletmeId == IsletmeId && w.AktifMi == true).ToListAsync();
     }
 
-    public async Task<List<Kullanici>> TumUyeleriGetirAsync(int IsletmeId)
+    public async Task<List<Egitmen>> EgitmenleriGetirPaginationAsync(int IsletmeId, int Baslangic, int Adet)
     {
-        return await _context.Kullanicilar.AsNoTracking().Where(w => w.IsletmeId == IsletmeId && w.Statu == Statu.Uye && w.AktifMi == true).ToListAsync();
+        return await _context.Egitmenler.AsNoTracking().Where(w => w.IsletmeId == IsletmeId && w.AktifMi == true).Skip(Baslangic).Take(Adet).ToListAsync();
     }
 
-    public async Task<List<Kullanici>> EgitmenleriGetirPaginationAsync(int IsletmeId, int Baslangic, int Adet)
+    public async Task<List<Uye>> UyeleriGetirPaginationAsync(int IsletmeId, int Baslangic, int Adet)
     {
-        return await _context.Kullanicilar.AsNoTracking().Where(w => w.IsletmeId == IsletmeId && w.Statu == Statu.Egitmen && w.AktifMi == true).Skip(Baslangic).Take(Adet).ToListAsync();
-    }
-
-    public async Task<List<Kullanici>> UyeleriGetirPaginationAsync(int IsletmeId, int Baslangic, int Adet)
-    {
-        return await _context.Kullanicilar.AsNoTracking().Where(w => w.Statu == Statu.Uye && w.IsletmeId == IsletmeId && w.AktifMi == true).Include(i => i.Egitmen).Skip(Baslangic).Take(Adet).ToListAsync();
+        return await _context.Uyeler.AsNoTracking().Where(w => w.IsletmeId == IsletmeId && w.AktifMi == true).Include(i => i.Egitmen).Skip(Baslangic).Take(Adet).ToListAsync();
     }
 
 }

@@ -5,7 +5,6 @@ using FitTakip.Application.Interfaces.Repositories;
 using FitTakip.Application.Interfaces.Services;
 using FitTakip.Application.Parametre;
 using FitTakip.Domain.Entities;
-using FitTakip.Domain.Enum;
 
 namespace FitTakip.Persistence.Service;
 
@@ -13,122 +12,100 @@ public class LoginService : ILoginService
 {
     private readonly ILoginRepository _loginRepository;
     private readonly AuthService _authService;
-    private readonly IRepository<Kullanici> _repository;
     private readonly ITokenService _tokenService;
+    private readonly IRepository<Admin> _repositoryAdmin;
+    private readonly IRepository<Isletme> _repositoryIsletme;
+    private readonly IRepository<Egitmen> _repositoryEgitmen;
 
-    public LoginService(ILoginRepository loginRepository, AuthService authService, IRepository<Kullanici> repository, ITokenService tokenService)
+    public LoginService(ILoginRepository loginRepository, AuthService authService, ITokenService tokenService, IRepository<Admin> repositoryAdmin, IRepository<Egitmen> repositoryEgitmen, IRepository<Isletme> repositoryIsletme)
     {
         _loginRepository = loginRepository;
         _authService = authService;
-        _repository = repository;
         _tokenService = tokenService;
+        _repositoryAdmin = repositoryAdmin;
+        _repositoryEgitmen = repositoryEgitmen;
+        _repositoryIsletme = repositoryIsletme;
     }
 
     public async Task<Result> GirisYap(GirisYapParametre parametre)
     {
         try
         {
-            var kullanici = await _loginRepository.KullaniciAdınaGöreGetir(parametre.KullaniciAdi);
+            var admin = await _loginRepository.AdminKullaniciAdınaGöreGetir(parametre.KullaniciAdi);
+            var isletme = await _loginRepository.IsletmeKullaniciAdınaGöreGetir(parametre.KullaniciAdi);
+            var egitmen = await _loginRepository.EgitmenKullaniciAdınaGöreGetir(parametre.KullaniciAdi);
+
+            var kullanici = (object)admin ?? (object)isletme ?? (object)egitmen;
 
             if (kullanici == null)
-                return new Result(false, "Böyle Bir Kullanıcı Bulunamadı");
+                return new Result(false, "Böyle bir kullanıcı bulunamadı.");
 
-            var sifreDogruMu = _authService.VerifyPassword(parametre.Sifre, kullanici.SifreKarmasi);
+            // Şifre doğrulama
+            string sifreKarmasi = admin?.SifreKarmasi ?? isletme?.SifreKarmasi ?? egitmen?.SifreKarmasi;
+            if (!_authService.VerifyPassword(parametre.Sifre, sifreKarmasi))
+                return new Result(false, "Şifre yanlış.");
 
-            if (!sifreDogruMu)
-                return new Result(false, "Geçersiz Şifre");
+            // Abonelik ve aktiflik kontrolleri
+            if (isletme?.AbonelikSonlanmaTarihi < DateTime.Now)
+                return new Result(false, "Abonelik tarihiniz sonlanmıştır.");
 
-            if (kullanici.Statu == Statu.Isletme && kullanici.AbonelikSonlanmaTarihi < DateTime.Now)
-                return new Result(false, "İşletmeye Ait Abonelik Süresi Bitmiştir.");
+            if (isletme?.AktifMi == false)
+                return new Result(false, "Aktif üyeliğiniz bulunmamaktadır.");
 
-            if (kullanici.Statu == Statu.Isletme && kullanici.AktifMi == false)
-                return new Result(false, "İşletmeye Ait Profil Aktif Değildir.");
-
-            if (kullanici.Statu == Statu.Egitmen || kullanici.Statu == Statu.Uye)
+            if (egitmen != null)
             {
-                if (kullanici.IsletmeId == null)
-                    return new Result(false, "Bağlı Olunan İşletme Bilgisi Bulunamadı.");
+                if (egitmen.AktifMi == false)
+                    return new Result(false, "Aktif üyeliğiniz bulunmamaktadır.");
 
-                var isletme = await _repository.GetByIdAsync(kullanici.IsletmeId.Value);
-
-                if (isletme == null)
-                    return new Result(false, "Bağlı Olunan İşletme Bulunamadı.");
-
-                if (isletme.AbonelikSonlanmaTarihi < DateTime.Now)
-                    return new Result(false, "Bağlı Olunan İşletmenin Abonelik Süresi Bitmiştir.");
-
-                if (isletme.AktifMi == false)
-                    return new Result(false, "Bağlı Olunan İşletme Profili Aktif Değildir.");
-
-                if (kullanici.AktifMi == false)
-                    return new Result(false, "Aktif Üyeliğiniz Bulunmamaktadır.");
+                if (egitmen.Isletme?.AbonelikSonlanmaTarihi < DateTime.Now)
+                    return new Result(false, "İşletmenize ait abonelik tarihiniz sonlanmıştır.");
             }
 
+            // Kullanıcı doğrulandı, token oluştur
             Token token = _tokenService.CreateAccessToken();
 
-            switch (kullanici.Statu)
+            object kullaniciDto = null;
+
+            if (admin != null)
             {
-                case Statu.Admin:
-                    var adminDto = new AdminDto
-                    {
-                        KullaniciId = kullanici.KullaniciId,
-                        Ad = kullanici.Ad,
-                        Soyad = kullanici.Soyad,
-                        TelefonNo = kullanici.TelefonNo,
-                        DogumTarihi = kullanici.DogumTarihi,
-                        Rol = "Admin",
-                        Token = token.AccessToken
-                    };
-                    return new Result(true, "Giriş Başarılı", adminDto);
-
-                case Statu.Isletme:
-                    var isletmeDto = new IsletmeDto
-                    {
-                        KullaniciId = kullanici.KullaniciId,
-                        Ad = kullanici.Ad,
-                        TelefonNo = kullanici.TelefonNo,
-                        AbonelikSonlanmaTarihi = kullanici.AbonelikSonlanmaTarihi,
-                        AktifMi = kullanici.AktifMi,
-                        Rol = "İşletme",
-                        Token = token.AccessToken
-                    };
-                    return new Result(true, "Giriş Başarılı", isletmeDto);
-
-                case Statu.Egitmen:
-                    var egitmenDto = new EgitmenDto
-                    {
-                        KullaniciId = kullanici.KullaniciId,
-                        Ad = kullanici.Ad,
-                        Soyad = kullanici.Soyad,
-                        TelefonNo = kullanici.TelefonNo,
-                        DogumTarihi = kullanici.DogumTarihi,
-                        IsletmeId = kullanici.IsletmeId,
-                        AktifMi = kullanici.AktifMi,
-                        Rol = "Eğitmen",
-                        Token = token.AccessToken
-                    };
-                    return new Result(true, "Giriş Başarılı", egitmenDto);
-
-                case Statu.Uye:
-                    var uyeDto = new UyeDto
-                    {
-                        KullaniciId = kullanici.KullaniciId,
-                        Ad = kullanici.Ad,
-                        Soyad = kullanici.Soyad,
-                        TelefonNo = kullanici.TelefonNo,
-                        KalanDersSayisi = kullanici.KalanDersSayisi,
-                        DogumTarihi = kullanici.DogumTarihi,
-                        IsletmeId = kullanici.IsletmeId,
-                        EgitmenId = kullanici.EgitmenId,
-                        AktifMi = kullanici.AktifMi,
-                        Rol = "Üye",
-                        Token = token.AccessToken
-                    };
-                    return new Result(true, "Giriş Başarılı", uyeDto);
-
-                default:
-                    return new Result(false, "Geçersiz Kullanıcı Statüsü");
+                kullaniciDto = new AdminDto
+                {
+                    AdminId = admin.AdminId,
+                    Ad = admin.Ad,
+                    Soyad = admin.Soyad,
+                    Rol = "Admin",
+                    Token = token.AccessToken
+                };
             }
+            else if (isletme != null)
+            {
+                kullaniciDto = new IsletmeDto
+                {
+                    IsletmeId = isletme.IsletmeId,
+                    Ad = isletme.Ad,
+                    TelefonNo = isletme.TelefonNo,
+                    AbonelikSonlanmaTarihi = isletme.AbonelikSonlanmaTarihi,
+                    AktifMi = isletme.AktifMi,
+                    Rol = "İşletme",
+                    Token = token.AccessToken
+                };
+            }
+            else if (egitmen != null)
+            {
+                kullaniciDto = new EgitmenDto
+                {
+                    EgitmenId = egitmen.EgitmenId,
+                    Ad = egitmen.Ad,
+                    Soyad = egitmen.Soyad,
+                    TelefonNo = egitmen.TelefonNo,
+                    IsletmeId = egitmen.IsletmeId,
+                    AktifMi = egitmen.AktifMi,
+                    Rol = "Eğitmen",
+                    Token = token.AccessToken
+                };
+            }
+
+            return new Result(true, "Giriş başarılı", kullaniciDto);
         }
         catch (Exception ex)
         {

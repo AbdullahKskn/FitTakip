@@ -5,21 +5,22 @@ using FitTakip.Application.Interfaces.Repositories;
 using FitTakip.Application.Interfaces.Services;
 using FitTakip.Application.Parametre;
 using FitTakip.Domain.Entities;
-using FitTakip.Domain.Enum;
 
 namespace FitTakip.Persistence.Service;
 
 public class AdminService : IAdminService
 {
-    private readonly IRepository<Kullanici> _repository;
+    private readonly IRepository<Admin> _repositoryAdmin;
+    private readonly IRepository<Isletme> _repositoryIsletme;
     private readonly AuthService _authService;
     private readonly IKullaniciRepository _kullaniciRepository;
 
-    public AdminService(IRepository<Kullanici> repository, IKullaniciRepository kullaniciRepository, AuthService authService)
+    public AdminService(IKullaniciRepository kullaniciRepository, AuthService authService, IRepository<Admin> repositoryAdmin, IRepository<Isletme> repositoryIsletme)
     {
-        _repository = repository;
         _kullaniciRepository = kullaniciRepository;
         _authService = authService;
+        _repositoryAdmin = repositoryAdmin;
+        _repositoryIsletme = repositoryIsletme;
     }
 
     public async Task<Result> AdminOlustur(AdminOlusturParametre parametre)
@@ -28,24 +29,21 @@ public class AdminService : IAdminService
         {
             var kullaniciAdiVarMi = await _kullaniciRepository.KullaniciAdiVarMiAsync(parametre.KullaniciAdi);
 
-            if (kullaniciAdiVarMi != null)
+            if (kullaniciAdiVarMi == true)
                 return new Result(false, "Sisteme Kayıtlı Bu Kullanıcı Adı Bulunmaktadır.");
 
             var sifreKarmasi = _authService.HashPassword(parametre.Sifre);
 
-            var admin = new Kullanici
+            var admin = new Admin
             {
                 Ad = parametre.Ad,
                 Soyad = parametre.Soyad,
-                TelefonNo = parametre.TelefonNo,
                 KullaniciAdi = parametre.KullaniciAdi,
                 SifreKarmasi = sifreKarmasi,
-                DogumTarihi = parametre.DogumTarihi,
-                Statu = Statu.Admin,
                 AktifMi = true,
             };
 
-            await _repository.CreateAsync(admin);
+            await _repositoryAdmin.CreateAsync(admin);
 
             return new Result(true, "Admin Başarıyla Oluşturuldu.");
         }
@@ -59,9 +57,9 @@ public class AdminService : IAdminService
     {
         try
         {
-            var admin = await _repository.GetByIdAsync(parametre.AdminId);
+            var admin = await _repositoryAdmin.GetByIdAsync(parametre.AdminId);
 
-            if (admin == null || admin.Statu != Statu.Admin)
+            if (admin == null)
                 return new Result(false, "Sisteme Kayıtlı Admin Bulunamadı.");
 
             if (!string.IsNullOrWhiteSpace(parametre.KullaniciAdi) && parametre.KullaniciAdi != admin.KullaniciAdi)
@@ -79,11 +77,9 @@ public class AdminService : IAdminService
 
             admin.Ad = parametre.Ad ?? admin.Ad;
             admin.Soyad = parametre.Soyad ?? admin.Soyad;
-            admin.TelefonNo = parametre.TelefonNo ?? admin.TelefonNo;
             admin.KullaniciAdi = parametre.KullaniciAdi ?? admin.KullaniciAdi;
-            admin.DogumTarihi = parametre.DogumTarihi ?? admin.DogumTarihi;
 
-            await _repository.UpdateAsync(admin);
+            await _repositoryAdmin.UpdateAsync(admin);
 
             return new Result(true, "Admin Başarıyla Güncellendi.");
         }
@@ -97,14 +93,14 @@ public class AdminService : IAdminService
     {
         try
         {
-            var admin = await _repository.GetByIdAsync(AdminId);
+            var admin = await _repositoryAdmin.GetByIdAsync(AdminId);
 
-            if (admin == null || admin.Statu != Statu.Admin)
+            if (admin == null)
                 return new Result(false, "Sisteme Kayıtlı Admin Bulunamadı.");
 
             admin.AktifMi = false;
 
-            await _repository.UpdateAsync(admin);
+            await _repositoryAdmin.UpdateAsync(admin);
 
             return new Result(true, "Admin Başarıyla Silindi.");
         }
@@ -125,12 +121,10 @@ public class AdminService : IAdminService
 
             var adminDto = adminler.Select(s => new AdminDto
             {
-                KullaniciId = s.KullaniciId,
+                AdminId = s.AdminId,
                 Ad = s.Ad,
                 Soyad = s.Soyad,
-                TelefonNo = s.TelefonNo,
-                DogumTarihi = s.DogumTarihi,
-            }).OrderBy(o => o.Ad).ToList();
+            }).ToList();
 
             return new Result(true, "Adminleri Getirme Başarılı", adminDto);
         }
@@ -146,24 +140,23 @@ public class AdminService : IAdminService
         {
             var kullaniciAdiVarMi = await _kullaniciRepository.KullaniciAdiVarMiAsync(parametre.KullaniciAdi);
 
-            if (kullaniciAdiVarMi != null)
+            if (kullaniciAdiVarMi == true)
                 return new Result(false, "Sisteme Kayıtlı Bu Kullanıcı Adı Bulunmaktadır.");
 
             var sifreKarmasi = _authService.HashPassword(parametre.Sifre);
             var abonelikSonlanmaTarihi = DateTime.Now.AddYears(parametre.AbonelikYilEkle);
 
-            var isletme = new Kullanici
+            var isletme = new Isletme
             {
                 Ad = parametre.Ad,
                 TelefonNo = parametre.TelefonNo,
                 KullaniciAdi = parametre.KullaniciAdi,
                 SifreKarmasi = sifreKarmasi,
                 AbonelikSonlanmaTarihi = abonelikSonlanmaTarihi,
-                Statu = Statu.Isletme,
                 AktifMi = true
             };
 
-            await _repository.CreateAsync(isletme);
+            await _repositoryIsletme.CreateAsync(isletme);
 
             return new Result(true, "İşletme Başarıyla Kaydedildi");
         }
@@ -177,9 +170,9 @@ public class AdminService : IAdminService
     {
         try
         {
-            var isletme = await _repository.GetByIdAsync(parametre.IsletmeId);
+            var isletme = await _repositoryIsletme.GetByIdAsync(parametre.IsletmeId);
 
-            if (isletme == null || isletme.Statu != Statu.Isletme)
+            if (isletme == null)
                 return new Result(false, "Sisteme Kayıtlı İşletme Bulunamadı.");
 
             if (!string.IsNullOrWhiteSpace(parametre.KullaniciAdi) && parametre.KullaniciAdi != isletme.KullaniciAdi)
@@ -200,7 +193,7 @@ public class AdminService : IAdminService
             isletme.TelefonNo = parametre.TelefonNo ?? isletme.TelefonNo;
             isletme.KullaniciAdi = parametre.KullaniciAdi ?? isletme.KullaniciAdi;
 
-            await _repository.UpdateAsync(isletme);
+            await _repositoryIsletme.UpdateAsync(isletme);
 
             return new Result(true, "İşletme Başarıyla Güncellendi.");
         }
@@ -214,14 +207,14 @@ public class AdminService : IAdminService
     {
         try
         {
-            var isletme = await _repository.GetByIdAsync(IsletmeId);
+            var isletme = await _repositoryIsletme.GetByIdAsync(IsletmeId);
 
-            if (isletme == null || isletme.Statu != Statu.Isletme)
+            if (isletme == null)
                 return new Result(false, "Sisteme Kayıtlı İşletme Bulunamadı.");
 
             isletme.AktifMi = false;
 
-            await _repository.UpdateAsync(isletme);
+            await _repositoryIsletme.UpdateAsync(isletme);
 
             return new Result(true, "İşletme Başarıyla Silindi.");
 
@@ -236,18 +229,18 @@ public class AdminService : IAdminService
     {
         try
         {
-            var isletme = await _repository.GetByIdAsync(parametre.IsletmeId);
+            var isletme = await _repositoryIsletme.GetByIdAsync(parametre.IsletmeId);
 
             if (isletme == null)
                 return new Result(false, "İşletme Bulunamadı.");
 
             if (isletme.AbonelikSonlanmaTarihi > DateTime.Now)
-                isletme.AbonelikSonlanmaTarihi = isletme.AbonelikSonlanmaTarihi.Value.AddYears(parametre.EklenecekYil);
+                isletme.AbonelikSonlanmaTarihi = isletme.AbonelikSonlanmaTarihi.AddYears(parametre.EklenecekYil);
 
             if (isletme.AbonelikSonlanmaTarihi < DateTime.Now)
                 isletme.AbonelikSonlanmaTarihi = DateTime.Now.AddYears(parametre.EklenecekYil);
 
-            await _repository.UpdateAsync(isletme);
+            await _repositoryIsletme.UpdateAsync(isletme);
 
             return new Result(true, "İşletmenin abonelik süresi başarıyla uzatıldı.");
         }
@@ -268,7 +261,7 @@ public class AdminService : IAdminService
 
             var isletmeDto = isletmeler.Select(s => new IsletmeDto
             {
-                KullaniciId = s.KullaniciId,
+                IsletmeId = s.IsletmeId,
                 Ad = s.Ad,
                 TelefonNo = s.TelefonNo,
                 AbonelikSonlanmaTarihi = s.AbonelikSonlanmaTarihi,

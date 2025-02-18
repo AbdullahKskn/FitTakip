@@ -5,13 +5,12 @@ using FitTakip.Application.Interfaces.Repositories;
 using FitTakip.Application.Interfaces.Services;
 using FitTakip.Application.Parametre;
 using FitTakip.Domain.Entities;
-using FitTakip.Domain.Enum;
 
 namespace FitTakip.Persistence.Service;
 
 public class EgitmenService : IEgitmenService
 {
-    private readonly IRepository<Kullanici> _repositoryKullanici;
+    private readonly IRepository<Uye> _repositoryUye;
     private readonly IKullaniciRepository _kullaniciRepository;
     private readonly AuthService _authService;
     private readonly IRepository<Randevu> _repositoryRandevu;
@@ -19,9 +18,9 @@ public class EgitmenService : IEgitmenService
     private readonly IRandevuRepository _randevuRepository;
     private readonly IOlcumRepository _olcumRepository;
 
-    public EgitmenService(IRepository<Kullanici> repositoryKullanici, IKullaniciRepository kullaniciRepository, AuthService authService, IRepository<Randevu> repositoryRandevu, IRepository<Olcum> repositoryOlcum, IRandevuRepository randevuRepository, IOlcumRepository olcumRepository)
+    public EgitmenService(IRepository<Uye> repositoryUye, IKullaniciRepository kullaniciRepository, AuthService authService, IRepository<Randevu> repositoryRandevu, IRepository<Olcum> repositoryOlcum, IRandevuRepository randevuRepository, IOlcumRepository olcumRepository)
     {
-        _repositoryKullanici = repositoryKullanici;
+        _repositoryUye = repositoryUye;
         _kullaniciRepository = kullaniciRepository;
         _authService = authService;
         _repositoryRandevu = repositoryRandevu;
@@ -34,29 +33,18 @@ public class EgitmenService : IEgitmenService
     {
         try
         {
-            var kullaniciAdiVarMi = await _kullaniciRepository.KullaniciAdiVarMiAsync(parametre.KullaniciAdi);
-
-            if (kullaniciAdiVarMi != null)
-                return new Result(false, "Sisteme Kayıtlı Bu Kullanıcı Adı Bulunmaktadır.");
-
-            var sifreKarmasi = _authService.HashPassword(parametre.Sifre);
-
-            var uye = new Kullanici
+            var uye = new Uye
             {
                 Ad = parametre.Ad,
                 Soyad = parametre.Soyad,
                 TelefonNo = parametre.TelefonNo,
-                KullaniciAdi = parametre.KullaniciAdi,
-                SifreKarmasi = sifreKarmasi,
                 KalanDersSayisi = parametre.DersSayisi,
-                DogumTarihi = parametre.DogumTarihi,
                 IsletmeId = parametre.IsletmeId,
                 EgitmenId = parametre.EgitmenId,
-                Statu = Statu.Uye,
                 AktifMi = true
             };
 
-            await _repositoryKullanici.CreateAsync(uye);
+            await _repositoryUye.CreateAsync(uye);
 
             return new Result(true, "Üye Başarıyla Oluşturuldu");
         }
@@ -70,34 +58,17 @@ public class EgitmenService : IEgitmenService
     {
         try
         {
-            var uye = await _repositoryKullanici.GetByIdAsync(parametre.UyeId);
+            var uye = await _repositoryUye.GetByIdAsync(parametre.UyeId);
 
             if (uye == null)
                 return new Result(false, "Üye Bulunamadı.");
-
-            if (!string.IsNullOrWhiteSpace(parametre.KullaniciAdi))
-            {
-                var kullaniciAdiVarMi = await _kullaniciRepository.KullaniciAdiVarMiAsync(parametre.KullaniciAdi);
-
-                if (kullaniciAdiVarMi != null)
-                    return new Result(false, "Sisteme Kayıtlı Bu Kullanıcı Adı Bulunmaktadır.");
-
-                uye.KullaniciAdi = parametre.KullaniciAdi;
-            }
-
-            if (!string.IsNullOrWhiteSpace(parametre.Sifre))
-            {
-                var sifreKarmasi = _authService.HashPassword(parametre.Sifre);
-                uye.SifreKarmasi = sifreKarmasi;
-            }
 
             uye.Ad = parametre.Ad ?? uye.Ad;
             uye.Soyad = parametre.Soyad ?? uye.Soyad;
             uye.TelefonNo = parametre.TelefonNo ?? uye.TelefonNo;
             uye.KalanDersSayisi = parametre.DersSayisi ?? uye.KalanDersSayisi;
-            uye.DogumTarihi = parametre.DogumTarihi ?? uye.DogumTarihi;
 
-            await _repositoryKullanici.UpdateAsync(uye);
+            await _repositoryUye.UpdateAsync(uye);
 
             return new Result(true, "Üye Bilgileri Başarıyla Güncellendi.");
         }
@@ -111,14 +82,14 @@ public class EgitmenService : IEgitmenService
     {
         try
         {
-            var uye = await _repositoryKullanici.GetByIdAsync(UyeId);
+            var uye = await _repositoryUye.GetByIdAsync(UyeId);
 
             if (uye == null)
                 return new Result(false, "Üye Bulunamadı.");
 
             uye.AktifMi = false;
 
-            await _repositoryKullanici.UpdateAsync(uye);
+            await _repositoryUye.UpdateAsync(uye);
 
             return new Result(true, "Üye Başarıyla Silindi");
         }

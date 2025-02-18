@@ -22,6 +22,84 @@ namespace FitTakip.Persistence.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("FitTakip.Domain.Entities.Admin", b =>
+                {
+                    b.Property<int>("AdminId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("AdminId"));
+
+                    b.Property<string>("Ad")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("AktifMi")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("KullaniciAdi")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("SifreKarmasi")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Soyad")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("AdminId");
+
+                    b.HasIndex("KullaniciAdi")
+                        .IsUnique();
+
+                    b.ToTable("Adminler");
+                });
+
+            modelBuilder.Entity("FitTakip.Domain.Entities.Egitmen", b =>
+                {
+                    b.Property<int>("EgitmenId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("EgitmenId"));
+
+                    b.Property<string>("Ad")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("AktifMi")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("IsletmeId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("KullaniciAdi")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("SifreKarmasi")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Soyad")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("TelefonNo")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("EgitmenId");
+
+                    b.HasIndex("IsletmeId");
+
+                    b.HasIndex("KullaniciAdi")
+                        .IsUnique();
+
+                    b.ToTable("Egitmenler");
+                });
+
             modelBuilder.Entity("FitTakip.Domain.Entities.Gelir", b =>
                 {
                     b.Property<int>("GelirId")
@@ -74,15 +152,15 @@ namespace FitTakip.Persistence.Migrations
                     b.ToTable("Giderler");
                 });
 
-            modelBuilder.Entity("FitTakip.Domain.Entities.Kullanici", b =>
+            modelBuilder.Entity("FitTakip.Domain.Entities.Isletme", b =>
                 {
-                    b.Property<int>("KullaniciId")
+                    b.Property<int>("IsletmeId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("KullaniciId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IsletmeId"));
 
-                    b.Property<DateTime?>("AbonelikSonlanmaTarihi")
+                    b.Property<DateTime>("AbonelikSonlanmaTarihi")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Ad")
@@ -92,40 +170,24 @@ namespace FitTakip.Persistence.Migrations
                     b.Property<bool>("AktifMi")
                         .HasColumnType("bit");
 
-                    b.Property<DateTime?>("DogumTarihi")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int?>("EgitmenId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("IsletmeId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("KalanDersSayisi")
-                        .HasColumnType("int");
-
                     b.Property<string>("KullaniciAdi")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("SifreKarmasi")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Soyad")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Statu")
-                        .HasColumnType("int");
-
                     b.Property<string>("TelefonNo")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("KullaniciId");
+                    b.HasKey("IsletmeId");
 
-                    b.HasIndex("EgitmenId");
+                    b.HasIndex("KullaniciAdi")
+                        .IsUnique();
 
-                    b.ToTable("Kullanicilar");
+                    b.ToTable("Isletmeler");
                 });
 
             modelBuilder.Entity("FitTakip.Domain.Entities.Olcum", b =>
@@ -149,8 +211,7 @@ namespace FitTakip.Persistence.Migrations
                         .HasColumnType("int");
 
                     b.Property<decimal>("Kilo")
-                        .HasPrecision(5, 2)
-                        .HasColumnType("decimal(5,2)");
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<int>("Omuz")
                         .HasColumnType("int");
@@ -209,22 +270,63 @@ namespace FitTakip.Persistence.Migrations
                     b.ToTable("Randevular");
                 });
 
-            modelBuilder.Entity("FitTakip.Domain.Entities.Kullanici", b =>
+            modelBuilder.Entity("FitTakip.Domain.Entities.Uye", b =>
                 {
-                    b.HasOne("FitTakip.Domain.Entities.Kullanici", "Egitmen")
-                        .WithMany("Uyeler")
-                        .HasForeignKey("EgitmenId")
-                        .OnDelete(DeleteBehavior.NoAction);
+                    b.Property<int>("UyeId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
 
-                    b.Navigation("Egitmen");
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UyeId"));
+
+                    b.Property<string>("Ad")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("AktifMi")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("EgitmenId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("IsletmeId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("KalanDersSayisi")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Soyad")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("TelefonNo")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("UyeId");
+
+                    b.HasIndex("EgitmenId");
+
+                    b.HasIndex("IsletmeId");
+
+                    b.ToTable("Uyeler");
+                });
+
+            modelBuilder.Entity("FitTakip.Domain.Entities.Egitmen", b =>
+                {
+                    b.HasOne("FitTakip.Domain.Entities.Isletme", "Isletme")
+                        .WithMany("Egitmenler")
+                        .HasForeignKey("IsletmeId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("Isletme");
                 });
 
             modelBuilder.Entity("FitTakip.Domain.Entities.Olcum", b =>
                 {
-                    b.HasOne("FitTakip.Domain.Entities.Kullanici", "Uye")
-                        .WithMany("UyeOlcumleri")
+                    b.HasOne("FitTakip.Domain.Entities.Uye", "Uye")
+                        .WithMany("Olcumler")
                         .HasForeignKey("UyeId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Uye");
@@ -232,14 +334,14 @@ namespace FitTakip.Persistence.Migrations
 
             modelBuilder.Entity("FitTakip.Domain.Entities.Randevu", b =>
                 {
-                    b.HasOne("FitTakip.Domain.Entities.Kullanici", "Egitmen")
-                        .WithMany("EgitmenRandevulari")
+                    b.HasOne("FitTakip.Domain.Entities.Egitmen", "Egitmen")
+                        .WithMany("Randevular")
                         .HasForeignKey("EgitmenId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
-                    b.HasOne("FitTakip.Domain.Entities.Kullanici", "Uye")
-                        .WithMany("UyeRandevulari")
+                    b.HasOne("FitTakip.Domain.Entities.Uye", "Uye")
+                        .WithMany("Randevular")
                         .HasForeignKey("UyeId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
@@ -249,15 +351,44 @@ namespace FitTakip.Persistence.Migrations
                     b.Navigation("Uye");
                 });
 
-            modelBuilder.Entity("FitTakip.Domain.Entities.Kullanici", b =>
+            modelBuilder.Entity("FitTakip.Domain.Entities.Uye", b =>
                 {
-                    b.Navigation("EgitmenRandevulari");
+                    b.HasOne("FitTakip.Domain.Entities.Egitmen", "Egitmen")
+                        .WithMany("Uyeler")
+                        .HasForeignKey("EgitmenId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
 
-                    b.Navigation("UyeOlcumleri");
+                    b.HasOne("FitTakip.Domain.Entities.Isletme", "Isletme")
+                        .WithMany("Uyeler")
+                        .HasForeignKey("IsletmeId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
 
-                    b.Navigation("UyeRandevulari");
+                    b.Navigation("Egitmen");
+
+                    b.Navigation("Isletme");
+                });
+
+            modelBuilder.Entity("FitTakip.Domain.Entities.Egitmen", b =>
+                {
+                    b.Navigation("Randevular");
 
                     b.Navigation("Uyeler");
+                });
+
+            modelBuilder.Entity("FitTakip.Domain.Entities.Isletme", b =>
+                {
+                    b.Navigation("Egitmenler");
+
+                    b.Navigation("Uyeler");
+                });
+
+            modelBuilder.Entity("FitTakip.Domain.Entities.Uye", b =>
+                {
+                    b.Navigation("Olcumler");
+
+                    b.Navigation("Randevular");
                 });
 #pragma warning restore 612, 618
         }

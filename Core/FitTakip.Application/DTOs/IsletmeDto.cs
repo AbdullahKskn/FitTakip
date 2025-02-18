@@ -4,11 +4,11 @@ namespace FitTakip.Application.DTOs;
 
 public class IsletmeDto
 {
-    public int KullaniciId { get; set; }
-    public string Ad { get; set; } = null!; // Isletme, Egitmen ve Uye ortak
-    public string? TelefonNo { get; set; } // Ortak
-    public DateTime? AbonelikSonlanmaTarihi { get; set; } // Isletme için geçerli
-    public bool AktifMi { get; set; } // Ortak
+    public int IsletmeId { get; set; }
+    public string Ad { get; set; } = null!;
+    public string TelefonNo { get; set; } = null!;
+    public DateTime AbonelikSonlanmaTarihi { get; set; }
+    public bool AktifMi { get; set; }
     public string Rol { get; set; } = null!;
     public string Token { get; set; } = null!;
 }

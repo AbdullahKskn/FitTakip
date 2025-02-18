@@ -10,6 +10,6 @@ public class Randevu
     public DateTime Tarih { get; set; }
     public string? Aciklama { get; set; }
 
-    public Kullanici Uye { get; set; } = null!;
-    public Kullanici Egitmen { get; set; } = null!;
+    public Uye Uye { get; set; } = null!;
+    public Egitmen Egitmen { get; set; } = null!;
 }
