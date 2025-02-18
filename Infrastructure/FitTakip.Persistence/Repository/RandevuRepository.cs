@@ -1,3 +1,4 @@
+using FitTakip.Application.Common;
 using FitTakip.Application.Interfaces.Repositories;
 using FitTakip.Domain.Entities;
 using FitTakip.Persistence.Context;
@@ -31,5 +32,12 @@ public class RandevuRepository : IRandevuRepository
         var baslangicTarih = BaslangicTarih.Date;
         var bitisTarih = BitisTarih.Date.AddHours(23).AddMinutes(59).AddSeconds(59);
         return await _context.Randevular.AsNoTracking().Where(w => w.UyeId == UyeId && w.Tarih >= baslangicTarih && w.Tarih <= bitisTarih).OrderByDescending(o => o.Tarih).Skip(Baslangic).Take(Adet).ToListAsync();
+    }
+
+    public async Task<DateTime?> SonRandevuGetirAsync(int UyeId)
+    {
+        var sonRandevu = await _context.Randevular.Where(w => w.UyeId == UyeId).OrderByDescending(o => o.Tarih).FirstOrDefaultAsync();
+
+        return sonRandevu?.Tarih;
     }
 }

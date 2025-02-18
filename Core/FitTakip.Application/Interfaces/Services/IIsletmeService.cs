@@ -22,4 +22,5 @@ public interface IIsletmeService
     Task<Result> GiderleriTariheGöreGetirPagination(int IsletmeId, DateTime BaslangicTarihi, DateTime BitisTarihi, int Baslangic, int Adet);
     Task<Result> GiderleriTariheGöreTopla(int IsletmeId, DateTime BaslangicTarihi, DateTime BitisTarihi);
     Task<Result> TumGelirGiderToplami(int IsletmeId);
+    Task<Result> PotansiyelMusterileriGetirPagination(int IsletmeId, int Baslangic, int Adet);
 }

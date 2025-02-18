@@ -30,27 +30,31 @@ public class KullaniciRepository : IKullaniciRepository
     }
     public async Task<List<Isletme>> IsletmeleriGetirPaginationAsync(int Baslangic, int Adet)
     {
-        return await _context.Isletmeler.AsNoTracking().Skip(Baslangic).Take(Adet).ToListAsync();
+        return await _context.Isletmeler.AsNoTracking().OrderBy(o => o.Ad).Skip(Baslangic).Take(Adet).ToListAsync();
     }
 
     public async Task<List<Egitmen>> TumEgitmenleriGetirAsync(int IsletmeId)
     {
-        return await _context.Egitmenler.AsNoTracking().Where(w => w.IsletmeId == IsletmeId && w.AktifMi == true).ToListAsync();
+        return await _context.Egitmenler.AsNoTracking().Where(w => w.IsletmeId == IsletmeId && w.AktifMi == true).OrderBy(o => o.Ad).ToListAsync();
     }
 
     public async Task<List<Uye>> TumUyeleriGetirAsync(int IsletmeId)
     {
-        return await _context.Uyeler.AsNoTracking().Where(w => w.IsletmeId == IsletmeId && w.AktifMi == true).ToListAsync();
+        return await _context.Uyeler.AsNoTracking().Where(w => w.IsletmeId == IsletmeId && w.AktifMi == true).OrderBy(o => o.Ad).ToListAsync();
     }
 
     public async Task<List<Egitmen>> EgitmenleriGetirPaginationAsync(int IsletmeId, int Baslangic, int Adet)
     {
-        return await _context.Egitmenler.AsNoTracking().Where(w => w.IsletmeId == IsletmeId && w.AktifMi == true).Skip(Baslangic).Take(Adet).ToListAsync();
+        return await _context.Egitmenler.AsNoTracking().Where(w => w.IsletmeId == IsletmeId && w.AktifMi == true).OrderBy(o => o.Ad).Skip(Baslangic).Take(Adet).ToListAsync();
     }
 
     public async Task<List<Uye>> UyeleriGetirPaginationAsync(int IsletmeId, int Baslangic, int Adet)
     {
-        return await _context.Uyeler.AsNoTracking().Where(w => w.IsletmeId == IsletmeId && w.AktifMi == true).Include(i => i.Egitmen).Skip(Baslangic).Take(Adet).ToListAsync();
+        return await _context.Uyeler.AsNoTracking().Where(w => w.IsletmeId == IsletmeId && w.AktifMi == true).OrderBy(o => o.Ad).Include(i => i.Egitmen).Skip(Baslangic).Take(Adet).ToListAsync();
     }
 
+    public async Task<List<Uye>> PotansiyelMusterileriGetirPaginationAsync(int IsletmeId, int Baslangic, int Adet)
+    {
+        return await _context.Uyeler.AsNoTracking().Where(w => w.IsletmeId == IsletmeId && w.KalanDersSayisi < 4).OrderBy(o => o.Ad).Skip(Baslangic).Take(Adet).ToListAsync();
+    }
 }

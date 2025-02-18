@@ -129,5 +129,12 @@ namespace FitTakip.API.Controller
             var values = await _ısletmeService.TumGelirGiderToplami(IsletmeId);
             return Ok(values);
         }
+
+        [HttpGet("[Action]")]
+        public async Task<IActionResult> PotansiyelMusterileriGetirPagination(int IsletmeId, int Baslangic, int Adet)
+        {
+            var values = await _ısletmeService.PotansiyelMusterileriGetirPagination(IsletmeId, Baslangic, Adet);
+            return Ok(values);
+        }
     }
 }

@@ -1,4 +1,5 @@
 using System;
+using System.Net.Sockets;
 using FitTakip.Application.Common;
 using FitTakip.Application.DTOs;
 using FitTakip.Application.Interfaces.Repositories;
@@ -17,9 +18,10 @@ public class IsletmeService : IIsletmeService
     private readonly IKullaniciRepository _kullaniciRepository;
     private readonly IGelirRepository _gelirRepository;
     private readonly IGiderRepository _giderRepository;
+    private readonly IRandevuRepository _randevuRepository;
     private readonly AuthService _authService;
 
-    public IsletmeService(IRepository<Isletme> repositoryIsletme, IKullaniciRepository kullaniciRepository, AuthService authService, IRepository<Gelir> repositoryGelir, IGelirRepository gelirRepository, IRepository<Gider> repositoryGider, IGiderRepository giderRepository, IRepository<Egitmen> repositoryEgitmen)
+    public IsletmeService(IRepository<Isletme> repositoryIsletme, IKullaniciRepository kullaniciRepository, AuthService authService, IRepository<Gelir> repositoryGelir, IGelirRepository gelirRepository, IRepository<Gider> repositoryGider, IGiderRepository giderRepository, IRepository<Egitmen> repositoryEgitmen, IRandevuRepository randevuRepository)
     {
         _repositoryIsletme = repositoryIsletme;
         _kullaniciRepository = kullaniciRepository;
@@ -29,6 +31,7 @@ public class IsletmeService : IIsletmeService
         _repositoryGider = repositoryGider;
         _giderRepository = giderRepository;
         _repositoryEgitmen = repositoryEgitmen;
+        _randevuRepository = randevuRepository;
     }
 
     public async Task<Result> EgitmenOlustur(EgitmenOlusturParametre parametre)
@@ -390,6 +393,41 @@ public class IsletmeService : IIsletmeService
 
             var sonuc = gelir - gider;
             return new Result(true, "Toplam Gelir Gider Sonucu Getirme Başarılı", sonuc);
+        }
+        catch (Exception ex)
+        {
+            return new Result(false, ex.Message);
+        }
+    }
+
+    public async Task<Result> PotansiyelMusterileriGetirPagination(int IsletmeId, int Baslangic, int Adet)
+    {
+        try
+        {
+            var potansiyelMusteriler = await _kullaniciRepository.PotansiyelMusterileriGetirPaginationAsync(IsletmeId, Baslangic, Adet);
+
+            if (!potansiyelMusteriler.Any())
+                return new Result(false, "Potansiyel Müşteri Bulunamadı.");
+
+            var uyeDurum = new List<object>(); 
+
+            foreach (var s in potansiyelMusteriler)
+            {
+                var sonDersTarihi = await _randevuRepository.SonRandevuGetirAsync(s.UyeId);
+                var gecenGunSayisi = (DateTime.Now - sonDersTarihi.GetValueOrDefault()).Days; // Null kontrolü
+
+                uyeDurum.Add(new
+                {
+                    UyeId = s.UyeId,
+                    Ad = s.Ad,
+                    Soyad = s.Soyad,
+                    TelefonNo = s.TelefonNo,
+                    SonDersTarihi = sonDersTarihi,
+                    GecenGunSayisi = gecenGunSayisi
+                });
+            }
+
+            return new Result(true, "Başarıyla getirildi.", uyeDurum);
         }
         catch (Exception ex)
         {
