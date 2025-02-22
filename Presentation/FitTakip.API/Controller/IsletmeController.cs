@@ -136,5 +136,40 @@ namespace FitTakip.API.Controller
             var values = await _ısletmeService.PotansiyelMusterileriGetirPagination(IsletmeId, Baslangic, Adet);
             return Ok(values);
         }
+
+        [HttpPost("[Action]")]
+        public async Task<IActionResult> PaketEkle(PaketEkleParametre parametre)
+        {
+            var values = await _ısletmeService.PaketEkle(parametre);
+            return Ok(values);
+        }
+
+        [HttpDelete("[Action]")]
+        public async Task<IActionResult> PaketSil(int PaketId)
+        {
+            var values = await _ısletmeService.PaketSil(PaketId);
+            return Ok(values);
+        }
+
+        [HttpGet("[Action]")]
+        public async Task<IActionResult> PaketleriGetir(int IsletmeId)
+        {
+            var values = await _ısletmeService.PaketleriGetir(IsletmeId);
+            return Ok(values);
+        }
+
+        [HttpGet("[Action]")]
+        public async Task<IActionResult> EgitmenTariheGöreDersSayisiGetir(int EgitmenId, DateTime BaslangicTarih, DateTime BitisTarih)
+        {
+            var values = await _ısletmeService.EgitmenTariheGöreDersSayisiGetir(EgitmenId, BaslangicTarih, BitisTarih);
+            return Ok(values);
+        }
+
+        [HttpGet("[Action]")]
+        public async Task<IActionResult> EgitmenMaasHesapla(int EgitmenId, DateTime BaslangicTarih, DateTime BitisTarih, int KomisyonOrani)
+        {
+            var values = await _ısletmeService.EgitmenMaasHesapla(EgitmenId, BaslangicTarih, BitisTarih, KomisyonOrani);
+            return Ok(values);
+        }
     }
 }

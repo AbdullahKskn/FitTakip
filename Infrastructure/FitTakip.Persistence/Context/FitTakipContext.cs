@@ -25,6 +25,7 @@ public class FitTakipContext : DbContext
     public DbSet<Olcum> Olcumler { get; set; } = null!;
     public DbSet<Gelir> Gelirler { get; set; } = null!;
     public DbSet<Gider> Giderler { get; set; } = null!;
+    public DbSet<Paket> Paketler { get; set; } = null!;
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -71,6 +72,20 @@ public class FitTakipContext : DbContext
             .HasOne(r => r.Egitmen)
             .WithMany(e => e.Randevular)
             .HasForeignKey(r => r.EgitmenId)
+            .OnDelete(DeleteBehavior.NoAction);
+
+        // Paket - Isletme ilişkisi (One-to-Many)
+        modelBuilder.Entity<Paket>()
+            .HasOne(p => p.Isletme)
+            .WithMany(i => i.Paketler)
+            .HasForeignKey(p => p.IsletmeId)
+            .OnDelete(DeleteBehavior.NoAction);
+
+        // Uye - Paket ilişkisi (One-to-Many)
+        modelBuilder.Entity<Uye>()
+            .HasOne(u => u.Paket)
+            .WithMany(p => p.Uyeler)
+            .HasForeignKey(u => u.PaketId)
             .OnDelete(DeleteBehavior.NoAction);
 
         // Kullanıcı Adlarını Unique Yapma

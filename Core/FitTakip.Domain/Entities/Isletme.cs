@@ -14,4 +14,5 @@ public class Isletme
 
     public ICollection<Egitmen> Egitmenler { get; set; } = null!;
     public ICollection<Uye> Uyeler { get; set; } = null!;
+    public ICollection<Paket> Paketler { get; set; } = null!;
 }

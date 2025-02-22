@@ -4,6 +4,7 @@ using FitTakip.Persistence.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FitTakip.Persistence.Migrations
 {
     [DbContext(typeof(FitTakipContext))]
-    partial class FitTakipContextModelSnapshot : ModelSnapshot
+    [Migration("20250222175703_mig_1")]
+    partial class mig_1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -325,9 +328,6 @@ namespace FitTakip.Persistence.Migrations
                     b.Property<int>("KalanDersSayisi")
                         .HasColumnType("int");
 
-                    b.Property<int>("PaketId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Soyad")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -340,8 +340,6 @@ namespace FitTakip.Persistence.Migrations
                     b.HasIndex("EgitmenId");
 
                     b.HasIndex("IsletmeId");
-
-                    b.HasIndex("PaketId");
 
                     b.ToTable("Uyeler");
                 });
@@ -412,17 +410,9 @@ namespace FitTakip.Persistence.Migrations
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
-                    b.HasOne("FitTakip.Domain.Entities.Paket", "Paket")
-                        .WithMany("Uyeler")
-                        .HasForeignKey("PaketId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
                     b.Navigation("Egitmen");
 
                     b.Navigation("Isletme");
-
-                    b.Navigation("Paket");
                 });
 
             modelBuilder.Entity("FitTakip.Domain.Entities.Egitmen", b =>
@@ -438,11 +428,6 @@ namespace FitTakip.Persistence.Migrations
 
                     b.Navigation("Paketler");
 
-                    b.Navigation("Uyeler");
-                });
-
-            modelBuilder.Entity("FitTakip.Domain.Entities.Paket", b =>
-                {
                     b.Navigation("Uyeler");
                 });
 

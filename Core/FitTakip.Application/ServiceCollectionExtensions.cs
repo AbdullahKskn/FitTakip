@@ -27,5 +27,7 @@ public static class ServiceCollectionExtensions
         services.AddValidatorsFromAssemblyContaining<GelirOlusturParametreValidator>();
         services.AddValidatorsFromAssemblyContaining<IsletmeyeKullanımSuresiEkleParametreValidator>();
         services.AddValidatorsFromAssemblyContaining<GiderOlusturParametreValidator>();
+        services.AddValidatorsFromAssemblyContaining<PaketEkleParametreValidator>();
+        services.AddValidatorsFromAssemblyContaining<UyeyePaketEkleParametreValidator>();
     }
 }

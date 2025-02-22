@@ -15,13 +15,15 @@ public class IsletmeService : IIsletmeService
     private readonly IRepository<Egitmen> _repositoryEgitmen;
     private readonly IRepository<Gelir> _repositoryGelir;
     private readonly IRepository<Gider> _repositoryGider;
+    private readonly IRepository<Paket> _repositoryPaket;
     private readonly IKullaniciRepository _kullaniciRepository;
     private readonly IGelirRepository _gelirRepository;
     private readonly IGiderRepository _giderRepository;
     private readonly IRandevuRepository _randevuRepository;
+    private readonly IPaketRepository _paketRepository;
     private readonly AuthService _authService;
 
-    public IsletmeService(IRepository<Isletme> repositoryIsletme, IKullaniciRepository kullaniciRepository, AuthService authService, IRepository<Gelir> repositoryGelir, IGelirRepository gelirRepository, IRepository<Gider> repositoryGider, IGiderRepository giderRepository, IRepository<Egitmen> repositoryEgitmen, IRandevuRepository randevuRepository)
+    public IsletmeService(IRepository<Isletme> repositoryIsletme, IKullaniciRepository kullaniciRepository, AuthService authService, IRepository<Gelir> repositoryGelir, IGelirRepository gelirRepository, IRepository<Gider> repositoryGider, IGiderRepository giderRepository, IRepository<Egitmen> repositoryEgitmen, IRandevuRepository randevuRepository, IRepository<Paket> repositoryPaket, IPaketRepository paketRepository)
     {
         _repositoryIsletme = repositoryIsletme;
         _kullaniciRepository = kullaniciRepository;
@@ -32,6 +34,8 @@ public class IsletmeService : IIsletmeService
         _giderRepository = giderRepository;
         _repositoryEgitmen = repositoryEgitmen;
         _randevuRepository = randevuRepository;
+        _repositoryPaket = repositoryPaket;
+        _paketRepository = paketRepository;
     }
 
     public async Task<Result> EgitmenOlustur(EgitmenOlusturParametre parametre)
@@ -409,7 +413,7 @@ public class IsletmeService : IIsletmeService
             if (!potansiyelMusteriler.Any())
                 return new Result(false, "Potansiyel Müşteri Bulunamadı.");
 
-            var uyeDurum = new List<object>(); 
+            var uyeDurum = new List<object>();
 
             foreach (var s in potansiyelMusteriler)
             {
@@ -428,6 +432,124 @@ public class IsletmeService : IIsletmeService
             }
 
             return new Result(true, "Başarıyla getirildi.", uyeDurum);
+        }
+        catch (Exception ex)
+        {
+            return new Result(false, ex.Message);
+        }
+    }
+
+    public async Task<Result> PaketEkle(PaketEkleParametre parametre)
+    {
+        try
+        {
+            var paket = new Paket
+            {
+                IsletmeId = parametre.IsletmeId,
+                Aciklama = parametre.Aciklama,
+                Tutar = parametre.Tutar,
+                DersSayisi = parametre.DersSayisi,
+                AktifMi = true,
+            };
+
+            await _repositoryPaket.CreateAsync(paket);
+
+            return new Result(true, "Paket Başarıyla Eklendi");
+        }
+        catch (Exception ex)
+        {
+            return new Result(false, ex.Message);
+        }
+    }
+
+    public async Task<Result> PaketSil(int PaketId)
+    {
+        try
+        {
+            var paket = await _repositoryPaket.GetByIdAsync(PaketId);
+
+            if (paket == null)
+                return new Result(false, "İşletmeye Ait Paket Bulunamadı");
+
+            paket.AktifMi = false;
+
+            await _repositoryPaket.UpdateAsync(paket);
+
+            return new Result(true, "İşletmeye Ait Paket Başarıyla Silindi.");
+        }
+        catch (Exception ex)
+        {
+            return new Result(false, ex.Message);
+        }
+    }
+
+    public async Task<Result> PaketleriGetir(int IsletmeId)
+    {
+        try
+        {
+            var paketler = await _paketRepository.IsletmeyeAitPaketleriGetirAsync(IsletmeId);
+
+            if (!paketler.Any())
+                return new Result(false, "İşletmeye Ait Paket Bulunamadı");
+
+            var paketDto = paketler.Select(s => new PaketDto
+            {
+                PaketId = s.PaketId,
+                IsletmeId = s.IsletmeId,
+                Aciklama = s.Aciklama,
+                Tutar = s.Tutar,
+                DersSayisi = s.DersSayisi,
+            }).ToList();
+
+            return new Result(true, "İşletmeye Ait Paketleri Getirme Başarılı", paketDto);
+        }
+        catch (Exception ex)
+        {
+            return new Result(false, ex.Message);
+        }
+    }
+
+    public async Task<Result> EgitmenTariheGöreDersSayisiGetir(int EgitmenId, DateTime BaslangicTarih, DateTime BitisTarih)
+    {
+        try
+        {
+            var dersSayisi = await _randevuRepository.EgitmenTariheGöreDersSayisiGetirAsync(EgitmenId, BaslangicTarih, BitisTarih);
+
+            return new Result(true, "Tarihe Göre Ders Sayısı Getirme Başarılı", dersSayisi);
+        }
+        catch (Exception ex)
+        {
+            return new Result(false, ex.Message);
+        }
+    }
+
+    public async Task<Result> EgitmenMaasHesapla(int EgitmenId, DateTime BaslangicTarih, DateTime BitisTarih, int KomisyonOrani)
+    {
+        try
+        {
+            var randevular = await _randevuRepository.EgitmenTariheGöreTumRandeculariGetirAsync(EgitmenId, BaslangicTarih, BitisTarih);
+
+            if (!randevular.Any())
+                return new Result(false, "Eğitmene Ait Belirtilen Tarihler Arasında Randevu Bulunmamaktadır.");
+
+            decimal toplamMaas = 0;
+
+            foreach (var randevu in randevular)
+            {
+                // Dersin ait olduğu paketi al
+                var paket = randevu.Uye?.Paket;
+                if (paket == null) continue; // Paket veya ders sayısı geçersizse atla
+
+                // Ders başına ücret hesapla
+                decimal dersBasinaUcret = paket.Tutar / paket.DersSayisi;
+
+                // Eğitmenin alacağı komisyon hesapla
+                decimal kazanc = dersBasinaUcret * (Convert.ToDecimal(KomisyonOrani) / 100);
+
+                toplamMaas += kazanc;
+            }
+
+            return new Result(true, "Eğitmen Maaşı Başarıyla Hesaplandı", toplamMaas);
         }
         catch (Exception ex)
         {

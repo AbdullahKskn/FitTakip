@@ -55,6 +55,6 @@ public class KullaniciRepository : IKullaniciRepository
 
     public async Task<List<Uye>> PotansiyelMusterileriGetirPaginationAsync(int IsletmeId, int Baslangic, int Adet)
     {
-        return await _context.Uyeler.AsNoTracking().Where(w => w.IsletmeId == IsletmeId && w.KalanDersSayisi < 4).OrderBy(o => o.Ad).Skip(Baslangic).Take(Adet).ToListAsync();
+        return await _context.Uyeler.AsNoTracking().Where(w => w.IsletmeId == IsletmeId && w.KalanDersSayisi <= 0).OrderBy(o => o.Ad).Skip(Baslangic).Take(Adet).ToListAsync();
     }
 }

@@ -9,4 +9,6 @@ public interface IRandevuRepository
     Task<List<Randevu?>> GunlukRandevuGetirAsync(int EgitmenId, DateTime Tarih);
     Task<List<Randevu?>> UyeyeAitRandevulariTariheGoreGetirAsync(int UyeId, DateTime BaslangicTarih, DateTime BitisTarih, int Adet, int Baslangic);
     Task<DateTime?> SonRandevuGetirAsync(int UyeId);
+    Task<int> EgitmenTariheGöreDersSayisiGetirAsync(int EgitmenId, DateTime BaslangicTarih, DateTime BitisTarih);
+    Task<List<Randevu>> EgitmenTariheGöreTumRandeculariGetirAsync(int EgitmenId, DateTime BaslangicTarih, DateTime BitisTarih);
 }

@@ -8,6 +8,7 @@ public class Uye
     public string Ad { get; set; } = null!;
     public string Soyad { get; set; } = null!;
     public string? TelefonNo { get; set; }
+    public int PaketId { get; set; }
     public int KalanDersSayisi { get; set; }
     public int IsletmeId { get; set; }
     public int EgitmenId { get; set; }
@@ -15,6 +16,7 @@ public class Uye
 
     public Isletme Isletme { get; set; } = null!;
     public Egitmen Egitmen { get; set; } = null!;
+    public Paket Paket { get; set; } = null!;
     public ICollection<Randevu> Randevular { get; set; } = null!;
     public ICollection<Olcum> Olcumler { get; set; } = null!;
 }

@@ -103,6 +103,28 @@ namespace FitTakip.Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Paketler",
+                columns: table => new
+                {
+                    PaketId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    IsletmeId = table.Column<int>(type: "int", nullable: false),
+                    Aciklama = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Tutar = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    DersSayisi = table.Column<int>(type: "int", nullable: false),
+                    AktifMi = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Paketler", x => x.PaketId);
+                    table.ForeignKey(
+                        name: "FK_Paketler_Isletmeler_IsletmeId",
+                        column: x => x.IsletmeId,
+                        principalTable: "Isletmeler",
+                        principalColumn: "IsletmeId");
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Uyeler",
                 columns: table => new
                 {
@@ -215,6 +237,11 @@ namespace FitTakip.Persistence.Migrations
                 column: "UyeId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Paketler_IsletmeId",
+                table: "Paketler",
+                column: "IsletmeId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Randevular_EgitmenId",
                 table: "Randevular",
                 column: "EgitmenId");
@@ -249,6 +276,9 @@ namespace FitTakip.Persistence.Migrations
 
             migrationBuilder.DropTable(
                 name: "Olcumler");
+
+            migrationBuilder.DropTable(
+                name: "Paketler");
 
             migrationBuilder.DropTable(
                 name: "Randevular");

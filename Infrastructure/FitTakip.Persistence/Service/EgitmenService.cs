@@ -11,14 +11,16 @@ namespace FitTakip.Persistence.Service;
 public class EgitmenService : IEgitmenService
 {
     private readonly IRepository<Uye> _repositoryUye;
+    private readonly IRepository<Paket> _repositoryPaket;
     private readonly IKullaniciRepository _kullaniciRepository;
     private readonly AuthService _authService;
     private readonly IRepository<Randevu> _repositoryRandevu;
     private readonly IRepository<Olcum> _repositoryOlcum;
     private readonly IRandevuRepository _randevuRepository;
     private readonly IOlcumRepository _olcumRepository;
+    private readonly IPaketRepository _paketRepository;
 
-    public EgitmenService(IRepository<Uye> repositoryUye, IKullaniciRepository kullaniciRepository, AuthService authService, IRepository<Randevu> repositoryRandevu, IRepository<Olcum> repositoryOlcum, IRandevuRepository randevuRepository, IOlcumRepository olcumRepository)
+    public EgitmenService(IRepository<Uye> repositoryUye, IKullaniciRepository kullaniciRepository, AuthService authService, IRepository<Randevu> repositoryRandevu, IRepository<Olcum> repositoryOlcum, IRandevuRepository randevuRepository, IOlcumRepository olcumRepository, IRepository<Paket> repositoryPaket, IPaketRepository paketRepository)
     {
         _repositoryUye = repositoryUye;
         _kullaniciRepository = kullaniciRepository;
@@ -27,18 +29,26 @@ public class EgitmenService : IEgitmenService
         _repositoryOlcum = repositoryOlcum;
         _randevuRepository = randevuRepository;
         _olcumRepository = olcumRepository;
+        _repositoryPaket = repositoryPaket;
+        _paketRepository = paketRepository;
     }
 
     public async Task<Result> UyeOlustur(UyeOlusturParametre parametre)
     {
         try
         {
+            var paket = await _repositoryPaket.GetByIdAsync(parametre.PaketId);
+
+            if (paket == null)
+                return new Result(false, "Paket Bulunamadı");
+
             var uye = new Uye
             {
                 Ad = parametre.Ad,
                 Soyad = parametre.Soyad,
                 TelefonNo = parametre.TelefonNo,
-                KalanDersSayisi = parametre.DersSayisi,
+                PaketId = parametre.PaketId,
+                KalanDersSayisi = paket.DersSayisi,
                 IsletmeId = parametre.IsletmeId,
                 EgitmenId = parametre.EgitmenId,
                 AktifMi = true
@@ -66,7 +76,6 @@ public class EgitmenService : IEgitmenService
             uye.Ad = parametre.Ad ?? uye.Ad;
             uye.Soyad = parametre.Soyad ?? uye.Soyad;
             uye.TelefonNo = parametre.TelefonNo ?? uye.TelefonNo;
-            uye.KalanDersSayisi = parametre.DersSayisi ?? uye.KalanDersSayisi;
 
             await _repositoryUye.UpdateAsync(uye);
 
@@ -99,10 +108,35 @@ public class EgitmenService : IEgitmenService
         }
     }
 
+    public async Task<Result> UyeyePaketEkle(UyeyePaketEkleParametre parametre)
+    {
+        try
+        {
+            var uye = await _repositoryUye.GetByIdAsync(parametre.UyeId);
+            var paket = await _repositoryPaket.GetByIdAsync(parametre.PaketId);
+
+            if (uye.KalanDersSayisi > 0)
+                return new Result(false, "Üyenin Bir Önceki Paketi Bitmeden Yeni Paket Tanımlanamaz");
+
+            uye.PaketId = parametre.PaketId;
+            uye.KalanDersSayisi = paket.DersSayisi;
+
+            await _repositoryUye.UpdateAsync(uye);
+
+            return new Result(true, "Üyeye Paket Başarıyla Tanımlanmıştır.");
+        }
+        catch (Exception ex)
+        {
+            return new Result(false, ex.Message);
+        }
+    }
+
     public async Task<Result> RandevuOlustur(RandevuOlusturParametre parametre)
     {
         try
         {
+            var uye = await _repositoryUye.GetByIdAsync(parametre.UyeId);
+
             var randevu = new Randevu
             {
                 UyeId = parametre.UyeId,
@@ -111,7 +145,10 @@ public class EgitmenService : IEgitmenService
                 Aciklama = parametre.Aciklama
             };
 
+            uye.KalanDersSayisi -= 1;
+
             await _repositoryRandevu.CreateAsync(randevu);
+            await _repositoryUye.UpdateAsync(uye);
 
             return new Result(true, "Randevu Başarıyla Eklendi");
         }
@@ -234,6 +271,32 @@ public class EgitmenService : IEgitmenService
             }).ToList();
 
             return new Result(true, "Üyeye Ait Ölçüm Getirme Başarılı.", olcumDto);
+        }
+        catch (Exception ex)
+        {
+            return new Result(false, ex.Message);
+        }
+    }
+
+    public async Task<Result> PaketleriGetir(int IsletmeId)
+    {
+        try
+        {
+            var paketler = await _paketRepository.IsletmeyeAitPaketleriGetirAsync(IsletmeId);
+
+            if (!paketler.Any())
+                return new Result(false, "İşletmeye Ait Paket Bulunamadı");
+
+            var paketDto = paketler.Select(s => new PaketDto
+            {
+                PaketId = s.PaketId,
+                IsletmeId = s.IsletmeId,
+                Aciklama = s.Aciklama,
+                Tutar = s.Tutar,
+                DersSayisi = s.DersSayisi,
+            }).ToList();
+
+            return new Result(true, "İşletmeye Ait Paketleri Getirme Başarılı", paketDto);
         }
         catch (Exception ex)
         {

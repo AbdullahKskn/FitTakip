@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FitTakip.Persistence.Migrations
 {
     [DbContext(typeof(FitTakipContext))]
-    [Migration("20250218192617_mig_1")]
-    partial class mig_1
+    [Migration("20250222181537_mig_2")]
+    partial class mig_2
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -244,6 +244,37 @@ namespace FitTakip.Persistence.Migrations
                     b.ToTable("Olcumler");
                 });
 
+            modelBuilder.Entity("FitTakip.Domain.Entities.Paket", b =>
+                {
+                    b.Property<int>("PaketId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PaketId"));
+
+                    b.Property<string>("Aciklama")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("AktifMi")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("DersSayisi")
+                        .HasColumnType("int");
+
+                    b.Property<int>("IsletmeId")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("Tutar")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasKey("PaketId");
+
+                    b.HasIndex("IsletmeId");
+
+                    b.ToTable("Paketler");
+                });
+
             modelBuilder.Entity("FitTakip.Domain.Entities.Randevu", b =>
                 {
                     b.Property<long>("RandevuId")
@@ -297,6 +328,9 @@ namespace FitTakip.Persistence.Migrations
                     b.Property<int>("KalanDersSayisi")
                         .HasColumnType("int");
 
+                    b.Property<int>("PaketId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Soyad")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -309,6 +343,8 @@ namespace FitTakip.Persistence.Migrations
                     b.HasIndex("EgitmenId");
 
                     b.HasIndex("IsletmeId");
+
+                    b.HasIndex("PaketId");
 
                     b.ToTable("Uyeler");
                 });
@@ -333,6 +369,17 @@ namespace FitTakip.Persistence.Migrations
                         .IsRequired();
 
                     b.Navigation("Uye");
+                });
+
+            modelBuilder.Entity("FitTakip.Domain.Entities.Paket", b =>
+                {
+                    b.HasOne("FitTakip.Domain.Entities.Isletme", "Isletme")
+                        .WithMany("Paketler")
+                        .HasForeignKey("IsletmeId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("Isletme");
                 });
 
             modelBuilder.Entity("FitTakip.Domain.Entities.Randevu", b =>
@@ -368,9 +415,17 @@ namespace FitTakip.Persistence.Migrations
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
+                    b.HasOne("FitTakip.Domain.Entities.Paket", "Paket")
+                        .WithMany("Uyeler")
+                        .HasForeignKey("PaketId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
                     b.Navigation("Egitmen");
 
                     b.Navigation("Isletme");
+
+                    b.Navigation("Paket");
                 });
 
             modelBuilder.Entity("FitTakip.Domain.Entities.Egitmen", b =>
@@ -384,6 +439,13 @@ namespace FitTakip.Persistence.Migrations
                 {
                     b.Navigation("Egitmenler");
 
+                    b.Navigation("Paketler");
+
+                    b.Navigation("Uyeler");
+                });
+
+            modelBuilder.Entity("FitTakip.Domain.Entities.Paket", b =>
+                {
                     b.Navigation("Uyeler");
                 });
 

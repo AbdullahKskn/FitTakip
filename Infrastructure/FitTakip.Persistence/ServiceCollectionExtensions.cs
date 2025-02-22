@@ -23,6 +23,7 @@ public static class ServiceCollectionExtensions
         services.AddScoped<IOlcumRepository, OlcumRepository>();
         services.AddScoped<IGelirRepository, GelirRepository>();
         services.AddScoped<IGiderRepository, GiderRepository>();
+        services.AddScoped<IPaketRepository, PaketRepository>();
 
         // Register Services
         services.AddScoped<AuthService, AuthService>();

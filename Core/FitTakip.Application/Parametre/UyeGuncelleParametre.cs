@@ -8,5 +8,4 @@ public class UyeGuncelleParametre
     public string? Ad { get; set; } = null!;
     public string? Soyad { get; set; } = null!;
     public string? TelefonNo { get; set; }
-    public int? DersSayisi { get; set; }
 }

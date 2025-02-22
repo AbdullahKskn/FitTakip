@@ -23,4 +23,9 @@ public interface IIsletmeService
     Task<Result> GiderleriTariheGöreTopla(int IsletmeId, DateTime BaslangicTarihi, DateTime BitisTarihi);
     Task<Result> TumGelirGiderToplami(int IsletmeId);
     Task<Result> PotansiyelMusterileriGetirPagination(int IsletmeId, int Baslangic, int Adet);
+    Task<Result> PaketEkle(PaketEkleParametre parametre);
+    Task<Result> PaketSil(int PaketId);
+    Task<Result> PaketleriGetir(int IsletmeId);
+    Task<Result> EgitmenTariheGöreDersSayisiGetir(int EgitmenId, DateTime BaslangicTarih, DateTime BitisTarih);
+    Task<Result> EgitmenMaasHesapla(int EgitmenId, DateTime BaslangicTarih, DateTime BitisTarih, int KomisyonOrani);
 }

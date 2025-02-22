@@ -40,4 +40,20 @@ public class RandevuRepository : IRandevuRepository
 
         return sonRandevu?.Tarih;
     }
+
+    public async Task<int> EgitmenTariheGöreDersSayisiGetirAsync(int EgitmenId, DateTime BaslangicTarih, DateTime BitisTarih)
+    {
+        BaslangicTarih = BaslangicTarih.Date;
+        BitisTarih = BitisTarih.Date.AddHours(23).AddMinutes(59).AddSeconds(59);
+
+        return await _context.Randevular.AsNoTracking().CountAsync(c => c.Tarih >= BaslangicTarih && c.Tarih <= BitisTarih && c.EgitmenId == EgitmenId);
+    }
+
+    public async Task<List<Randevu>> EgitmenTariheGöreTumRandeculariGetirAsync(int EgitmenId, DateTime BaslangicTarih, DateTime BitisTarih)
+    {
+        BaslangicTarih = BaslangicTarih.Date;
+        BitisTarih = BitisTarih.Date.AddHours(23).AddMinutes(59).AddSeconds(59);
+
+        return await _context.Randevular.AsNoTracking().Where(w => w.Tarih >= BaslangicTarih && w.Tarih <= BitisTarih && w.EgitmenId == EgitmenId).Include(i => i.Uye).ThenInclude(t => t.Paket).ToListAsync();
+    }
 }

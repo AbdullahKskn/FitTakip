@@ -13,6 +13,4 @@ public class UyeDto
     public int? EgitmenId { get; set; }
     public string? EgitmenAdı { get; set; }
     public bool AktifMi { get; set; }
-    public string Rol { get; set; } = null!;
-    public string Token { get; set; } = null!;
 }
