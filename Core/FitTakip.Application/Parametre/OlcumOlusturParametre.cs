@@ -4,7 +4,7 @@ namespace FitTakip.Application.Parametre;
 
 public class OlcumOlusturParametre
 {
-    public int UyeId { get; set; }
+    public long UyeId { get; set; }
     public DateTime Tarih { get; set; }
     public int Boy { get; set; }
     public decimal Kilo { get; set; }

@@ -4,6 +4,6 @@ namespace FitTakip.Application.Parametre;
 
 public class UyeyePaketEkleParametre
 {
-    public int UyeId { get; set; }
-    public int PaketId { get; set; }
+    public long UyeId { get; set; }
+    public long PaketId { get; set; }
 }

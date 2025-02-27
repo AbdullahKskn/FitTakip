@@ -29,5 +29,6 @@ public static class ServiceCollectionExtensions
         services.AddValidatorsFromAssemblyContaining<GiderOlusturParametreValidator>();
         services.AddValidatorsFromAssemblyContaining<PaketEkleParametreValidator>();
         services.AddValidatorsFromAssemblyContaining<UyeyePaketEkleParametreValidator>();
+        services.AddValidatorsFromAssemblyContaining<SifreDegistirParametreValidator>();
     }
 }

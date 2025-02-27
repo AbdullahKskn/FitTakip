@@ -4,7 +4,7 @@ namespace FitTakip.Domain.Entities;
 
 public class Isletme
 {
-    public int IsletmeId { get; set; }
+    public long IsletmeId { get; set; }
     public string Ad { get; set; } = null!;
     public string TelefonNo { get; set; } = null!;
     public string KullaniciAdi { get; set; } = null!;

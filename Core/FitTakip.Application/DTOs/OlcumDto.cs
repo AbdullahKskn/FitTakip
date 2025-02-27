@@ -5,7 +5,7 @@ namespace FitTakip.Application.DTOs;
 public class OlcumDto
 {
     public long OlcumId { get; set; }
-    public int UyeId { get; set; }
+    public long UyeId { get; set; }
     public string? UyeAdi { get; set; }
     public DateTime Tarih { get; set; }
     public int Boy { get; set; }

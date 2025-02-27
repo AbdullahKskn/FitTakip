@@ -25,7 +25,7 @@ public class Repository<T> : IRepository<T> where T : class
         return await _context.Set<T>().AsNoTracking().ToListAsync();
     }
 
-    public async Task<T?> GetByIdAsync(int Id)
+    public async Task<T?> GetByIdAsync(long Id)
     {
         return await _context.Set<T>().FindAsync(Id);
     }

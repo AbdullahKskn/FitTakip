@@ -4,7 +4,7 @@ namespace FitTakip.Application.DTOs;
 
 public class IsletmeDto
 {
-    public int IsletmeId { get; set; }
+    public long IsletmeId { get; set; }
     public string Ad { get; set; } = null!;
     public string TelefonNo { get; set; } = null!;
     public DateTime AbonelikSonlanmaTarihi { get; set; }

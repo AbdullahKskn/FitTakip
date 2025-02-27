@@ -45,6 +45,9 @@ public class LoginService : ILoginService
             if (!_authService.VerifyPassword(parametre.Sifre, sifreKarmasi))
                 return new Result(false, "Şifre yanlış.");
 
+            if (admin?.AktifMi == false)
+                return new Result(false, "Aktif üyeliğiniz bulunmamaktadır.");
+
             // Abonelik ve aktiflik kontrolleri
             if (isletme?.AbonelikSonlanmaTarihi < DateTime.Now)
                 return new Result(false, "Abonelik tarihiniz sonlanmıştır.");
@@ -59,6 +62,9 @@ public class LoginService : ILoginService
 
                 if (egitmen.Isletme?.AbonelikSonlanmaTarihi < DateTime.Now)
                     return new Result(false, "İşletmenize ait abonelik tarihiniz sonlanmıştır.");
+
+                if (egitmen.Isletme?.AktifMi == false)
+                    return new Result(false, "İşletmenizin Aktif Aboneliği Bulunmamaktadır.");
             }
 
             // Kullanıcı doğrulandı, token oluştur

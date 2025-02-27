@@ -33,7 +33,7 @@ namespace FitTakip.API.Controller
         }
 
         [HttpDelete("[Action]")]
-        public async Task<IActionResult> AdminSil(int AdminId)
+        public async Task<IActionResult> AdminSil(long AdminId)
         {
             var values = await _adminService.AdminSil(AdminId);
             return Ok(values);
@@ -61,7 +61,7 @@ namespace FitTakip.API.Controller
         }
 
         [HttpDelete("[Action]")]
-        public async Task<IActionResult> IsletmeSil(int IsletmeId)
+        public async Task<IActionResult> IsletmeSil(long IsletmeId)
         {
             var values = await _adminService.IsletmeSil(IsletmeId);
             return Ok(values);
@@ -78,6 +78,13 @@ namespace FitTakip.API.Controller
         public async Task<IActionResult> IsletmeleriGetirPaginationAsync(int Baslangic, int Adet)
         {
             var values = await _adminService.IsletmeleriGetirPagination(Baslangic, Adet);
+            return Ok(values);
+        }
+
+        [HttpPut("[Action]")]
+        public async Task<IActionResult> SifreDegistir(SifreDegistirParametre parametre)
+        {
+            var values = await _adminService.SifreDegistir(parametre);
             return Ok(values);
         }
     }

@@ -33,7 +33,7 @@ namespace FitTakip.API.Controller
         }
 
         [HttpDelete("[Action]")]
-        public async Task<IActionResult> UyeSil(int UyeId)
+        public async Task<IActionResult> UyeSil(long UyeId)
         {
             var values = await _egitmenService.UyeSil(UyeId);
             return Ok(values);
@@ -54,14 +54,14 @@ namespace FitTakip.API.Controller
         }
 
         [HttpGet("[Action]")]
-        public async Task<IActionResult> UyeyeAitRandevularıGetirPagination(int UyeId, int Baslangic, int Adet)
+        public async Task<IActionResult> UyeyeAitRandevularıGetirPagination(long UyeId, int Baslangic, int Adet)
         {
             var values = await _egitmenService.UyeyeAitRandevularıGetirPagination(UyeId, Baslangic, Adet);
             return Ok(values);
         }
 
         [HttpGet("[Action]")]
-        public async Task<IActionResult> GunlukRandevuGetir(int EgitmenId, DateTime Tarih)
+        public async Task<IActionResult> GunlukRandevuGetir(long EgitmenId, DateTime Tarih)
         {
             var values = await _egitmenService.GunlukRandevuGetir(EgitmenId, Tarih);
             return Ok(values);
@@ -75,16 +75,23 @@ namespace FitTakip.API.Controller
         }
 
         [HttpGet("[Action]")]
-        public async Task<IActionResult> UyeOlcumGetirPagination(int UyeId, int Baslangic, int Adet)
+        public async Task<IActionResult> UyeOlcumGetirPagination(long UyeId, int Baslangic, int Adet)
         {
             var values = await _egitmenService.UyeOlcumGetirPagination(UyeId, Baslangic, Adet);
             return Ok(values);
         }
 
         [HttpGet("[Action]")]
-        public async Task<IActionResult> PaketleriGetir(int IsletmeId)
+        public async Task<IActionResult> PaketleriGetir(long IsletmeId)
         {
             var values = await _egitmenService.PaketleriGetir(IsletmeId);
+            return Ok(values);
+        }
+
+        [HttpPut("[Action]")]
+        public async Task<IActionResult> SifreDegistir(SifreDegistirParametre parametre)
+        {
+            var values = await _egitmenService.SifreDegistir(parametre);
             return Ok(values);
         }
     }

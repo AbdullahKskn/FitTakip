@@ -5,7 +5,7 @@ namespace FitTakip.Application.Interfaces.Repositories;
 
 public interface IGiderRepository
 {
-    Task<decimal> TumGiderlerToplamiAsync(int IsletmeId);
-    Task<List<Gider>> GiderleriTariheGöreGetirPaginationAsync(int IsletmeId, DateTime BaslangicTarihi, DateTime BitisTarihi, int Baslangic, int Adet);
-    Task<decimal> GiderleriTariheGöreToplaAsync(int IsletmeId, DateTime BaslangicTarihi, DateTime BitisTarihi);
+    Task<decimal> TumGiderlerToplamiAsync(long IsletmeId);
+    Task<List<Gider>> GiderleriTariheGöreGetirPaginationAsync(long IsletmeId, DateTime BaslangicTarihi, DateTime BitisTarihi, int Baslangic, int Adet);
+    Task<decimal> GiderleriTariheGöreToplaAsync(long IsletmeId, DateTime BaslangicTarihi, DateTime BitisTarihi);
 }

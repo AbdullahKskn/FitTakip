@@ -24,11 +24,11 @@ namespace FitTakip.Persistence.Migrations
 
             modelBuilder.Entity("FitTakip.Domain.Entities.Admin", b =>
                 {
-                    b.Property<int>("AdminId")
+                    b.Property<long>("AdminId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("bigint");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("AdminId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("AdminId"));
 
                     b.Property<string>("Ad")
                         .IsRequired()
@@ -59,11 +59,11 @@ namespace FitTakip.Persistence.Migrations
 
             modelBuilder.Entity("FitTakip.Domain.Entities.Egitmen", b =>
                 {
-                    b.Property<int>("EgitmenId")
+                    b.Property<long>("EgitmenId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("bigint");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("EgitmenId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("EgitmenId"));
 
                     b.Property<string>("Ad")
                         .IsRequired()
@@ -72,8 +72,8 @@ namespace FitTakip.Persistence.Migrations
                     b.Property<bool>("AktifMi")
                         .HasColumnType("bit");
 
-                    b.Property<int>("IsletmeId")
-                        .HasColumnType("int");
+                    b.Property<long>("IsletmeId")
+                        .HasColumnType("bigint");
 
                     b.Property<string>("KullaniciAdi")
                         .IsRequired()
@@ -102,18 +102,18 @@ namespace FitTakip.Persistence.Migrations
 
             modelBuilder.Entity("FitTakip.Domain.Entities.Gelir", b =>
                 {
-                    b.Property<int>("GelirId")
+                    b.Property<long>("GelirId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("bigint");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("GelirId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("GelirId"));
 
                     b.Property<string>("Aciklama")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("IsletmeId")
-                        .HasColumnType("int");
+                    b.Property<long>("IsletmeId")
+                        .HasColumnType("bigint");
 
                     b.Property<DateTime>("Tarih")
                         .HasColumnType("datetime2");
@@ -128,18 +128,18 @@ namespace FitTakip.Persistence.Migrations
 
             modelBuilder.Entity("FitTakip.Domain.Entities.Gider", b =>
                 {
-                    b.Property<int>("GiderId")
+                    b.Property<long>("GiderId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("bigint");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("GiderId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("GiderId"));
 
                     b.Property<string>("Aciklama")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("IsletmeId")
-                        .HasColumnType("int");
+                    b.Property<long>("IsletmeId")
+                        .HasColumnType("bigint");
 
                     b.Property<DateTime>("Tarih")
                         .HasColumnType("datetime2");
@@ -154,11 +154,11 @@ namespace FitTakip.Persistence.Migrations
 
             modelBuilder.Entity("FitTakip.Domain.Entities.Isletme", b =>
                 {
-                    b.Property<int>("IsletmeId")
+                    b.Property<long>("IsletmeId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("bigint");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IsletmeId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("IsletmeId"));
 
                     b.Property<DateTime>("AbonelikSonlanmaTarihi")
                         .HasColumnType("datetime2");
@@ -231,8 +231,8 @@ namespace FitTakip.Persistence.Migrations
                     b.Property<DateTime>("Tarih")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("UyeId")
-                        .HasColumnType("int");
+                    b.Property<long>("UyeId")
+                        .HasColumnType("bigint");
 
                     b.HasKey("OlcumId");
 
@@ -243,11 +243,11 @@ namespace FitTakip.Persistence.Migrations
 
             modelBuilder.Entity("FitTakip.Domain.Entities.Paket", b =>
                 {
-                    b.Property<int>("PaketId")
+                    b.Property<long>("PaketId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("bigint");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PaketId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("PaketId"));
 
                     b.Property<string>("Aciklama")
                         .IsRequired()
@@ -259,8 +259,8 @@ namespace FitTakip.Persistence.Migrations
                     b.Property<int>("DersSayisi")
                         .HasColumnType("int");
 
-                    b.Property<int>("IsletmeId")
-                        .HasColumnType("int");
+                    b.Property<long>("IsletmeId")
+                        .HasColumnType("bigint");
 
                     b.Property<decimal>("Tutar")
                         .HasColumnType("decimal(18,2)");
@@ -283,14 +283,14 @@ namespace FitTakip.Persistence.Migrations
                     b.Property<string>("Aciklama")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("EgitmenId")
-                        .HasColumnType("int");
+                    b.Property<long>("EgitmenId")
+                        .HasColumnType("bigint");
 
                     b.Property<DateTime>("Tarih")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("UyeId")
-                        .HasColumnType("int");
+                    b.Property<long>("UyeId")
+                        .HasColumnType("bigint");
 
                     b.HasKey("RandevuId");
 
@@ -303,11 +303,11 @@ namespace FitTakip.Persistence.Migrations
 
             modelBuilder.Entity("FitTakip.Domain.Entities.Uye", b =>
                 {
-                    b.Property<int>("UyeId")
+                    b.Property<long>("UyeId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("bigint");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UyeId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("UyeId"));
 
                     b.Property<string>("Ad")
                         .IsRequired()
@@ -316,17 +316,17 @@ namespace FitTakip.Persistence.Migrations
                     b.Property<bool>("AktifMi")
                         .HasColumnType("bit");
 
-                    b.Property<int>("EgitmenId")
-                        .HasColumnType("int");
+                    b.Property<long>("EgitmenId")
+                        .HasColumnType("bigint");
 
-                    b.Property<int>("IsletmeId")
-                        .HasColumnType("int");
+                    b.Property<long>("IsletmeId")
+                        .HasColumnType("bigint");
 
                     b.Property<int>("KalanDersSayisi")
                         .HasColumnType("int");
 
-                    b.Property<int>("PaketId")
-                        .HasColumnType("int");
+                    b.Property<long>("PaketId")
+                        .HasColumnType("bigint");
 
                     b.Property<string>("Soyad")
                         .IsRequired()

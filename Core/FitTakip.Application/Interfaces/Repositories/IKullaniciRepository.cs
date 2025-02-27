@@ -8,9 +8,9 @@ public interface IKullaniciRepository
     Task<bool> KullaniciAdiVarMiAsync(string KullaniciAdi);
     Task<List<Isletme>> IsletmeleriGetirPaginationAsync(int Baslangic, int Adet);
     Task<List<Admin?>> AdminleriGetirPaginationAsync(int Baslangic, int Adet);
-    Task<List<Egitmen?>> TumEgitmenleriGetirAsync(int IsletmeId);
-    Task<List<Uye>> TumUyeleriGetirAsync(int IsletmeId);
-    Task<List<Egitmen?>> EgitmenleriGetirPaginationAsync(int IsletmeId, int Baslangic, int Adet);
-    Task<List<Uye?>> UyeleriGetirPaginationAsync(int IsletmeId, int Baslangic, int Adet);
-    Task<List<Uye>> PotansiyelMusterileriGetirPaginationAsync(int IsletmeId, int Baslangic, int Adet);
+    Task<List<Egitmen?>> TumEgitmenleriGetirAsync(long IsletmeId);
+    Task<List<Uye>> TumUyeleriGetirAsync(long IsletmeId);
+    Task<List<Egitmen?>> EgitmenleriGetirPaginationAsync(long IsletmeId, int Baslangic, int Adet);
+    Task<List<Uye?>> UyeleriGetirPaginationAsync(long IsletmeId, int Baslangic, int Adet);
+    Task<List<Uye>> PotansiyelMusterileriGetirPaginationAsync(long IsletmeId, int Baslangic, int Adet);
 }

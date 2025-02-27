@@ -108,7 +108,7 @@ public class IsletmeService : IIsletmeService
         }
     }
 
-    public async Task<Result> EgitmenSil(int EgitmenId)
+    public async Task<Result> EgitmenSil(long EgitmenId)
     {
         try
         {
@@ -129,7 +129,7 @@ public class IsletmeService : IIsletmeService
         }
     }
 
-    public async Task<Result> TumEgitmenleriGetir(int IsletmeId)
+    public async Task<Result> TumEgitmenleriGetir(long IsletmeId)
     {
         try
         {
@@ -153,7 +153,7 @@ public class IsletmeService : IIsletmeService
         }
     }
 
-    public async Task<Result> TumUyeleriGetir(int IsletmeId)
+    public async Task<Result> TumUyeleriGetir(long IsletmeId)
     {
         try
         {
@@ -177,7 +177,7 @@ public class IsletmeService : IIsletmeService
         }
     }
 
-    public async Task<Result> EgitmenleriGetirPagination(int IsletmeId, int Baslangic, int Adet)
+    public async Task<Result> EgitmenleriGetirPagination(long IsletmeId, int Baslangic, int Adet)
     {
         try
         {
@@ -204,7 +204,7 @@ public class IsletmeService : IIsletmeService
         }
     }
 
-    public async Task<Result> UyeleriGetirPagination(int IsletmeId, int Baslangic, int Adet)
+    public async Task<Result> UyeleriGetirPagination(long IsletmeId, int Baslangic, int Adet)
     {
         try
         {
@@ -256,7 +256,7 @@ public class IsletmeService : IIsletmeService
         }
     }
 
-    public async Task<Result> TumGelirlerToplami(int IsletmeId)
+    public async Task<Result> TumGelirlerToplami(long IsletmeId)
     {
         try
         {
@@ -270,7 +270,7 @@ public class IsletmeService : IIsletmeService
         }
     }
 
-    public async Task<Result> GelirleriTariheGöreGetirPagination(int IsletmeId, DateTime BaslangicTarihi, DateTime BitisTarihi, int Baslangic, int Adet)
+    public async Task<Result> GelirleriTariheGöreGetirPagination(long IsletmeId, DateTime BaslangicTarihi, DateTime BitisTarihi, int Baslangic, int Adet)
     {
         try
         {
@@ -296,7 +296,7 @@ public class IsletmeService : IIsletmeService
         }
     }
 
-    public async Task<Result> GelirleriTariheGöreTopla(int IsletmeId, DateTime BaslangicTarihi, DateTime BitisTarihi)
+    public async Task<Result> GelirleriTariheGöreTopla(long IsletmeId, DateTime BaslangicTarihi, DateTime BitisTarihi)
     {
         try
         {
@@ -333,7 +333,7 @@ public class IsletmeService : IIsletmeService
         }
     }
 
-    public async Task<Result> TumGiderlerToplami(int IsletmeId)
+    public async Task<Result> TumGiderlerToplami(long IsletmeId)
     {
         try
         {
@@ -347,7 +347,7 @@ public class IsletmeService : IIsletmeService
         }
     }
 
-    public async Task<Result> GiderleriTariheGöreGetirPagination(int IsletmeId, DateTime BaslangicTarihi, DateTime BitisTarihi, int Baslangic, int Adet)
+    public async Task<Result> GiderleriTariheGöreGetirPagination(long IsletmeId, DateTime BaslangicTarihi, DateTime BitisTarihi, int Baslangic, int Adet)
     {
         try
         {
@@ -373,7 +373,7 @@ public class IsletmeService : IIsletmeService
         }
     }
 
-    public async Task<Result> GiderleriTariheGöreTopla(int IsletmeId, DateTime BaslangicTarihi, DateTime BitisTarihi)
+    public async Task<Result> GiderleriTariheGöreTopla(long IsletmeId, DateTime BaslangicTarihi, DateTime BitisTarihi)
     {
         try
         {
@@ -388,7 +388,7 @@ public class IsletmeService : IIsletmeService
         }
     }
 
-    public async Task<Result> TumGelirGiderToplami(int IsletmeId)
+    public async Task<Result> TumGelirGiderToplami(long IsletmeId)
     {
         try
         {
@@ -404,7 +404,7 @@ public class IsletmeService : IIsletmeService
         }
     }
 
-    public async Task<Result> PotansiyelMusterileriGetirPagination(int IsletmeId, int Baslangic, int Adet)
+    public async Task<Result> PotansiyelMusterileriGetirPagination(long IsletmeId, int Baslangic, int Adet)
     {
         try
         {
@@ -462,7 +462,7 @@ public class IsletmeService : IIsletmeService
         }
     }
 
-    public async Task<Result> PaketSil(int PaketId)
+    public async Task<Result> PaketSil(long PaketId)
     {
         try
         {
@@ -483,7 +483,7 @@ public class IsletmeService : IIsletmeService
         }
     }
 
-    public async Task<Result> PaketleriGetir(int IsletmeId)
+    public async Task<Result> PaketleriGetir(long IsletmeId)
     {
         try
         {
@@ -509,7 +509,7 @@ public class IsletmeService : IIsletmeService
         }
     }
 
-    public async Task<Result> EgitmenTariheGöreDersSayisiGetir(int EgitmenId, DateTime BaslangicTarih, DateTime BitisTarih)
+    public async Task<Result> EgitmenTariheGöreDersSayisiGetir(long EgitmenId, DateTime BaslangicTarih, DateTime BitisTarih)
     {
         try
         {
@@ -523,7 +523,7 @@ public class IsletmeService : IIsletmeService
         }
     }
 
-    public async Task<Result> EgitmenMaasHesapla(int EgitmenId, DateTime BaslangicTarih, DateTime BitisTarih, int KomisyonOrani)
+    public async Task<Result> EgitmenMaasHesapla(long EgitmenId, DateTime BaslangicTarih, DateTime BitisTarih, int KomisyonOrani)
     {
         try
         {
@@ -550,6 +550,29 @@ public class IsletmeService : IIsletmeService
             }
 
             return new Result(true, "Eğitmen Maaşı Başarıyla Hesaplandı", toplamMaas);
+        }
+        catch (Exception ex)
+        {
+            return new Result(false, ex.Message);
+        }
+    }
+
+    public async Task<Result> SifreDegistir(SifreDegistirParametre parametre)
+    {
+        try
+        {
+            var isletme = await _repositoryIsletme.GetByIdAsync(parametre.Id);
+
+            if (parametre.Sifre != parametre.SifreDogrulama)
+                return new Result(false, "Şifre Uyuşmamaktadır");
+
+            var sifreKarmasi = _authService.HashPassword(parametre.Sifre);
+
+            isletme.SifreKarmasi = sifreKarmasi;
+
+            await _repositoryIsletme.UpdateAsync(isletme);
+
+            return new Result(true, "Şifre Değiştirme Başarılı");
         }
         catch (Exception ex)
         {

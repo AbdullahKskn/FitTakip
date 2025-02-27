@@ -89,7 +89,7 @@ public class AdminService : IAdminService
         }
     }
 
-    public async Task<Result> AdminSil(int AdminId)
+    public async Task<Result> AdminSil(long AdminId)
     {
         try
         {
@@ -203,7 +203,7 @@ public class AdminService : IAdminService
         }
     }
 
-    public async Task<Result> IsletmeSil(int IsletmeId)
+    public async Task<Result> IsletmeSil(long IsletmeId)
     {
         try
         {
@@ -269,6 +269,29 @@ public class AdminService : IAdminService
             }).OrderBy(o => o.Ad).ToList();
 
             return new Result(true, "İşletmeleri Getirme Başarılı", isletmeDto);
+        }
+        catch (Exception ex)
+        {
+            return new Result(false, ex.Message);
+        }
+    }
+
+    public async Task<Result> SifreDegistir(SifreDegistirParametre parametre)
+    {
+        try
+        {
+            var admin = await _repositoryAdmin.GetByIdAsync(parametre.Id);
+
+            if (parametre.Sifre != parametre.SifreDogrulama)
+                return new Result(false, "Şifre Uyuşmamaktadır");
+
+            var sifreKarmasi = _authService.HashPassword(parametre.Sifre);
+
+            admin.SifreKarmasi = sifreKarmasi;
+
+            await _repositoryAdmin.UpdateAsync(admin);
+
+            return new Result(true, "Şifre Değiştirme Başarılı");
         }
         catch (Exception ex)
         {

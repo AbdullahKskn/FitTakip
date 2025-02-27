@@ -33,27 +33,27 @@ public class KullaniciRepository : IKullaniciRepository
         return await _context.Isletmeler.AsNoTracking().OrderBy(o => o.Ad).Skip(Baslangic).Take(Adet).ToListAsync();
     }
 
-    public async Task<List<Egitmen>> TumEgitmenleriGetirAsync(int IsletmeId)
+    public async Task<List<Egitmen>> TumEgitmenleriGetirAsync(long IsletmeId)
     {
         return await _context.Egitmenler.AsNoTracking().Where(w => w.IsletmeId == IsletmeId && w.AktifMi == true).OrderBy(o => o.Ad).ToListAsync();
     }
 
-    public async Task<List<Uye>> TumUyeleriGetirAsync(int IsletmeId)
+    public async Task<List<Uye>> TumUyeleriGetirAsync(long IsletmeId)
     {
         return await _context.Uyeler.AsNoTracking().Where(w => w.IsletmeId == IsletmeId && w.AktifMi == true).OrderBy(o => o.Ad).ToListAsync();
     }
 
-    public async Task<List<Egitmen>> EgitmenleriGetirPaginationAsync(int IsletmeId, int Baslangic, int Adet)
+    public async Task<List<Egitmen>> EgitmenleriGetirPaginationAsync(long IsletmeId, int Baslangic, int Adet)
     {
         return await _context.Egitmenler.AsNoTracking().Where(w => w.IsletmeId == IsletmeId && w.AktifMi == true).OrderBy(o => o.Ad).Skip(Baslangic).Take(Adet).ToListAsync();
     }
 
-    public async Task<List<Uye>> UyeleriGetirPaginationAsync(int IsletmeId, int Baslangic, int Adet)
+    public async Task<List<Uye>> UyeleriGetirPaginationAsync(long IsletmeId, int Baslangic, int Adet)
     {
         return await _context.Uyeler.AsNoTracking().Where(w => w.IsletmeId == IsletmeId && w.AktifMi == true).OrderBy(o => o.Ad).Include(i => i.Egitmen).Skip(Baslangic).Take(Adet).ToListAsync();
     }
 
-    public async Task<List<Uye>> PotansiyelMusterileriGetirPaginationAsync(int IsletmeId, int Baslangic, int Adet)
+    public async Task<List<Uye>> PotansiyelMusterileriGetirPaginationAsync(long IsletmeId, int Baslangic, int Adet)
     {
         return await _context.Uyeler.AsNoTracking().Where(w => w.IsletmeId == IsletmeId && w.KalanDersSayisi <= 0).OrderBy(o => o.Ad).Skip(Baslangic).Take(Adet).ToListAsync();
     }

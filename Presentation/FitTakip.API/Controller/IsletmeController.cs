@@ -11,164 +11,171 @@ namespace FitTakip.API.Controller
     //[Authorize]
     public class IsletmeController : ControllerBase
     {
-        private readonly IIsletmeService _ısletmeService;
+        private readonly IIsletmeService _isletmeService;
 
-        public IsletmeController(IIsletmeService ısletmeService)
+        public IsletmeController(IIsletmeService isletmeService)
         {
-            _ısletmeService = ısletmeService;
+            _isletmeService = isletmeService;
         }
 
         [HttpPost("[Action]")]
         public async Task<IActionResult> EgitmenOlustur(EgitmenOlusturParametre parameter)
         {
-            var values = await _ısletmeService.EgitmenOlustur(parameter);
+            var values = await _isletmeService.EgitmenOlustur(parameter);
             return Ok(values);
         }
 
         [HttpPut("[Action]")]
         public async Task<IActionResult> EgitmenGuncelle(EgitmenGuncelleParametre parameter)
         {
-            var values = await _ısletmeService.EgitmenGuncelle(parameter);
+            var values = await _isletmeService.EgitmenGuncelle(parameter);
             return Ok(values);
         }
 
         [HttpDelete("[Action]")]
-        public async Task<IActionResult> EgitmenSil(int EgitmenId)
+        public async Task<IActionResult> EgitmenSil(long EgitmenId)
         {
-            var values = await _ısletmeService.EgitmenSil(EgitmenId);
+            var values = await _isletmeService.EgitmenSil(EgitmenId);
             return Ok(values);
         }
 
         [HttpGet("[Action]")]
-        public async Task<IActionResult> TumEgitmenleriGetir(int IsletmeId)
+        public async Task<IActionResult> TumEgitmenleriGetir(long IsletmeId)
         {
-            var values = await _ısletmeService.TumEgitmenleriGetir(IsletmeId);
+            var values = await _isletmeService.TumEgitmenleriGetir(IsletmeId);
             return Ok(values);
         }
 
         [HttpGet("[Action]")]
-        public async Task<IActionResult> TumUyeleriGetir(int IsletmeId)
+        public async Task<IActionResult> TumUyeleriGetir(long IsletmeId)
         {
-            var values = await _ısletmeService.TumUyeleriGetir(IsletmeId);
+            var values = await _isletmeService.TumUyeleriGetir(IsletmeId);
             return Ok(values);
         }
 
         [HttpGet("[Action]")]
-        public async Task<IActionResult> EgitmenleriGetirPagination(int IsletmeId, int Baslangic, int Adet)
+        public async Task<IActionResult> EgitmenleriGetirPagination(long IsletmeId, int Baslangic, int Adet)
         {
-            var values = await _ısletmeService.EgitmenleriGetirPagination(IsletmeId, Baslangic, Adet);
+            var values = await _isletmeService.EgitmenleriGetirPagination(IsletmeId, Baslangic, Adet);
             return Ok(values);
         }
 
         [HttpGet("[Action]")]
-        public async Task<IActionResult> UyeleriGetirPagination(int IsletmeId, int Baslangic, int Adet)
+        public async Task<IActionResult> UyeleriGetirPagination(long IsletmeId, int Baslangic, int Adet)
         {
-            var values = await _ısletmeService.UyeleriGetirPagination(IsletmeId, Baslangic, Adet);
+            var values = await _isletmeService.UyeleriGetirPagination(IsletmeId, Baslangic, Adet);
             return Ok(values);
         }
 
         [HttpPost("[Action]")]
         public async Task<IActionResult> GelirOlustur(GelirOlusturParametre parametre)
         {
-            var values = await _ısletmeService.GelirOlustur(parametre);
+            var values = await _isletmeService.GelirOlustur(parametre);
             return Ok(values);
         }
 
         [HttpGet("[Action]")]
-        public async Task<IActionResult> TumGelirlerToplami(int IsletmeId)
+        public async Task<IActionResult> TumGelirlerToplami(long IsletmeId)
         {
-            var values = await _ısletmeService.TumGelirlerToplami(IsletmeId);
+            var values = await _isletmeService.TumGelirlerToplami(IsletmeId);
             return Ok(values);
         }
 
         [HttpGet("[Action]")]
-        public async Task<IActionResult> GelirleriTariheGöreGetirPagination(int IsletmeId, DateTime BaslangicTarihi, DateTime BitisTarihi, int Baslangic, int Adet)
+        public async Task<IActionResult> GelirleriTariheGöreGetirPagination(long IsletmeId, DateTime BaslangicTarihi, DateTime BitisTarihi, int Baslangic, int Adet)
         {
-            var values = await _ısletmeService.GelirleriTariheGöreGetirPagination(IsletmeId, BaslangicTarihi, BitisTarihi, Baslangic, Adet);
+            var values = await _isletmeService.GelirleriTariheGöreGetirPagination(IsletmeId, BaslangicTarihi, BitisTarihi, Baslangic, Adet);
             return Ok(values);
         }
 
         [HttpGet("[Action]")]
-        public async Task<IActionResult> GelirleriTariheGöreTopla(int IsletmeId, DateTime BaslangicTarihi, DateTime BitisTarihi)
+        public async Task<IActionResult> GelirleriTariheGöreTopla(long IsletmeId, DateTime BaslangicTarihi, DateTime BitisTarihi)
         {
-            var values = await _ısletmeService.GelirleriTariheGöreTopla(IsletmeId, BaslangicTarihi, BitisTarihi);
+            var values = await _isletmeService.GelirleriTariheGöreTopla(IsletmeId, BaslangicTarihi, BitisTarihi);
             return Ok(values);
         }
 
         [HttpPost("[Action]")]
         public async Task<IActionResult> GiderOlustur(GiderOlusturParametre parametre)
         {
-            var values = await _ısletmeService.GiderOlustur(parametre);
+            var values = await _isletmeService.GiderOlustur(parametre);
             return Ok(values);
         }
 
         [HttpGet("[Action]")]
-        public async Task<IActionResult> TumGiderlerToplami(int IsletmeId)
+        public async Task<IActionResult> TumGiderlerToplami(long IsletmeId)
         {
-            var values = await _ısletmeService.TumGiderlerToplami(IsletmeId);
+            var values = await _isletmeService.TumGiderlerToplami(IsletmeId);
             return Ok(values);
         }
 
         [HttpGet("[Action]")]
-        public async Task<IActionResult> GiderleriTariheGöreGetirPagination(int IsletmeId, DateTime BaslangicTarihi, DateTime BitisTarihi, int Baslangic, int Adet)
+        public async Task<IActionResult> GiderleriTariheGöreGetirPagination(long IsletmeId, DateTime BaslangicTarihi, DateTime BitisTarihi, int Baslangic, int Adet)
         {
-            var values = await _ısletmeService.GiderleriTariheGöreGetirPagination(IsletmeId, BaslangicTarihi, BitisTarihi, Baslangic, Adet);
+            var values = await _isletmeService.GiderleriTariheGöreGetirPagination(IsletmeId, BaslangicTarihi, BitisTarihi, Baslangic, Adet);
             return Ok(values);
         }
 
         [HttpGet("[Action]")]
-        public async Task<IActionResult> GiderleriTariheGöreTopla(int IsletmeId, DateTime BaslangicTarihi, DateTime BitisTarihi)
+        public async Task<IActionResult> GiderleriTariheGöreTopla(long IsletmeId, DateTime BaslangicTarihi, DateTime BitisTarihi)
         {
-            var values = await _ısletmeService.GiderleriTariheGöreTopla(IsletmeId, BaslangicTarihi, BitisTarihi);
+            var values = await _isletmeService.GiderleriTariheGöreTopla(IsletmeId, BaslangicTarihi, BitisTarihi);
             return Ok(values);
         }
 
         [HttpGet("[Action]")]
-        public async Task<IActionResult> TumGelirGiderToplami(int IsletmeId)
+        public async Task<IActionResult> TumGelirGiderToplami(long IsletmeId)
         {
-            var values = await _ısletmeService.TumGelirGiderToplami(IsletmeId);
+            var values = await _isletmeService.TumGelirGiderToplami(IsletmeId);
             return Ok(values);
         }
 
         [HttpGet("[Action]")]
-        public async Task<IActionResult> PotansiyelMusterileriGetirPagination(int IsletmeId, int Baslangic, int Adet)
+        public async Task<IActionResult> PotansiyelMusterileriGetirPagination(long IsletmeId, int Baslangic, int Adet)
         {
-            var values = await _ısletmeService.PotansiyelMusterileriGetirPagination(IsletmeId, Baslangic, Adet);
+            var values = await _isletmeService.PotansiyelMusterileriGetirPagination(IsletmeId, Baslangic, Adet);
             return Ok(values);
         }
 
         [HttpPost("[Action]")]
         public async Task<IActionResult> PaketEkle(PaketEkleParametre parametre)
         {
-            var values = await _ısletmeService.PaketEkle(parametre);
+            var values = await _isletmeService.PaketEkle(parametre);
             return Ok(values);
         }
 
         [HttpDelete("[Action]")]
-        public async Task<IActionResult> PaketSil(int PaketId)
+        public async Task<IActionResult> PaketSil(long PaketId)
         {
-            var values = await _ısletmeService.PaketSil(PaketId);
+            var values = await _isletmeService.PaketSil(PaketId);
             return Ok(values);
         }
 
         [HttpGet("[Action]")]
-        public async Task<IActionResult> PaketleriGetir(int IsletmeId)
+        public async Task<IActionResult> PaketleriGetir(long IsletmeId)
         {
-            var values = await _ısletmeService.PaketleriGetir(IsletmeId);
+            var values = await _isletmeService.PaketleriGetir(IsletmeId);
             return Ok(values);
         }
 
         [HttpGet("[Action]")]
-        public async Task<IActionResult> EgitmenTariheGöreDersSayisiGetir(int EgitmenId, DateTime BaslangicTarih, DateTime BitisTarih)
+        public async Task<IActionResult> EgitmenTariheGöreDersSayisiGetir(long EgitmenId, DateTime BaslangicTarih, DateTime BitisTarih)
         {
-            var values = await _ısletmeService.EgitmenTariheGöreDersSayisiGetir(EgitmenId, BaslangicTarih, BitisTarih);
+            var values = await _isletmeService.EgitmenTariheGöreDersSayisiGetir(EgitmenId, BaslangicTarih, BitisTarih);
             return Ok(values);
         }
 
         [HttpGet("[Action]")]
-        public async Task<IActionResult> EgitmenMaasHesapla(int EgitmenId, DateTime BaslangicTarih, DateTime BitisTarih, int KomisyonOrani)
+        public async Task<IActionResult> EgitmenMaasHesapla(long EgitmenId, DateTime BaslangicTarih, DateTime BitisTarih, int KomisyonOrani)
         {
-            var values = await _ısletmeService.EgitmenMaasHesapla(EgitmenId, BaslangicTarih, BitisTarih, KomisyonOrani);
+            var values = await _isletmeService.EgitmenMaasHesapla(EgitmenId, BaslangicTarih, BitisTarih, KomisyonOrani);
+            return Ok(values);
+        }
+
+        [HttpPut("[Action]")]
+        public async Task<IActionResult> SifreDegistir(SifreDegistirParametre parametre)
+        {
+            var values = await _isletmeService.SifreDegistir(parametre);
             return Ok(values);
         }
     }

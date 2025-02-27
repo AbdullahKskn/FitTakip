@@ -15,7 +15,7 @@ namespace FitTakip.Persistence.Migrations
                 name: "Adminler",
                 columns: table => new
                 {
-                    AdminId = table.Column<int>(type: "int", nullable: false)
+                    AdminId = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Ad = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Soyad = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -32,9 +32,9 @@ namespace FitTakip.Persistence.Migrations
                 name: "Gelirler",
                 columns: table => new
                 {
-                    GelirId = table.Column<int>(type: "int", nullable: false)
+                    GelirId = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    IsletmeId = table.Column<int>(type: "int", nullable: false),
+                    IsletmeId = table.Column<long>(type: "bigint", nullable: false),
                     Aciklama = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Tarih = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Tutar = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
@@ -48,9 +48,9 @@ namespace FitTakip.Persistence.Migrations
                 name: "Giderler",
                 columns: table => new
                 {
-                    GiderId = table.Column<int>(type: "int", nullable: false)
+                    GiderId = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    IsletmeId = table.Column<int>(type: "int", nullable: false),
+                    IsletmeId = table.Column<long>(type: "bigint", nullable: false),
                     Aciklama = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Tarih = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Tutar = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
@@ -64,7 +64,7 @@ namespace FitTakip.Persistence.Migrations
                 name: "Isletmeler",
                 columns: table => new
                 {
-                    IsletmeId = table.Column<int>(type: "int", nullable: false)
+                    IsletmeId = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Ad = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     TelefonNo = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -82,14 +82,14 @@ namespace FitTakip.Persistence.Migrations
                 name: "Egitmenler",
                 columns: table => new
                 {
-                    EgitmenId = table.Column<int>(type: "int", nullable: false)
+                    EgitmenId = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Ad = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Soyad = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     TelefonNo = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     KullaniciAdi = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     SifreKarmasi = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    IsletmeId = table.Column<int>(type: "int", nullable: false),
+                    IsletmeId = table.Column<long>(type: "bigint", nullable: false),
                     AktifMi = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
@@ -106,9 +106,9 @@ namespace FitTakip.Persistence.Migrations
                 name: "Paketler",
                 columns: table => new
                 {
-                    PaketId = table.Column<int>(type: "int", nullable: false)
+                    PaketId = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    IsletmeId = table.Column<int>(type: "int", nullable: false),
+                    IsletmeId = table.Column<long>(type: "bigint", nullable: false),
                     Aciklama = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Tutar = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     DersSayisi = table.Column<int>(type: "int", nullable: false),
@@ -128,14 +128,15 @@ namespace FitTakip.Persistence.Migrations
                 name: "Uyeler",
                 columns: table => new
                 {
-                    UyeId = table.Column<int>(type: "int", nullable: false)
+                    UyeId = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Ad = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Soyad = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     TelefonNo = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PaketId = table.Column<long>(type: "bigint", nullable: false),
                     KalanDersSayisi = table.Column<int>(type: "int", nullable: false),
-                    IsletmeId = table.Column<int>(type: "int", nullable: false),
-                    EgitmenId = table.Column<int>(type: "int", nullable: false),
+                    IsletmeId = table.Column<long>(type: "bigint", nullable: false),
+                    EgitmenId = table.Column<long>(type: "bigint", nullable: false),
                     AktifMi = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
@@ -151,6 +152,11 @@ namespace FitTakip.Persistence.Migrations
                         column: x => x.IsletmeId,
                         principalTable: "Isletmeler",
                         principalColumn: "IsletmeId");
+                    table.ForeignKey(
+                        name: "FK_Uyeler_Paketler_PaketId",
+                        column: x => x.PaketId,
+                        principalTable: "Paketler",
+                        principalColumn: "PaketId");
                 });
 
             migrationBuilder.CreateTable(
@@ -159,7 +165,7 @@ namespace FitTakip.Persistence.Migrations
                 {
                     OlcumId = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    UyeId = table.Column<int>(type: "int", nullable: false),
+                    UyeId = table.Column<long>(type: "bigint", nullable: false),
                     Tarih = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Boy = table.Column<int>(type: "int", nullable: false),
                     Kilo = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
@@ -188,8 +194,8 @@ namespace FitTakip.Persistence.Migrations
                 {
                     RandevuId = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    UyeId = table.Column<int>(type: "int", nullable: false),
-                    EgitmenId = table.Column<int>(type: "int", nullable: false),
+                    UyeId = table.Column<long>(type: "bigint", nullable: false),
+                    EgitmenId = table.Column<long>(type: "bigint", nullable: false),
                     Tarih = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Aciklama = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
@@ -260,6 +266,11 @@ namespace FitTakip.Persistence.Migrations
                 name: "IX_Uyeler_IsletmeId",
                 table: "Uyeler",
                 column: "IsletmeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Uyeler_PaketId",
+                table: "Uyeler",
+                column: "PaketId");
         }
 
         /// <inheritdoc />
@@ -278,9 +289,6 @@ namespace FitTakip.Persistence.Migrations
                 name: "Olcumler");
 
             migrationBuilder.DropTable(
-                name: "Paketler");
-
-            migrationBuilder.DropTable(
                 name: "Randevular");
 
             migrationBuilder.DropTable(
@@ -288,6 +296,9 @@ namespace FitTakip.Persistence.Migrations
 
             migrationBuilder.DropTable(
                 name: "Egitmenler");
+
+            migrationBuilder.DropTable(
+                name: "Paketler");
 
             migrationBuilder.DropTable(
                 name: "Isletmeler");

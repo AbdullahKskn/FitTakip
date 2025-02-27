@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("FitTakip.API")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+cae4e130e1eee4c3d9f6b0e31d9b6cc1f9570dac")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+fd15ffb379d1a7384fd49b12ab45e10118e06960")]
 [assembly: System.Reflection.AssemblyProductAttribute("FitTakip.API")]
 [assembly: System.Reflection.AssemblyTitleAttribute("FitTakip.API")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

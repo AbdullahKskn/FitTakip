@@ -15,7 +15,7 @@ public class PaketRepository : IPaketRepository
         _context = context;
     }
 
-    public async Task<List<Paket>> IsletmeyeAitPaketleriGetirAsync(int IsletmeId)
+    public async Task<List<Paket>> IsletmeyeAitPaketleriGetirAsync(long IsletmeId)
     {
         return await _context.Paketler.AsNoTracking().Where(w => w.IsletmeId == IsletmeId && w.AktifMi == true).OrderBy(o => o.PaketId).ToListAsync();
     }

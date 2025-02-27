@@ -4,7 +4,7 @@ namespace FitTakip.Domain.Entities;
 
 public class Admin
 {
-    public int AdminId { get; set; }
+    public long AdminId { get; set; }
     public string Ad { get; set; } = null!;
     public string Soyad { get; set; } = null!;
     public string KullaniciAdi { get; set; } = null!;

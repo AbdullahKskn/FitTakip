@@ -4,14 +4,14 @@ namespace FitTakip.Domain.Entities;
 
 public class Uye
 {
-    public int UyeId { get; set; }
+    public long UyeId { get; set; }
     public string Ad { get; set; } = null!;
     public string Soyad { get; set; } = null!;
     public string? TelefonNo { get; set; }
-    public int PaketId { get; set; }
+    public long PaketId { get; set; }
     public int KalanDersSayisi { get; set; }
-    public int IsletmeId { get; set; }
-    public int EgitmenId { get; set; }
+    public long IsletmeId { get; set; }
+    public long EgitmenId { get; set; }
     public bool AktifMi { get; set; }
 
     public Isletme Isletme { get; set; } = null!;

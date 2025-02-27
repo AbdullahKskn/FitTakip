@@ -16,11 +16,12 @@ public class EgitmenService : IEgitmenService
     private readonly AuthService _authService;
     private readonly IRepository<Randevu> _repositoryRandevu;
     private readonly IRepository<Olcum> _repositoryOlcum;
+    private readonly IRepository<Egitmen> _repositoryEgitmen;
     private readonly IRandevuRepository _randevuRepository;
     private readonly IOlcumRepository _olcumRepository;
     private readonly IPaketRepository _paketRepository;
 
-    public EgitmenService(IRepository<Uye> repositoryUye, IKullaniciRepository kullaniciRepository, AuthService authService, IRepository<Randevu> repositoryRandevu, IRepository<Olcum> repositoryOlcum, IRandevuRepository randevuRepository, IOlcumRepository olcumRepository, IRepository<Paket> repositoryPaket, IPaketRepository paketRepository)
+    public EgitmenService(IRepository<Uye> repositoryUye, IKullaniciRepository kullaniciRepository, AuthService authService, IRepository<Randevu> repositoryRandevu, IRepository<Olcum> repositoryOlcum, IRandevuRepository randevuRepository, IOlcumRepository olcumRepository, IRepository<Paket> repositoryPaket, IPaketRepository paketRepository, IRepository<Egitmen> repositoryEgitmen)
     {
         _repositoryUye = repositoryUye;
         _kullaniciRepository = kullaniciRepository;
@@ -31,6 +32,7 @@ public class EgitmenService : IEgitmenService
         _olcumRepository = olcumRepository;
         _repositoryPaket = repositoryPaket;
         _paketRepository = paketRepository;
+        _repositoryEgitmen = repositoryEgitmen;
     }
 
     public async Task<Result> UyeOlustur(UyeOlusturParametre parametre)
@@ -87,7 +89,7 @@ public class EgitmenService : IEgitmenService
         }
     }
 
-    public async Task<Result> UyeSil(int UyeId)
+    public async Task<Result> UyeSil(long UyeId)
     {
         try
         {
@@ -158,7 +160,7 @@ public class EgitmenService : IEgitmenService
         }
     }
 
-    public async Task<Result> UyeyeAitRandevularıGetirPagination(int UyeId, int Baslangic, int Adet)
+    public async Task<Result> UyeyeAitRandevularıGetirPagination(long UyeId, int Baslangic, int Adet)
     {
         try
         {
@@ -186,7 +188,7 @@ public class EgitmenService : IEgitmenService
         }
     }
 
-    public async Task<Result> GunlukRandevuGetir(int EgitmenId, DateTime Tarih)
+    public async Task<Result> GunlukRandevuGetir(long EgitmenId, DateTime Tarih)
     {
         try
         {
@@ -243,7 +245,7 @@ public class EgitmenService : IEgitmenService
         }
     }
 
-    public async Task<Result> UyeOlcumGetirPagination(int UyeId, int Baslangic, int Adet)
+    public async Task<Result> UyeOlcumGetirPagination(long UyeId, int Baslangic, int Adet)
     {
         try
         {
@@ -278,7 +280,7 @@ public class EgitmenService : IEgitmenService
         }
     }
 
-    public async Task<Result> PaketleriGetir(int IsletmeId)
+    public async Task<Result> PaketleriGetir(long IsletmeId)
     {
         try
         {
@@ -297,6 +299,29 @@ public class EgitmenService : IEgitmenService
             }).ToList();
 
             return new Result(true, "İşletmeye Ait Paketleri Getirme Başarılı", paketDto);
+        }
+        catch (Exception ex)
+        {
+            return new Result(false, ex.Message);
+        }
+    }
+
+    public async Task<Result> SifreDegistir(SifreDegistirParametre parametre)
+    {
+        try
+        {
+            var egitmen = await _repositoryEgitmen.GetByIdAsync(parametre.Id);
+
+            if (parametre.Sifre != parametre.SifreDogrulama)
+                return new Result(false, "Şifre Uyuşmamaktadır");
+
+            var sifreKarmasi = _authService.HashPassword(parametre.Sifre);
+
+            egitmen.SifreKarmasi = sifreKarmasi;
+
+            await _repositoryEgitmen.UpdateAsync(egitmen);
+
+            return new Result(true, "Şifre Değiştirme Başarılı");
         }
         catch (Exception ex)
         {
