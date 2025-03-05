@@ -30,7 +30,7 @@ public class KullaniciRepository : IKullaniciRepository
     }
     public async Task<List<Isletme>> IsletmeleriGetirPaginationAsync(int Baslangic, int Adet)
     {
-        return await _context.Isletmeler.AsNoTracking().OrderBy(o => o.Ad).Skip(Baslangic).Take(Adet).ToListAsync();
+        return await _context.Isletmeler.AsNoTracking().Where(w => w.AktifMi == true).OrderBy(o => o.Ad).Skip(Baslangic).Take(Adet).ToListAsync();
     }
 
     public async Task<List<Egitmen>> TumEgitmenleriGetirAsync(long IsletmeId)

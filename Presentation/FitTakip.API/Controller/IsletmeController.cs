@@ -8,7 +8,7 @@ namespace FitTakip.API.Controller
 {
     [Route("api/[controller]")]
     [ApiController]
-    //[Authorize]
+    [Authorize]
     public class IsletmeController : ControllerBase
     {
         private readonly IIsletmeService _isletmeService;

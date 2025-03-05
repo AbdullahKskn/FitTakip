@@ -8,7 +8,7 @@ namespace FitTakip.API.Controller
 {
     [Route("api/[controller]")]
     [ApiController]
-    //[Authorize]
+    [Authorize]
     public class EgitmenController : ControllerBase
     {
         private readonly IEgitmenService _egitmenService;

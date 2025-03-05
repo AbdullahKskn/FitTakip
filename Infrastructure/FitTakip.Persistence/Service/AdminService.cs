@@ -66,7 +66,7 @@ public class AdminService : IAdminService
             {
                 var kullaniciAdiVarMi = await _kullaniciRepository.KullaniciAdiVarMiAsync(parametre.KullaniciAdi);
 
-                if (kullaniciAdiVarMi != null)
+                if (kullaniciAdiVarMi == true)
                     return new Result(false, "Sisteme Kayıtlı Bu Kullanıcı Adı Bulunmaktadır.");
             }
             if (!string.IsNullOrWhiteSpace(parametre.Sifre))
@@ -179,7 +179,7 @@ public class AdminService : IAdminService
             {
                 var kullaniciAdiVarMi = await _kullaniciRepository.KullaniciAdiVarMiAsync(parametre.KullaniciAdi);
 
-                if (kullaniciAdiVarMi != null)
+                if (kullaniciAdiVarMi == true)
                     return new Result(false, "Sisteme Kayıtlı Bu Kullanıcı Adı Bulunmaktadır.");
             }
 
