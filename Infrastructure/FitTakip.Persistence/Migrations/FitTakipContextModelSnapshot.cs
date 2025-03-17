@@ -286,6 +286,9 @@ namespace FitTakip.Persistence.Migrations
                     b.Property<long>("EgitmenId")
                         .HasColumnType("bigint");
 
+                    b.Property<long>("PaketId")
+                        .HasColumnType("bigint");
+
                     b.Property<DateTime>("Tarih")
                         .HasColumnType("datetime2");
 
@@ -295,6 +298,8 @@ namespace FitTakip.Persistence.Migrations
                     b.HasKey("RandevuId");
 
                     b.HasIndex("EgitmenId");
+
+                    b.HasIndex("PaketId");
 
                     b.HasIndex("UyeId");
 
@@ -387,6 +392,12 @@ namespace FitTakip.Persistence.Migrations
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
+                    b.HasOne("FitTakip.Domain.Entities.Paket", "Paket")
+                        .WithMany("Randevular")
+                        .HasForeignKey("PaketId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
                     b.HasOne("FitTakip.Domain.Entities.Uye", "Uye")
                         .WithMany("Randevular")
                         .HasForeignKey("UyeId")
@@ -394,6 +405,8 @@ namespace FitTakip.Persistence.Migrations
                         .IsRequired();
 
                     b.Navigation("Egitmen");
+
+                    b.Navigation("Paket");
 
                     b.Navigation("Uye");
                 });
@@ -443,6 +456,8 @@ namespace FitTakip.Persistence.Migrations
 
             modelBuilder.Entity("FitTakip.Domain.Entities.Paket", b =>
                 {
+                    b.Navigation("Randevular");
+
                     b.Navigation("Uyeler");
                 });
 

@@ -110,6 +110,58 @@ public class EgitmenService : IEgitmenService
         }
     }
 
+    public async Task<Result> UyeleriGetirPagination(long EgitmenId, int Baslangic, int Adet)
+    {
+        try
+        {
+            var uyeler = await _kullaniciRepository.EgitmeneGöreUyeleriGetirPaginationAsync(EgitmenId, Baslangic, Adet);
+
+            if (!uyeler.Any())
+                return new Result(false, "Eğitmenin Üyesi Bulunmamaktadır.");
+
+            var uyeDto = uyeler.Select(s => new UyeDto
+            {
+                UyeId = s.UyeId,
+                Ad = s.Ad,
+                Soyad = s.Soyad,
+                TelefonNo = s.TelefonNo,
+                KalanDersSayisi = s.KalanDersSayisi,
+            }).ToList();
+
+            return new Result(true, "Eğitmen Üyeleri Getirme Başarılı", uyeDto);
+        }
+        catch (Exception ex)
+        {
+            return new Result(false, ex.Message);
+        }
+    }
+
+    public async Task<Result> TumUyeleriGetir(long EgitmenId)
+    {
+        try
+        {
+            var uyeler = await _kullaniciRepository.EgitmeneGöreTumUyeleriGetirAsync(EgitmenId);
+
+            if (!uyeler.Any())
+                return new Result(false, "Eğitmenin Üyesi Bulunmamaktadır.");
+
+            var uyeDto = uyeler.Select(s => new UyeDto
+            {
+                UyeId = s.UyeId,
+                Ad = s.Ad,
+                Soyad = s.Soyad,
+                TelefonNo = s.TelefonNo,
+                KalanDersSayisi = s.KalanDersSayisi,
+            }).ToList();
+
+            return new Result(true, "Eğitmen Üyeleri Getirme Başarılı", uyeDto);
+        }
+        catch (Exception ex)
+        {
+            return new Result(false, ex.Message);
+        }
+    }
+
     public async Task<Result> UyeyePaketEkle(UyeyePaketEkleParametre parametre)
     {
         try
@@ -139,10 +191,14 @@ public class EgitmenService : IEgitmenService
         {
             var uye = await _repositoryUye.GetByIdAsync(parametre.UyeId);
 
+            if (uye.KalanDersSayisi < 1)
+                return new Result(false, "Üyenin Paketi Bitmiştir. Randevu Oluşturamazsınız");
+
             var randevu = new Randevu
             {
                 UyeId = parametre.UyeId,
                 EgitmenId = parametre.EgitmenId,
+                PaketId = uye.PaketId,
                 Tarih = parametre.Tarih,
                 Aciklama = parametre.Aciklama
             };

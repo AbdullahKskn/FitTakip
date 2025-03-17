@@ -1,0 +1,16 @@
+/Users/abdullah/Desktop/FitTakip_PublishMobile/FitTakip.Application.dll
+/Users/abdullah/Desktop/FitTakip_PublishMobile/FitTakip.Application.deps.json
+/Users/abdullah/Desktop/FitTakip_PublishMobile/FitTakip.Application.pdb
+/Users/abdullah/Desktop/FitTakip_PublishMobile/FluentValidation.dll
+/Users/abdullah/Desktop/FitTakip_PublishMobile/FluentValidation.AspNetCore.dll
+/Users/abdullah/Desktop/FitTakip_PublishMobile/FluentValidation.DependencyInjectionExtensions.dll
+/Users/abdullah/Desktop/FitTakip_PublishMobile/Microsoft.EntityFrameworkCore.dll
+/Users/abdullah/Desktop/FitTakip_PublishMobile/Microsoft.EntityFrameworkCore.Abstractions.dll
+/Users/abdullah/Desktop/FitTakip_PublishMobile/Microsoft.Extensions.Caching.Memory.dll
+/Users/abdullah/Desktop/FitTakip_PublishMobile/Microsoft.Extensions.DependencyInjection.dll
+/Users/abdullah/Desktop/FitTakip_PublishMobile/Microsoft.Extensions.DependencyInjection.Abstractions.dll
+/Users/abdullah/Desktop/FitTakip_PublishMobile/Microsoft.Extensions.Logging.dll
+/Users/abdullah/Desktop/FitTakip_PublishMobile/Microsoft.Extensions.Logging.Abstractions.dll
+/Users/abdullah/Desktop/FitTakip_PublishMobile/Microsoft.Extensions.Options.dll
+/Users/abdullah/Desktop/FitTakip_PublishMobile/FitTakip.Domain.dll
+/Users/abdullah/Desktop/FitTakip_PublishMobile/FitTakip.Domain.pdb

@@ -55,6 +55,35 @@ public class KullaniciRepository : IKullaniciRepository
 
     public async Task<List<Uye>> PotansiyelMusterileriGetirPaginationAsync(long IsletmeId, int Baslangic, int Adet)
     {
-        return await _context.Uyeler.AsNoTracking().Where(w => w.IsletmeId == IsletmeId && w.KalanDersSayisi <= 0).OrderBy(o => o.Ad).Skip(Baslangic).Take(Adet).ToListAsync();
+        return await _context.Uyeler.AsNoTracking().Where(w => w.IsletmeId == IsletmeId && w.KalanDersSayisi <= 0 && w.AktifMi == true).OrderBy(o => o.Ad).Skip(Baslangic).Take(Adet).ToListAsync();
+    }
+
+    public async Task<List<Uye>> EgitmeneGöreUyeleriGetirPaginationAsync(long EgitmenId, int Baslangic, int Adet)
+    {
+        return await _context.Uyeler.AsNoTracking().Where(w => w.EgitmenId == EgitmenId && w.AktifMi == true).OrderBy(o => o.Ad).Skip(Baslangic).Take(Adet).ToListAsync();
+    }
+
+    public async Task<List<Uye>> EgitmeneGöreTumUyeleriGetirAsync(long EgitmenId)
+    {
+        return await _context.Uyeler.AsNoTracking().Where(w => w.EgitmenId == EgitmenId && w.AktifMi == true).OrderBy(o => o.Ad).ToListAsync();
+    }
+
+    public async Task<List<Uye>> IsletmeUyeSorgulamaAsync(long IsletmeId, string? Ad, string? Soyad)
+    {
+        var query = _context.Uyeler.AsNoTracking().Where(w => w.IsletmeId == IsletmeId && w.AktifMi == true);
+
+        // Eğer Ad parametresi verilmişse filtreye ekle
+        if (!string.IsNullOrWhiteSpace(Ad))
+        {
+            query = query.Where(w => w.Ad.Contains(Ad));
+        }
+
+        // Eğer Soyad parametresi verilmişse filtreye ekle
+        if (!string.IsNullOrWhiteSpace(Soyad))
+        {
+            query = query.Where(w => w.Soyad.Contains(Soyad));
+        }
+
+        return await query.OrderBy(o => o.Ad).ToListAsync();
     }
 }

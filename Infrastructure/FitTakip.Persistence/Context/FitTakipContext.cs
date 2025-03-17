@@ -74,6 +74,13 @@ public class FitTakipContext : DbContext
             .HasForeignKey(r => r.EgitmenId)
             .OnDelete(DeleteBehavior.NoAction);
 
+        // Paket - Randevu (One-to-Many)
+        modelBuilder.Entity<Randevu>()
+            .HasOne(r => r.Paket)
+            .WithMany(e => e.Randevular)
+            .HasForeignKey(r => r.PaketId)
+            .OnDelete(DeleteBehavior.NoAction);
+       
         // Paket - Isletme ilişkisi (One-to-Many)
         modelBuilder.Entity<Paket>()
             .HasOne(p => p.Isletme)

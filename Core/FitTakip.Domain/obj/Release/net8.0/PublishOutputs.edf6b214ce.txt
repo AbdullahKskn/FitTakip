@@ -1,0 +1,3 @@
+/Users/abdullah/Desktop/FitTakip_Publish/FitTakip.Domain.dll
+/Users/abdullah/Desktop/FitTakip_Publish/FitTakip.Domain.deps.json
+/Users/abdullah/Desktop/FitTakip_Publish/FitTakip.Domain.pdb

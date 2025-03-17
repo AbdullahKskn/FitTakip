@@ -1,0 +1,16 @@
+/Users/abdullah/Desktop/FitTakip/Core/FitTakip.Application/bin/Release/net8.0/FitTakip.Application.deps.json
+/Users/abdullah/Desktop/FitTakip/Core/FitTakip.Application/bin/Release/net8.0/FitTakip.Application.dll
+/Users/abdullah/Desktop/FitTakip/Core/FitTakip.Application/bin/Release/net8.0/FitTakip.Application.pdb
+/Users/abdullah/Desktop/FitTakip/Core/FitTakip.Application/bin/Release/net8.0/FitTakip.Domain.dll
+/Users/abdullah/Desktop/FitTakip/Core/FitTakip.Application/bin/Release/net8.0/FitTakip.Domain.pdb
+/Users/abdullah/Desktop/FitTakip/Core/FitTakip.Application/obj/Release/net8.0/FitTakip.Application.csproj.AssemblyReference.cache
+/Users/abdullah/Desktop/FitTakip/Core/FitTakip.Application/obj/Release/net8.0/FitTakip.Application.GeneratedMSBuildEditorConfig.editorconfig
+/Users/abdullah/Desktop/FitTakip/Core/FitTakip.Application/obj/Release/net8.0/FitTakip.Application.AssemblyInfoInputs.cache
+/Users/abdullah/Desktop/FitTakip/Core/FitTakip.Application/obj/Release/net8.0/FitTakip.Application.AssemblyInfo.cs
+/Users/abdullah/Desktop/FitTakip/Core/FitTakip.Application/obj/Release/net8.0/FitTakip.Application.csproj.CoreCompileInputs.cache
+/Users/abdullah/Desktop/FitTakip/Core/FitTakip.Application/obj/Release/net8.0/FitTakip.Application.sourcelink.json
+/Users/abdullah/Desktop/FitTakip/Core/FitTakip.Application/obj/Release/net8.0/FitTakip.7D15A004.Up2Date
+/Users/abdullah/Desktop/FitTakip/Core/FitTakip.Application/obj/Release/net8.0/FitTakip.Application.dll
+/Users/abdullah/Desktop/FitTakip/Core/FitTakip.Application/obj/Release/net8.0/refint/FitTakip.Application.dll
+/Users/abdullah/Desktop/FitTakip/Core/FitTakip.Application/obj/Release/net8.0/FitTakip.Application.pdb
+/Users/abdullah/Desktop/FitTakip/Core/FitTakip.Application/obj/Release/net8.0/ref/FitTakip.Application.dll

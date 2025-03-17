@@ -13,4 +13,7 @@ public interface IKullaniciRepository
     Task<List<Egitmen?>> EgitmenleriGetirPaginationAsync(long IsletmeId, int Baslangic, int Adet);
     Task<List<Uye?>> UyeleriGetirPaginationAsync(long IsletmeId, int Baslangic, int Adet);
     Task<List<Uye>> PotansiyelMusterileriGetirPaginationAsync(long IsletmeId, int Baslangic, int Adet);
+    Task<List<Uye>> EgitmeneGöreUyeleriGetirPaginationAsync(long EgitmenId, int Baslangic, int Adet);
+    Task<List<Uye>> EgitmeneGöreTumUyeleriGetirAsync(long EgitmenId);
+    Task<List<Uye>> IsletmeUyeSorgulamaAsync(long IsletmeId, string? Ad, string? Soyad);
 }

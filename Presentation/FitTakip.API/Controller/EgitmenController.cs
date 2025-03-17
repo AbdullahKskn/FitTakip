@@ -39,6 +39,20 @@ namespace FitTakip.API.Controller
             return Ok(values);
         }
 
+        [HttpGet("[Action]")]
+        public async Task<IActionResult> UyeleriGetirPagination(long EgitmenId, int Baslangic, int Adet)
+        {
+            var values = await _egitmenService.UyeleriGetirPagination(EgitmenId, Baslangic, Adet);
+            return Ok(values);
+        }
+
+        [HttpGet("[Action]")]
+        public async Task<IActionResult> TumUyeleriGetir(long EgitmenId)
+        {
+            var values = await _egitmenService.TumUyeleriGetir(EgitmenId);
+            return Ok(values);
+        }
+
         [HttpPut("[Action]")]
         public async Task<IActionResult> UyeyePaketEkle(UyeyePaketEkleParametre parametre)
         {

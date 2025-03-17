@@ -28,5 +28,6 @@ public interface IIsletmeService
     Task<Result> PaketleriGetir(long IsletmeId);
     Task<Result> EgitmenTariheGöreDersSayisiGetir(long EgitmenId, DateTime BaslangicTarih, DateTime BitisTarih);
     Task<Result> EgitmenMaasHesapla(long EgitmenId, DateTime BaslangicTarih, DateTime BitisTarih, int KomisyonOrani);
+    Task<Result> UyeSorgulama(long IsletmeId, string? Ad, string? Soyad);
     Task<Result> SifreDegistir(SifreDegistirParametre parametre);
 }

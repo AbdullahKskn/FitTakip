@@ -537,7 +537,7 @@ public class IsletmeService : IIsletmeService
             foreach (var randevu in randevular)
             {
                 // Dersin ait olduğu paketi al
-                var paket = randevu.Uye?.Paket;
+                var paket = randevu.Paket;
                 if (paket == null) continue; // Paket veya ders sayısı geçersizse atla
 
                 // Ders başına ücret hesapla
@@ -550,6 +550,36 @@ public class IsletmeService : IIsletmeService
             }
 
             return new Result(true, "Eğitmen Maaşı Başarıyla Hesaplandı", toplamMaas);
+        }
+        catch (Exception ex)
+        {
+            return new Result(false, ex.Message);
+        }
+    }
+
+    public async Task<Result> UyeSorgulama(long IsletmeId, string? Ad, string? Soyad)
+    {
+        try
+        {
+            if (string.IsNullOrWhiteSpace(Ad) && string.IsNullOrWhiteSpace(Soyad))
+                return new Result(false, "Ad veya Soyad bilgisinden en az biri doldurulmalıdır.");
+
+            var uyeler = await _kullaniciRepository.IsletmeUyeSorgulamaAsync(IsletmeId, Ad, Soyad);
+
+            if (!uyeler.Any())
+                return new Result(false, "Parametrelere Uygun Üye Bulunamadı");
+
+            var uyeDto = uyeler.Select(s => new UyeDto
+            {
+                UyeId = s.UyeId,
+                Ad = s.Ad,
+                Soyad = s.Soyad,
+                TelefonNo = s.TelefonNo,
+                KalanDersSayisi = s.KalanDersSayisi,
+            }).ToList();
+
+            return new Result(true, "Üye Sorgulama Başarılı", uyeDto);
+
         }
         catch (Exception ex)
         {

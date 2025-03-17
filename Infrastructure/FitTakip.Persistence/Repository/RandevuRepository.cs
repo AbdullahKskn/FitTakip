@@ -54,6 +54,6 @@ public class RandevuRepository : IRandevuRepository
         BaslangicTarih = BaslangicTarih.Date;
         BitisTarih = BitisTarih.Date.AddHours(23).AddMinutes(59).AddSeconds(59);
 
-        return await _context.Randevular.AsNoTracking().Where(w => w.Tarih >= BaslangicTarih && w.Tarih <= BitisTarih && w.EgitmenId == EgitmenId).Include(i => i.Uye).ThenInclude(t => t.Paket).ToListAsync();
+        return await _context.Randevular.AsNoTracking().Where(w => w.Tarih >= BaslangicTarih && w.Tarih <= BitisTarih && w.EgitmenId == EgitmenId).Include(i => i.Uye).Include(i => i.Paket).ToListAsync();
     }
 }

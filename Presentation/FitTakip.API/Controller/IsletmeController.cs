@@ -172,6 +172,13 @@ namespace FitTakip.API.Controller
             return Ok(values);
         }
 
+        [HttpGet("[Action]")]
+        public async Task<IActionResult> UyeSorgulama(long IsletmeId, string? Ad, string? Soyad)
+        {
+            var values = await _isletmeService.UyeSorgulama(IsletmeId, Ad, Soyad);
+            return Ok(values);
+        }
+
         [HttpPut("[Action]")]
         public async Task<IActionResult> SifreDegistir(SifreDegistirParametre parametre)
         {

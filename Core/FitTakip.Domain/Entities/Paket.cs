@@ -13,4 +13,5 @@ public class Paket
 
     public Isletme Isletme { get; set; } = null!;
     public ICollection<Uye> Uyeler { get; set; } = null!;
+    public ICollection<Randevu> Randevular { get; set; } = null!;
 }
